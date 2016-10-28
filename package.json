@@ -1,0 +1,22 @@
+{
+  "name": "forge-inventor",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fusiform/forge-inventor.git"
+  },
+  "author": "Alex Mathews",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fusiform/forge-inventor/issues"
+  },
+  "homepage": "https://github.com/fusiform/forge-inventor#readme",
+  "dependencies": {
+    "forge-oauth2": "^1.0.4"
+  }
+}
