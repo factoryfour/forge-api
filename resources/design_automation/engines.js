@@ -1,35 +1,63 @@
 var request = require('request');
 
-module.exports = function(config) {
+module.exports = function(config, authObj) {
     var engines = {};
 
-    engines.two_leg = function(scope, callback) {
+    engines.get_all = function(callback) {
+		authObj.getToken(function(error, token) {
+			if (error) {
+				return callback(error, null);
+			}
 
-        if (!scope || !Array.isArray(scope)) {
-            return callback("Provided scope must be an array.")
-        }
+			var options = {
+	            method: 'GET',
+	            url: config.BASE_URL + 'Engines',
+				headers: {
+					authorization: 'Bearer ' + token
+				}
+	        };
 
-        var scope_string = "";
-        scope.forEach(function(scopeElement) {
-            scope_string += scopeElement + " ";
-        })
+	        request(options, function(error, response, body) {
+	            if (error) return callback(Error(error), null);
+				try {
+					var parsed = JSON.parse(body);
+					return callback(null, parsed);
+				} catch (e) {
+					return callback("Error parsing response.", null)
+				} finally {
 
-        var options = {
-            method: 'GET',
-            url: 'https://developer.api.autodesk.com/autocad.io/us-east/v2/Engines',
-            form: {
-                client_id: config.CLIENT_ID,
-                client_secret: config.CLIENT_SECRET,
-                grant_type:'client_credentials',
-                scope:scope_string
-            }
-        };
-
-        request(options, function(error, response, body) {
-            if (error) return callback(Error(error), null);
-            return callback(null, body)
-        });
+				}
+	        });
+		});
     };
+
+	engines.get = function(id, callback) {
+		authObj.getToken(function(error, token) {
+			if (error) {
+				return callback(error, null);
+			}
+
+			var options = {
+				method: 'GET',
+				url: config.BASE_URL + 'Engines(\'' + id + '\')',
+				headers: {
+					authorization: 'Bearer ' + token
+				}
+			};
+
+			request(options, function(error, response, body) {
+				if (error) return callback(Error(error), null);
+				try {
+					var parsed = JSON.parse(body);
+					return callback(null, parsed);
+				} catch (e) {
+					return callback("Error parsing response.", null)
+				} finally {
+
+				}
+			});
+		});
+	};
 
     return engines;
 
