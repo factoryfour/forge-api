@@ -3,7 +3,7 @@ var request = require('request');
 module.exports = function(config, authObj) {
     var engines = {};
 
-    engines.get_all = function(callback) {
+    engines.getAll = function(callback) {
 		authObj.getToken(function(error, token) {
 			if (error) {
 				return callback(error, null);
