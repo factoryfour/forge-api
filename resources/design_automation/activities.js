@@ -4,7 +4,7 @@ const fs = require('fs');
 module.exports = function(config, authObj) {
     var activities = {};
 
-	activities.create = function(packageConfig, callback) {
+	activities.create = function(activityConfig, callback) {
 		authObj.getToken(function(error, token) {
 			if (error) {
 				return callback(error, null);
@@ -16,11 +16,12 @@ module.exports = function(config, authObj) {
 				headers: {
 					authorization: 'Bearer ' + token
 				},
-				form: packageConfig
+				form: activityConfig
 			};
-
+			console.log(activityConfig);
 			request(options, function(error, response, body) {
 				if (error) return callback(Error(error), null);
+				console.log(body);
 				try {
 					var parsed = JSON.parse(body);
 					return callback(null, parsed);
