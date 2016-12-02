@@ -4,6 +4,36 @@ const fs = require('fs');
 module.exports = function(config, authObj) {
     var activities = {};
 
+	activities.create = function(packageConfig, callback) {
+		authObj.getToken(function(error, token) {
+			if (error) {
+				return callback(error, null);
+			}
+
+			var options = {
+				method: 'POST',
+				url: config.BASE_URL + 'Activities',
+				headers: {
+					authorization: 'Bearer ' + token
+				},
+				form: packageConfig
+			};
+
+			request(options, function(error, response, body) {
+				if (error) return callback(Error(error), null);
+				try {
+					var parsed = JSON.parse(body);
+					return callback(null, parsed);
+				} catch (e) {
+					console.log(body);
+					return callback("Error parsing response.", null)
+				} finally {
+
+				}
+			});
+		});
+	};
+
     activities.getAll = function(callback) {
         authObj.getToken(function(error, token) {
             if (error) {
@@ -32,19 +62,18 @@ module.exports = function(config, authObj) {
         });
     };
 
-    activities.create = function(packageConfig, callback) {
+    activities.get = function(id, callback) {
         authObj.getToken(function(error, token) {
             if (error) {
                 return callback(error, null);
             }
 
             var options = {
-                method: 'POST',
-                url: config.BASE_URL + 'Activities',
+                method: 'GET',
+                url: config.BASE_URL + 'Activities(\'' + id + '\')',
                 headers: {
                     authorization: 'Bearer ' + token
-                },
-                form: packageConfig
+                }
             };
 
             request(options, function(error, response, body) {
@@ -53,7 +82,6 @@ module.exports = function(config, authObj) {
                     var parsed = JSON.parse(body);
                     return callback(null, parsed);
                 } catch (e) {
-					console.log(body);
                     return callback("Error parsing response.", null)
                 } finally {
 
@@ -62,7 +90,7 @@ module.exports = function(config, authObj) {
         });
     };
 
-	activities.delete = function(id, callback) {
+    activities.delete = function(id, callback) {
         authObj.getToken(function(error, token) {
             if (error) {
                 return callback(error, null);
@@ -78,10 +106,10 @@ module.exports = function(config, authObj) {
 
             request(options, function(error, response, body) {
                 if (error) return callback(Error(error), null);
-				if (response.statusCode != 204) {
-					return callback("Deletion Failed", null);
-				}
-				return callback(null, true)
+                if (response.statusCode != 204) {
+                    return callback("Deletion Failed", null);
+                }
+                return callback(null, true)
             });
         });
     };
