@@ -1,4 +1,4 @@
 /node_modules/
-test.js
-test-*.js
+ptest.js
+ptest-*.js
 config.js
