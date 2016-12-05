@@ -12,7 +12,7 @@ module.exports = function(config, authObj) {
 
 			var options = {
 				method: 'POST',
-				url: config.BASE_URL + 'Activities',
+				url: config.DA_BASE_URL + 'Activities',
 				headers: {
 					authorization: 'Bearer ' + token
 				},
@@ -40,7 +40,7 @@ module.exports = function(config, authObj) {
 
             var options = {
                 method: 'GET',
-                url: config.BASE_URL + 'Activities',
+                url: config.DA_BASE_URL + 'Activities',
                 headers: {
                     authorization: 'Bearer ' + token
                 }
@@ -68,7 +68,7 @@ module.exports = function(config, authObj) {
 
             var options = {
                 method: 'GET',
-                url: config.BASE_URL + 'Activities(\'' + id + '\')',
+                url: config.DA_BASE_URL + 'Activities(\'' + id + '\')',
                 headers: {
                     authorization: 'Bearer ' + token
                 }
@@ -96,7 +96,7 @@ module.exports = function(config, authObj) {
 
             var options = {
                 method: 'DELETE',
-                url: config.BASE_URL + 'Activities(\'' + id + '\')',
+                url: config.DA_BASE_URL + 'Activities(\'' + id + '\')',
                 headers: {
                     authorization: 'Bearer ' + token
                 }

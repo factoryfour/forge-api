@@ -12,7 +12,7 @@ module.exports = function(config, authObj) {
 
             var options = {
                 method: 'GET',
-                url: config.BASE_URL + 'AppPackages',
+                url: config.DA_BASE_URL + 'AppPackages',
                 headers: {
                     authorization: 'Bearer ' + token
                 }
@@ -40,7 +40,7 @@ module.exports = function(config, authObj) {
 
             var options = {
                 method: 'GET',
-                url: config.BASE_URL + 'AppPackages/Operations.GetUploadUrl',
+                url: config.DA_BASE_URL + 'AppPackages/Operations.GetUploadUrl',
                 headers: {
                     authorization: 'Bearer ' + token
                 }
@@ -68,7 +68,7 @@ module.exports = function(config, authObj) {
 
             var options = {
                 method: 'POST',
-                url: config.BASE_URL + 'AppPackages',
+                url: config.DA_BASE_URL + 'AppPackages',
                 headers: {
                     authorization: 'Bearer ' + token
                 },
@@ -121,7 +121,7 @@ module.exports = function(config, authObj) {
 
             var options = {
                 method: 'DELETE',
-                url: config.BASE_URL + 'AppPackages(\'' + id + '\')',
+                url: config.DA_BASE_URL + 'AppPackages(\'' + id + '\')',
                 headers: {
                     authorization: 'Bearer ' + token
                 }

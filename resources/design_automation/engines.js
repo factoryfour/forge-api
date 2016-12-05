@@ -11,7 +11,7 @@ module.exports = function(config, authObj) {
 
 			var options = {
 	            method: 'GET',
-	            url: config.BASE_URL + 'Engines',
+	            url: config.DA_BASE_URL + 'Engines',
 				headers: {
 					authorization: 'Bearer ' + token
 				}
@@ -39,7 +39,7 @@ module.exports = function(config, authObj) {
 
 			var options = {
 				method: 'GET',
-				url: config.BASE_URL + 'Engines(\'' + id + '\')',
+				url: config.DA_BASE_URL + 'Engines(\'' + id + '\')',
 				headers: {
 					authorization: 'Bearer ' + token
 				}
