@@ -36,11 +36,14 @@ AuthObject.prototype.getToken = function(callback) {
                     authObj.lock.unlock();
                     return callback("error getting token", null);
                 }
+                var parsed_body = JSON.parse(body);
+				if (parsed_body.errorCode) {
+					return callback(new Error(parsed_body.errorCode + " - " + parsed_body.developerMessage));
+				}
                 authObj.resetCond.set(false);
                 // Expiration good for 9 hours
                 var expiration_delay = 9*60*60*1000;
                 authObj.expirationCond.set(Date.now() + expiration_delay);
-                var parsed_body = JSON.parse(body);
                 authObj.token = parsed_body.access_token;
                 authObj.expiration = Date.now() + expiration_delay;
                 callback(null, authObj.token);
@@ -84,7 +87,13 @@ module.exports = function(config) {
 
         var authObj = new AuthObject(config.CLIENT_ID, config.CLIENT_SECRET, scope_string);
 
-        return callback(null, authObj)
+		authObj.getToken(function(error, token) {
+			if (error) {
+				return callback(error, null); 
+			}
+			return callback(null, authObj)
+
+		});
 
     };
 
