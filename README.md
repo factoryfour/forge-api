@@ -1,5 +1,7 @@
 # Forge Inventor Wrapper
 
+[![Build Status](https://travis-ci.com/fusiform/forge-inventor.svg?token=tHkUZCpHbCAJ8x8CetyS&branch=master)](https://travis-ci.com/fusiform/forge-inventor)
+
 This package is intended to be a NodeJS Forge API wrapper. Currently it focuses on features required for running design automation jobs.
 
 #### Using Forge Inventor
