@@ -19,7 +19,6 @@ describe('Activity Methods', function() {
             }
             authObj = cAuthObj;
             da = forge.da(config, authObj);
-			console.log(config);
             done();
         });
     });
