@@ -1,7 +1,7 @@
 var should = require('should');
 
 const root = __dirname.substring(0, __dirname.lastIndexOf('/'));
-const config = require(root + '/config.js');
+const config = require(__dirname + "/get_config.js")(root + '/config.js');
 const forge = require(root + '/index.js');
 
 describe('Work Item Methods', function() {

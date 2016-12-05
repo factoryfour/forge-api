@@ -1,7 +1,7 @@
 var should = require('should');
 
 const root = __dirname.substring(0, __dirname.lastIndexOf('/'));
-const config = require(root + '/config.js');
+const config = require(__dirname + "/get_config.js")(root + '/config.js');
 const forge = require(root + '/index.js');
 
 describe('Activity Methods', function() {
@@ -15,7 +15,7 @@ describe('Activity Methods', function() {
 
         auth.two_leg(scope, function(error, cAuthObj) {
             if (error) {
-                throw error;
+                throw new Error(error.message ? error.message : error);
             }
             authObj = cAuthObj;
             da = forge.da(config, authObj);
