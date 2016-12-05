@@ -3,3 +3,4 @@
 --ui bdd
 --recursive
 --timeout 10000
+--slow 1000

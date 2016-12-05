@@ -8,6 +8,7 @@ describe('Activity Methods', function() {
     var authObj;
     var da;
     const auth = forge.auth(config);
+	var test_id = 'TESTActivity';
 
     before(function(done) {
         var scope = ['data:read', 'bucket:read', 'code:all']
@@ -26,23 +27,14 @@ describe('Activity Methods', function() {
         da.activities.getAll(function(error, results) {
             should.not.exist(error);
             should.exist(results);
-            // console.log(results);
+			if (process.env.VERBOSE == 'loud') {
+	            console.log(results);
+			}
             done();
         });
     });
 
     it('activityTests-02 - should be able to get a single activity', function(done) {
-        da.activities.get('SampleActivity', function(error, results) {
-            should.not.exist(error);
-            should.exist(results);
-            console.log(results);
-            console.log("===============");
-            console.log(results.Parameters);
-            done();
-        });
-    });
-
-    it('activityTests-03 - should be able to get a single activity', function(done) {
         var activityConfig = {
             AppPackages: ['samplePlugin'],
             HostApplication: '',
@@ -50,7 +42,7 @@ describe('Activity Methods', function() {
             Parameters: {
                 InputParameters: [{
                     Name: 'HostDwg',
-                    LocalFileName: 'swing_c_washer.ipt',
+                    LocalFileName: 'pencil.ipt',
                     Optional: null
                 }, {
                     Name: 'ChangeParameters',
@@ -64,7 +56,7 @@ describe('Activity Methods', function() {
                 }]
             },
             Instruction: {
-				Script: "",
+				Script: "hi there",
                 CommandLineParameters: 'changeParameters.json Output.stl'
             },
             AllowedChildProcesses: [],
@@ -72,25 +64,40 @@ describe('Activity Methods', function() {
             Version: 1,
             Timestamp: (new Date()).toISOString(),
             Description: 'A sample activity for testing purposes',
-            Id: 'TESTActivity'
+            Id: test_id
         }
 
         da.activities.create(activityConfig, function(error, results) {
             should.not.exist(error);
             should.exist(results);
-            console.log(results);
-            console.log("===============");
-            console.log(results.Parameters);
+			if (process.env.VERBOSE == 'loud') {
+	            console.log(results);
+			}
             done();
         });
     });
 
-	it('activityTests-04 - should be able to get a single activity', function(done) {
-		var id = 'TESTActivity';
+    it('activityTests-03 - should be able to get a single activity', function(done) {
+        da.activities.get(test_id, function(error, results) {
+            should.not.exist(error);
+            should.exist(results);
+			if (process.env.VERBOSE == 'loud') {
+	            console.log(results);
+	            console.log("===============");
+	            console.log(results.Parameters);
+			}
+            done();
+        });
+    });
 
-		da.activities.delete(id, function(error, results) {
+	it('activityTests-04 - should be able to delete a single activity', function(done) {
+
+		da.activities.delete(test_id, function(error, results) {
 			should.not.exist(error);
 			should.exist(results);
+			if (process.env.VERBOSE == 'loud') {
+	            console.log(results);
+			}
 			done();
 		});
 	});

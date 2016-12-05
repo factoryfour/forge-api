@@ -18,15 +18,12 @@ module.exports = function(config, authObj) {
 				},
 				form: activityConfig
 			};
-			console.log(activityConfig);
 			request(options, function(error, response, body) {
 				if (error) return callback(Error(error), null);
-				console.log(body);
 				try {
 					var parsed = JSON.parse(body);
 					return callback(null, parsed);
 				} catch (e) {
-					console.log(body);
 					return callback("Error parsing response.", null)
 				} finally {
 
