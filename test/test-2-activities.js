@@ -8,42 +8,62 @@ describe('Activity Methods', function() {
     var authObj;
     var da;
     const auth = forge.auth(config);
-	var test_id = 'TESTActivity';
-	var test_package_id = 'TESTPackage';
+    var test_id = 'TESTActivity';
+    var test_package_id = 'TESTPackage';
     before(function(done) {
-		this.slow(4000);
-		this.timeout(5000);
+        this.slow(4000);
+        this.timeout(5000);
 
-        var scope = ['data:read', 'bucket:read', 'code:all']
+        var tasks = [];
 
-        auth.two_leg(scope, function(error, cAuthObj) {
-            if (error) {
-                throw new Error(error.message ? error.message : error);
-            }
-            authObj = cAuthObj;
-            da = forge.da(config, authObj);
+        tasks.push(function(callback) {
+            var scope = ['data:read', 'bucket:read', 'code:all'];
+            auth.two_leg(scope, function(error, cAuthObj) {
+                if (error) {
+                    throw new Error(error.message ? error.message : error);
+                }
+                authObj = cAuthObj;
+                da = forge.da(config, authObj);
 
-			var filePath = __dirname + '/sample_files/samplePlugin.bundle.zip';
-	        var packageConfig = require(__dirname + '/sample_configs/app_package.js')(test_package_id);
+                return callback(null);
+            });
+        });
 
-	        da.app_packages.pushBundle(filePath, function(error, resource_url) {
-	            should.not.exist(error);
-	            if (process.env.VERBOSE == 'loud') {
-	                console.log(error);
-	                console.log(resource_url);
-	            }
-				packageConfig['Resource'] = resource_url;
-				console.log("Sample bundle pushed!");
+        tasks.push(function(callback) {
 
-	            da.app_packages.create(packageConfig, function(error, success) {
-					console.log("Sample app package created!");
-					should.not.exist(error);
-	                if (process.env.VERBOSE == 'loud') {
-	                    console.log(success);
-	                }
-	                done();
-	            })
-	        });
+            var filePath = __dirname + '/sample_files/samplePlugin.bundle.zip';
+            var packageConfig = require(__dirname + '/sample_configs/app_package.js')(test_package_id);
+
+            da.app_packages.pushBundle(filePath, function(error, resource_url) {
+                should.not.exist(error);
+                if (process.env.VERBOSE == 'loud') {
+                    console.log(error);
+                    console.log(resource_url);
+                }
+                packageConfig['Resource'] = resource_url;
+                console.log("Sample bundle pushed!");
+
+                return callback(null, packageConfig);
+            });
+        });
+
+        tasks.push(function(packageConfig, callback) {
+            da.app_packages.create(packageConfig, function(error, success) {
+                console.log("Sample app package created!");
+                if (error) {
+                    return callback(error);
+                }
+                if (process.env.VERBOSE == 'loud') {
+                    console.log(success);
+                }
+                return callback(null, true);
+            });
+        })
+
+
+        async.waterfall(tasks, function(error, results) {
+            should.not.exist(error);
+            done();
         });
     });
 
@@ -51,9 +71,9 @@ describe('Activity Methods', function() {
         da.activities.getAll(function(error, results) {
             should.not.exist(error);
             should.exist(results);
-			if (process.env.VERBOSE == 'loud') {
-	            console.log(results);
-			}
+            if (process.env.VERBOSE == 'loud') {
+                console.log(results);
+            }
             done();
         });
     });
@@ -64,9 +84,9 @@ describe('Activity Methods', function() {
         da.activities.create(activityConfig, function(error, results) {
             should.not.exist(error);
             should.exist(results);
-			if (process.env.VERBOSE == 'loud') {
-	            console.log(results);
-			}
+            if (process.env.VERBOSE == 'loud') {
+                console.log(results);
+            }
             done();
         });
     });
@@ -75,35 +95,35 @@ describe('Activity Methods', function() {
         da.activities.get(test_id, function(error, results) {
             should.not.exist(error);
             should.exist(results);
-			if (process.env.VERBOSE == 'loud') {
-	            console.log(results);
-	            console.log("===============");
-	            console.log(results.Parameters);
-			}
+            if (process.env.VERBOSE == 'loud') {
+                console.log(results);
+                console.log("===============");
+                console.log(results.Parameters);
+            }
             done();
         });
     });
 
-	it('activityTests-04 - should be able to delete a single activity', function(done) {
-		da.activities.delete(test_id, function(error, results) {
-			should.not.exist(error);
-			should.exist(results);
-			if (process.env.VERBOSE == 'loud') {
-	            console.log(results);
-			}
-			done();
-		});
-	});
-
-	after(function(done) {
-		da.app_packages.delete(test_package_id, function(error, results) {
-			console.log("Sample app package deleted!");
-    		should.not.exist(error);
-    		should.exist(results);
-    		if (process.env.VERBOSE == 'loud') {
+    it('activityTests-04 - should be able to delete a single activity', function(done) {
+        da.activities.delete(test_id, function(error, results) {
+            should.not.exist(error);
+            should.exist(results);
+            if (process.env.VERBOSE == 'loud') {
                 console.log(results);
-    		}
-    		done();
-    	});
-	});
+            }
+            done();
+        });
+    });
+
+    after(function(done) {
+        da.app_packages.delete(test_package_id, function(error, results) {
+            console.log("Sample app package deleted!");
+            should.not.exist(error);
+            should.exist(results);
+            if (process.env.VERBOSE == 'loud') {
+                console.log(results);
+            }
+            done();
+        });
+    });
 });
