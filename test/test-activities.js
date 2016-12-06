@@ -34,38 +34,8 @@ describe('Activity Methods', function() {
         });
     });
 
-    it('activityTests-02 - should be able to get a single activity', function(done) {
-        var activityConfig = {
-            AppPackages: ['samplePlugin'],
-            HostApplication: '',
-            RequiredEngineVersion: '21.17',
-            Parameters: {
-                InputParameters: [{
-                    Name: 'HostDwg',
-                    LocalFileName: 'pencil.ipt',
-                    Optional: null
-                }, {
-                    Name: 'ChangeParameters',
-                    LocalFileName: 'changeParameters.json',
-                    Optional: null
-                }],
-                OutputParameters: [{
-                    Name: 'Result',
-                    LocalFileName: 'Output.stl',
-                    Optional: null
-                }]
-            },
-            Instruction: {
-				Script: "hi there",
-                CommandLineParameters: 'changeParameters.json Output.stl'
-            },
-            AllowedChildProcesses: [],
-            IsPublic: true,
-            Version: 1,
-            Timestamp: (new Date()).toISOString(),
-            Description: 'A sample activity for testing purposes',
-            Id: test_id
-        }
+    it('activityTests-02 - should be able to create an activity', function(done) {
+        var activityConfig = require(__dirname + "/sample_configs/activity.js")(test_id);
 
         da.activities.create(activityConfig, function(error, results) {
             should.not.exist(error);

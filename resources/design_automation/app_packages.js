@@ -81,7 +81,6 @@ module.exports = function(config, authObj) {
                     var parsed = JSON.parse(body);
                     return callback(null, parsed);
                 } catch (e) {
-					console.log(body);
                     return callback("Error parsing response.", null)
                 } finally {
 
@@ -112,6 +111,27 @@ module.exports = function(config, authObj) {
             });
         });
     }
+
+	app_packages.get = function(id, callback) {
+		authObj.getToken(function(error, token) {
+			if (error) {
+				return callback(error, null);
+			}
+
+			var options = {
+				method: 'GET',
+				url: config.DA_BASE_URL + 'AppPackages(\'' + id + '\')',
+				headers: {
+					authorization: 'Bearer ' + token
+				}
+			};
+
+			request(options, function(error, response, body) {
+				if (error) return callback(Error(error), null);
+				return callback(null, body)
+			});
+		});
+	};
 
 	app_packages.delete = function(id, callback) {
         authObj.getToken(function(error, token) {
