@@ -1,6 +1,6 @@
-module.exports = function(id) {
+module.exports = function(id, app_package) {
 	return {
-		AppPackages: ['samplePlugin'],
+		AppPackages: [app_package],
 		HostApplication: '',
 		RequiredEngineVersion: '21.17',
 		Parameters: {
