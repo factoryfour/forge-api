@@ -1,5 +1,5 @@
-var should = require('should');
-
+const should = require('should');
+const async = require('async');
 const root = __dirname.substring(0, __dirname.lastIndexOf('/'));
 const config = require(__dirname + "/get_config.js")(root + '/config.js');
 const forge = require(root + '/index.js');
