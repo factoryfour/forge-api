@@ -1,5 +1,5 @@
-var should = require('should');
-
+const should = require('should');
+const async = require('async');
 const root = __dirname.substring(0, __dirname.lastIndexOf('/'));
 const config = require(__dirname + "/get_config.js")(root + '/config.js');
 const forge = require(root + '/index.js');
@@ -9,8 +9,11 @@ describe('Activity Methods', function() {
     var da;
     const auth = forge.auth(config);
 	var test_id = 'TESTActivity';
-
+	var test_package_id = 'TESTPackage';
     before(function(done) {
+		this.slow(4000);
+		this.timeout(5000);
+
         var scope = ['data:read', 'bucket:read', 'code:all']
 
         auth.two_leg(scope, function(error, cAuthObj) {
@@ -19,7 +22,28 @@ describe('Activity Methods', function() {
             }
             authObj = cAuthObj;
             da = forge.da(config, authObj);
-            done();
+
+			var filePath = __dirname + '/sample_files/samplePlugin.bundle.zip';
+	        var packageConfig = require(__dirname + '/sample_configs/app_package.js')(test_package_id);
+
+	        da.app_packages.pushBundle(filePath, function(error, resource_url) {
+	            should.not.exist(error);
+	            if (process.env.VERBOSE == 'loud') {
+	                console.log(error);
+	                console.log(resource_url);
+	            }
+				packageConfig['Resource'] = resource_url;
+				console.log("Sample bundle pushed!");
+
+	            da.app_packages.create(packageConfig, function(error, success) {
+					console.log("Sample app package created!");
+					should.not.exist(error);
+	                if (process.env.VERBOSE == 'loud') {
+	                    console.log(success);
+	                }
+	                done();
+	            })
+	        });
         });
     });
 
@@ -34,38 +58,8 @@ describe('Activity Methods', function() {
         });
     });
 
-    it('activityTests-02 - should be able to get a single activity', function(done) {
-        var activityConfig = {
-            AppPackages: ['samplePlugin'],
-            HostApplication: '',
-            RequiredEngineVersion: '21.17',
-            Parameters: {
-                InputParameters: [{
-                    Name: 'HostDwg',
-                    LocalFileName: 'pencil.ipt',
-                    Optional: null
-                }, {
-                    Name: 'ChangeParameters',
-                    LocalFileName: 'changeParameters.json',
-                    Optional: null
-                }],
-                OutputParameters: [{
-                    Name: 'Result',
-                    LocalFileName: 'Output.stl',
-                    Optional: null
-                }]
-            },
-            Instruction: {
-				Script: "hi there",
-                CommandLineParameters: 'changeParameters.json Output.stl'
-            },
-            AllowedChildProcesses: [],
-            IsPublic: true,
-            Version: 1,
-            Timestamp: (new Date()).toISOString(),
-            Description: 'A sample activity for testing purposes',
-            Id: test_id
-        }
+    it('activityTests-02 - should be able to create an activity', function(done) {
+        var activityConfig = require(__dirname + "/sample_configs/activity.js")(test_id, test_package_id);
 
         da.activities.create(activityConfig, function(error, results) {
             should.not.exist(error);
@@ -91,7 +85,6 @@ describe('Activity Methods', function() {
     });
 
 	it('activityTests-04 - should be able to delete a single activity', function(done) {
-
 		da.activities.delete(test_id, function(error, results) {
 			should.not.exist(error);
 			should.exist(results);
@@ -100,5 +93,17 @@ describe('Activity Methods', function() {
 			}
 			done();
 		});
+	});
+
+	after(function(done) {
+		da.app_packages.delete(test_package_id, function(error, results) {
+			console.log("Sample app package deleted!");
+    		should.not.exist(error);
+    		should.exist(results);
+    		if (process.env.VERBOSE == 'loud') {
+                console.log(results);
+    		}
+    		done();
+    	});
 	});
 });
