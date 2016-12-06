@@ -4,12 +4,12 @@ module.exports = function(config, authObj) {
     var work_items = {};
 
     work_items.create = function(workItemConfig, callback) {
-		
+
         authObj.getToken(function(error, token) {
             if (error) {
                 return callback(error, null);
             }
-
+			console.log(workItemConfig);
             var options = {
                 method: 'POST',
                 url: config.DA_BASE_URL + 'WorkItems',
