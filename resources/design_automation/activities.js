@@ -16,12 +16,14 @@ module.exports = function(config, authObj) {
 				headers: {
 					authorization: 'Bearer ' + token
 				},
-				form: activityConfig
+				body: activityConfig,
+                json: true
 			};
 			request(options, function(error, response, body) {
 				if (error) return callback(Error(error), null);
 				try {
-					var parsed = JSON.parse(body);
+					var parsed = body; // JSON.parse(body);
+                    if (parsed.error) return callback(parsed.error.message, parsed);
 					return callback(null, parsed);
 				} catch (e) {
 					return callback("Error parsing response.", null)

@@ -1,6 +1,14 @@
 var should = require('should');
+var os = require('os');
 
-const root = __dirname.substring(0, __dirname.lastIndexOf('/'));
+// Check platform to handle file path issues
+var isWin = os.platform().indexOf('win') > -1
+if (isWin) {
+  var root = __dirname.substring(0, __dirname.lastIndexOf('\\'));
+}
+else {
+  var root = __dirname.substring(0, __dirname.lastIndexOf('/'));
+}
 const config = require(__dirname + "/get_config.js")(root + '/config.js');
 const forge = require(root + '/index.js');
 
@@ -38,7 +46,7 @@ describe('App Package Methods', function() {
         var filePath = __dirname + '/sample_files/samplePlugin.bundle.zip';
         var packageConfig = require(__dirname + '/sample_configs/app_package.js')(test_id);
 		this.slow(4000);
-		
+
         da.app_packages.pushBundle(filePath, function(error, resource_url) {
             should.not.exist(error);
             if (process.env.VERBOSE == 'loud') {
