@@ -4,7 +4,7 @@ module.exports = function(config, authObj) {
     var work_items = {};
 
     work_items.create = function(workItemConfig, callback) {
-		
+
         authObj.getToken(function(error, token) {
             if (error) {
                 return callback(error, null);
@@ -17,7 +17,7 @@ module.exports = function(config, authObj) {
                     authorization: 'Bearer ' + token
                 },
                 body: workItemConfig,
-                json: true 
+                json: true
             };
             request(options, function(error, response, body) {
                 if (error) return callback(Error(error), null);
