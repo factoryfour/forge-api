@@ -61,11 +61,6 @@ function do_the_thing(callback) {
 		// Set up design automation with auth object
 		var da = forge.da(config, authObj);
 
-		// da.activities.get("SampleActivity", function(error, response) {
-		//   console.log(error);
-		//   console.log(response.Parameters);
-		// })
-
 		// Create a work item
 		da.work_items.create(workItemConfig, function (error, response) {
 			console.log(error);

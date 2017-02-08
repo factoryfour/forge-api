@@ -15,29 +15,8 @@ function do_the_thing(callback) {
 	const forge = require(root + '/index.js');
 	const auth = forge.auth(config);
 
-	var workItemConfig = {
-		Arguments: {
-			InputArguments: [{
-				Resource: "https://s3-us-west-2.amazonaws.com/inventor-io-samples/Box.ipt",
-				Name: "HostDwg",
-				StorageProvider: "Generic"
-			}, {
-				Resource: 'data:application/json,{\"d2\":\"0.5 in\", \"d3\":\"0.2 in\"}',
-				Name: 'ChangeParameters',
-				StorageProvider: 'Generic'
-			}],
-			OutputArguments: [{
-				Name: "Result",
-				StorageProvider: "Generic",
-				HttpVerb: "POST"
-			}]
-		},
-		ActivityId: "SampleActivity",
-		Id: ""
-	}
-
 	var scope = ['data:read', 'bucket:read', 'code:all']
-
+	// Get the auth token
 	auth.two_leg(scope, function (error, cAuthObj) {
 		if (error) {
 			throw error;
@@ -45,12 +24,20 @@ function do_the_thing(callback) {
 		var authObj = cAuthObj;
 		// Set up design automation with auth object
 		var da = forge.da(config, authObj);
-		da.work_items.get('39a054ad17a44aad9fcabba3ba1dc53e', function (error, response) {
-			if (error) return callback(error, response)
-			else {
-				return callback(error, response)
-			}
+
+		da.activities.getAll(function (error, response) {
+			console.log(error);
+			console.log(response.value);
+		
+		// 	// for (v in response.value) {
+		// 	// 	console.log(value[v]);
+		// 	// }
 		})
+
+		// da.activities.get('rectangle', function (error, response) {
+		// 	console.log(error);
+		// 	console.log(response);
+		// })
 	});
 
 }
@@ -61,6 +48,6 @@ do_the_thing(function (error, response) {
 	if (error) console.log(error);
 	else {
 		console.log(response);
-		// console.log(resonse.value.length);
+		// console.log(response.value.length);
 	}
 })

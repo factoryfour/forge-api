@@ -24,15 +24,8 @@ function do_the_thing(callback) {
 					StorageProvider: "Generic",
 					HttpVerb: "GET"
 				},
-				// { // this is required
-				//     'Name': 'PluginSettings',
-				//     'Resource': 'data:application/json,{}',
-				//     'StorageProvider': 'Generic',
-				//     'ResourceKind': 'Embedded'
-				// },
 				{
-					Resource:  'data:application/json,{\"d1\":\"0.3 in\", \"d2\":\"0.5 in\"}',
-					// Resource: 'data:application/json,{\"d2\":\"0.3 in\"}',
+					Resource:  'data:application/json,{\"_1\":\"0.3 in\", \"_2\":\"0.5 in\"}',
 					Name: 'ChangeParameters',
 					StorageProvider: 'Generic',
 					ResourceKind: 'Embedded'
@@ -51,6 +44,7 @@ function do_the_thing(callback) {
 		Id: ""
 	}
 
+
 	var scope = ['data:read', 'bucket:read', 'code:all']
 	// Get the auth token
 	auth.two_leg(scope, function (error, cAuthObj) {
@@ -60,11 +54,6 @@ function do_the_thing(callback) {
 		var authObj = cAuthObj;
 		// Set up design automation with auth object
 		var da = forge.da(config, authObj);
-
-		// da.activities.get("SampleActivity", function(error, response) {
-		//   console.log(error);
-		//   console.log(response.Parameters);
-		// })
 
 		// Create a work item
 		da.work_items.create(workItemConfig, function (error, response) {

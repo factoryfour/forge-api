@@ -148,9 +148,13 @@ describe('Work Item Methods', function() {
             da.work_items.get(responseId, function(error, response) {
               if (error) {
                 clearInterval(intervalObject)
+                // Test should fail if this is true
+                console.log(error);
+                should.not.exist(error)
                 done();
               }
               else if (response.Status != 'Pending' && response.Status != 'InProgress') {
+                console.log("PENDING");
                 if (process.env.VERBOSE == 'loud') {
                   console.log(response);
                 }
@@ -162,6 +166,7 @@ describe('Work Item Methods', function() {
                 if (process.env.VERBOSE == 'loud') {
                   console.log(response.Status);
                 }
+                console.log(response);
               }
             })
           }, 1000); // Check every 1 second

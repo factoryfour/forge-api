@@ -3,3 +3,4 @@ ptest.js
 ptest-*.js
 config.js
 /config/*
+./vscode
