@@ -4,7 +4,7 @@ module.exports = function(config, authObj) {
     var work_items = {};
 
     work_items.create = function(workItemConfig, callback) {
-		
+
         authObj.getToken(function(error, token) {
             if (error) {
                 return callback(error, null);
@@ -16,18 +16,20 @@ module.exports = function(config, authObj) {
                 headers: {
                     authorization: 'Bearer ' + token
                 },
-                form: workItemConfig
+                body: workItemConfig,
+                json: true
             };
             request(options, function(error, response, body) {
                 if (error) return callback(Error(error), null);
-                try {
-                    var parsed = JSON.parse(body);
-                    return callback(null, parsed);
-                } catch (e) {
-                    return callback("Error parsing response.", null)
-                } finally {
+                return callback(null, body);
+                // try {
+                //     var parsed = JSON.parse(body);
+                //     return callback(null, parsed);
+                // } catch (e) {
+                //     return callback("Error parsing response.", null)
+                // } finally {
 
-                }
+                // }
             });
         });
     };
@@ -80,7 +82,7 @@ module.exports = function(config, authObj) {
                     var parsed = JSON.parse(body);
                     return callback(null, parsed);
                 } catch (e) {
-                    return callback("Error parsing response.", null)
+                return callback("Error parsing response.", null)
                 } finally {
 
                 }
