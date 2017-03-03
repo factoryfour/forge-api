@@ -1,4 +1,4 @@
-var os = require('os');
+const os = require('os');
 
 function run_work_item(callback) {
 
