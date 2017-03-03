@@ -77,11 +77,12 @@ module.exports = function(config, authObj) {
 
             request(options, function(error, response, body) {
                 if (error) return callback(Error(error), null);
+                // if (typeof body === 'string') callback(body, null);
                 try {
                     var parsed = JSON.parse(body);
                     return callback(null, parsed);
                 } catch (e) {
-                    return callback("Error parsing response.", null)
+                    return callback(body, null)
                 } finally {
 
                 }

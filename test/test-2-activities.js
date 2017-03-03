@@ -1,6 +1,16 @@
 const should = require('should');
 const async = require('async');
-const root = __dirname.substring(0, __dirname.lastIndexOf('/'));
+
+var os = require('os');
+
+// Check platform to handle file path issues
+var isWin = os.platform().indexOf('win') > -1
+if (isWin) {
+  var root = __dirname.substring(0, __dirname.lastIndexOf('\\'));
+}
+else {
+  var root = __dirname.substring(0, __dirname.lastIndexOf('/'));
+}
 const config = require(__dirname + "/get_config.js")(root + '/config.js');
 const forge = require(root + '/index.js');
 
@@ -8,8 +18,8 @@ describe('Activity Methods', function() {
     var authObj;
     var da;
     const auth = forge.auth(config);
-	var test_id = 'TESTActivity';
-	var test_package_id = 'TESTPackage';
+	var test_id = 'test_activity';
+	var test_package_id = 'test_app_package_2';
     before(function(done) {
 		this.slow(4000);
 		this.timeout(5000);

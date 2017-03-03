@@ -89,7 +89,7 @@ module.exports = function(config) {
 
 		authObj.getToken(function(error, token) {
 			if (error) {
-				return callback(error, null); 
+				return callback(error, null);
 			}
 			return callback(null, authObj)
 
