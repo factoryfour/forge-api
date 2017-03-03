@@ -34,13 +34,12 @@ function run_work_item(callback) {
 					ResourceKind: 'Embedded'
 				}
 			],
-			// Write to a Zip package
+			// Output arguments
 			OutputArguments: [
 				{
 					Name: "Result",
 					StorageProvider: "Generic",
 					HttpVerb: "POST"
-					// ResourceKind: "ZipPackage"
 				}
 			]
 		},
