@@ -3,7 +3,7 @@ const os = require('os');
 function run_work_item(callback) {
 
 	// Check platform to handle file path issues
-	var isWin = os.platform().indexOf('win') > -1
+	var isWin = os.platform().indexOf('win32') > -1
 	if (isWin) {
 		var root = __dirname.substring(0, __dirname.lastIndexOf('\\'));
 	}
@@ -39,8 +39,8 @@ function run_work_item(callback) {
 				{
 					Name: "Result",
 					StorageProvider: "Generic",
-					HttpVerb: "POST",
-					ResourceKind: "ZipPackage"
+					HttpVerb: "POST"
+					// ResourceKind: "ZipPackage"
 				}
 			]
 		},
@@ -103,6 +103,7 @@ function run_work_item(callback) {
 run_work_item(function (error, response) {
 	if (error) console.log(error);
 	else {
-		console.log(response);
+		// console.log(response);
+		console.log(response.Arguments.OutputArguments[0].Resource);
 	}
 })
