@@ -1,6 +1,6 @@
 var os = require('os');
 
-function do_the_thing(callback) {
+function run_work_item(callback) {
 
 	// Check platform to handle file path issues
 	var isWin = os.platform().indexOf('win') > -1
@@ -15,29 +15,26 @@ function do_the_thing(callback) {
 	const forge = require(root + '/index.js');
 	const auth = forge.auth(config);
 
+	// Work item configuration JSON
 	var workItemConfig = {
 		Arguments: {
 			InputArguments: [
+				// Using the sample Box part
 				{
 					Resource: "https://s3-us-west-2.amazonaws.com/inventor-io-samples/Box.ipt",
 					Name: "HostDwg",
 					StorageProvider: "Generic",
 					HttpVerb: "GET"
 				},
-				// { // this is required
-				//     'Name': 'PluginSettings',
-				//     'Resource': 'data:application/json,{}',
-				//     'StorageProvider': 'Generic',
-				//     'ResourceKind': 'Embedded'
-				// },
+				// Change the parameters
 				{
 					Resource:  'data:application/json,{\"d1\":\"0.3 in\", \"d2\":\"0.5 in\"}',
-					// Resource: 'data:application/json,{\"d2\":\"0.3 in\"}',
 					Name: 'ChangeParameters',
 					StorageProvider: 'Generic',
 					ResourceKind: 'Embedded'
 				}
 			],
+			// Write to a Zip package
 			OutputArguments: [
 				{
 					Name: "Result",
@@ -51,23 +48,19 @@ function do_the_thing(callback) {
 		Id: ""
 	}
 
+	// Declare scope
 	var scope = ['data:read', 'bucket:read', 'code:all']
 	// Get the auth token
 	auth.two_leg(scope, function (error, cAuthObj) {
 		if (error) {
 			throw error;
 		}
-		var authObj = cAuthObj;
 		// Set up design automation with auth object
-		var da = forge.da(config, authObj);
-
-		// da.activities.get("SampleActivity", function(error, response) {
-		//   console.log(error);
-		//   console.log(response.Parameters);
-		// })
+		var da = forge.da(config, cAuthObj);
 
 		// Create a work item
 		da.work_items.create(workItemConfig, function (error, response) {
+			// Log results of creating a work item
 			console.log(error);
 			console.log(response);
 			if (error) {
@@ -75,21 +68,24 @@ function do_the_thing(callback) {
 				return callback(error, response)
 			}
 			else {
+				// Save the work item id
 				var responseId = response.Id;
+				// Check the status of the work item at a fixed interval
 				var intervalObject = setInterval(function () {
+					// Poll the work item's status
 					da.work_items.get(responseId, function (error, response) {
-						// console.log(error);
-						// console.log(response);
+						// Stop if there's an error
 						if (error) {
 							console.log("ERROR: CHECKING STATUS");
 							clearInterval(intervalObject)
 							return callback(error, response)
 						}
+						// If it is finished
 						else if (!(response.Status == 'Pending' || response.Status == 'InProgress')) {
-							// console.log(response);
 							clearInterval(intervalObject)
 							return callback(error, response)
 						}
+						// Otherwise, log the status and repeat
 						else {
 							console.log(response.Status);
 						}
@@ -104,10 +100,9 @@ function do_the_thing(callback) {
 
 // =============================================================================
 
-do_the_thing(function (error, response) {
+run_work_item(function (error, response) {
 	if (error) console.log(error);
 	else {
 		console.log(response);
-		// console.log(response.value.length);
 	}
 })

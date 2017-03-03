@@ -18,8 +18,8 @@ describe('Activity Methods', function() {
     var authObj;
     var da;
     const auth = forge.auth(config);
-	var test_id = 'TESTActivity';
-	var test_package_id = 'TESTPackage';
+	var test_id = 'test_activity';
+	var test_package_id = 'test_app_package_2';
     before(function(done) {
 		this.slow(4000);
 		this.timeout(5000);

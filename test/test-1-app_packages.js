@@ -16,7 +16,7 @@ describe('App Package Methods', function() {
     var authObj;
     var da;
     const auth = forge.auth(config);
-    var test_id = 'TESTPackage';
+    var test_id = 'test_app_package_1';
 
     before(function(done) {
         var scope = ['data:read', 'bucket:read', 'code:all']
