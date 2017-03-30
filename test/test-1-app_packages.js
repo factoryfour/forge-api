@@ -1,8 +1,8 @@
-var should = require('should');
-var os = require('os');
+const should = require('should');
+const os = require('os');
 
 // Check platform to handle file path issues
-var isWin = os.platform().indexOf('win') > -1
+var isWin = os.platform().indexOf('win32') > -1
 if (isWin) {
   var root = __dirname.substring(0, __dirname.lastIndexOf('\\'));
 }

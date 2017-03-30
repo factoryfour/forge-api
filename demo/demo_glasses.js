@@ -1,9 +1,9 @@
-var os = require('os');
+const os = require('os');
 
-function do_the_thing(callback) {
+function run_work_item(callback) {
 
 	// Check platform to handle file path issues
-	var isWin = os.platform().indexOf('win') > -1
+	var isWin = os.platform().indexOf('win32') > -1
 	if (isWin) {
 		var root = __dirname.substring(0, __dirname.lastIndexOf('\\'));
 	}
@@ -15,35 +15,33 @@ function do_the_thing(callback) {
 	const forge = require(root + '/index.js');
 	const auth = forge.auth(config);
 
+	// Work item configuration JSON
 	var workItemConfig = {
 		Arguments: {
 			InputArguments: [
+				// Specify the input part
 				{
-					Resource: "https://s3-us-west-2.amazonaws.com/inventor-io-samples/Box.ipt",
+					Resource: "https://static.factoryfour.com/pq/typeF_v12.ipt",
 					Name: "HostDwg",
 					StorageProvider: "Generic",
 					HttpVerb: "GET"
 				},
-				// { // this is required
-				//     'Name': 'PluginSettings',
-				//     'Resource': 'data:application/json,{}',
-				//     'StorageProvider': 'Generic',
-				//     'ResourceKind': 'Embedded'
-				// },
+				// Change the parameters
 				{
-					Resource:  'data:application/json,{\"d1\":\"0.3 in\", \"d2\":\"0.5 in\"}',
-					// Resource: 'data:application/json,{\"d2\":\"0.3 in\"}',
+					// Resource: 'data:application/json,{\"SupLat_w\":\"65\", \"SupLat_h\":\"20\", \"SupMed_w\":\"4\", \"InfLatRoundingWidth\":\"12\"}',
+					// Resource: 'data:application/json,{\"InfLat_h\":\"21\", \"InfMed_h\":\"17\", \"SupLatRoundingWidth\":\"12\", \"InfMedRoundingWidth\":\"12\", \"PupilDistance\":\"62\"}',
+					Resource: 'data:application/json,{\"SupLat_w\":\"65\", \"SupLat_h\":\"20\", \"SupMed_w\":\"4\", \"InfLatRoundingWidth\":\"12\", \"InfLat_h\":\"21\", \"InfMed_h\":\"17\", \"SupLatRoundingWidth\":\"12\", \"InfMedRoundingWidth\":\"12\", \"PupilDistance\":\"62\"}',
 					Name: 'ChangeParameters',
 					StorageProvider: 'Generic',
 					ResourceKind: 'Embedded'
 				}
 			],
+			// Output arguments
 			OutputArguments: [
 				{
 					Name: "Result",
 					StorageProvider: "Generic",
-					HttpVerb: "POST",
-					ResourceKind: "ZipPackage"
+					HttpVerb: "POST"
 				}
 			]
 		},
@@ -51,18 +49,19 @@ function do_the_thing(callback) {
 		Id: ""
 	}
 
+	// Declare scope
 	var scope = ['data:read', 'bucket:read', 'code:all']
 	// Get the auth token
 	auth.two_leg(scope, function (error, cAuthObj) {
 		if (error) {
 			throw error;
 		}
-		var authObj = cAuthObj;
 		// Set up design automation with auth object
-		var da = forge.da(config, authObj);
+		var da = forge.da(config, cAuthObj);
 
 		// Create a work item
 		da.work_items.create(workItemConfig, function (error, response) {
+			// Log results of creating a work item
 			console.log(error);
 			console.log(response);
 			if (error) {
@@ -70,27 +69,30 @@ function do_the_thing(callback) {
 				return callback(error, response)
 			}
 			else {
+				// Save the work item id
 				var responseId = response.Id;
+				// Check the status of the work item at a fixed interval
 				var intervalObject = setInterval(function () {
+					// Poll the work item's status
 					da.work_items.get(responseId, function (error, response) {
-						// console.log(error);
-						// console.log(response);
+						// Stop if there's an error
 						if (error) {
 							console.log("ERROR: CHECKING STATUS");
 							clearInterval(intervalObject)
 							return callback(error, response)
 						}
+						// If it is finished
 						else if (!(response.Status == 'Pending' || response.Status == 'InProgress')) {
-							// console.log(response);
 							clearInterval(intervalObject)
 							return callback(error, response)
 						}
+						// Otherwise, log the status and repeat
 						else {
 							console.log(response.Status);
 						}
 					})
 
-				}, 1000); // Check every 1 second
+				}, 2000); // Check every 1 second
 			}
 		})
 	});
@@ -99,10 +101,13 @@ function do_the_thing(callback) {
 
 // =============================================================================
 
-do_the_thing(function (error, response) {
-	if (error) console.log(error);
+run_work_item(function (error, response) {
+	if (error) {
+		console.log(error);
+		console.log(response);
+	}
 	else {
 		console.log(response);
-		// console.log(response.value.length);
+		console.log(response.Arguments.OutputArguments[0].Resource);
 	}
 })
