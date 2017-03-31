@@ -107,7 +107,7 @@ else {
     if (!params.Part) {
         console.log("ERROR: Must specify Part field in parameters file.")
     }
-    if (!params.Input) {
+    if (!params.Parameters) {
         console.log("ERROR: Must specify Parameters field in parameters file.")
     }
     else {
