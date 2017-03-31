@@ -1,4 +1,5 @@
 const os = require('os');
+var fs = require('fs');
 
 function run_work_item(inArgs, callback) {
 
@@ -60,12 +61,14 @@ function run_work_item(inArgs, callback) {
         // Create a work item
         da.work_items.create(workItemConfig, function (error, response) {
             // Log results of creating a work item
-            console.log(response);
+            console.log("Work item created\n");
             if (error) {
                 console.log("ERROR: CREATING WORK ITEM");
                 return callback(error, response)
             }
             else {
+                console.log('Checking status...\n');
+                
                 // Save the work item id
                 var responseId = response.Id;
                 // Check the status of the work item at a fixed interval
@@ -99,11 +102,12 @@ function run_work_item(inArgs, callback) {
 // MAIN LOGIC ===================================================================
 
 var args = process.argv.slice(2);
-if (args.length < 1) {
-    console.log("ERROR: Not enough arguments. Must specify parameters file.")
+if (args.length < 2) {
+    console.log("ERROR: Not enough arguments. Must specify parameters file and job name.")
 }
 else {
-    var params = require(args[0])
+    var params = require(args[0]);
+    var outfile = args[1];
     if (!params.Part) {
         console.log("ERROR: Must specify Part field in parameters file.")
     }
@@ -113,19 +117,35 @@ else {
     else {
         // Run the work item to modify the parameters
         run_work_item(params, function (error, response) {
+            var finishTime = new Date();
             if (error) {
-                console.log(error);
-                console.log(response);
+                var outStr = "ERROR: Process failed at " + finishTime.toString() + "\n";
+                outStr += "\nERROR:\n" + error;
+                outStr += "\nRESPONSE:\n" + response;
+                fs.writeFile("../output/" + outfile + ".log", outStr, function (err) {
+                    if (err) {
+                        return console.log(err);
+                    }
+                    console.log("\nProcess finished.\nOutput written to file: " + outfile + ".log");
+                });
             }
             else {
-                console.log('\n===== FINISHED: Output from Forge =====');
-                console.log(response);
+                var outStr = "Process completed at " + finishTime.toString() + "\n";
+                outStr += '\n===== Output from Forge =====\n'
+                outStr += JSON.stringify(response, null, 4);
 
-                console.log('\n===== Process Report URL =====');
-                console.log(response.StatusDetails.Report);
+                outStr += '\n\n===== Process Report URL =====\n';
+                outStr += response.StatusDetails.Report;
 
-                console.log('\n===== Modified STL URL =====');
-                console.log(response.Arguments.OutputArguments[0].Resource);
+                outStr += '\n\n===== Modified STL URL =====\n';
+                outStr += response.Arguments.OutputArguments[0].Resource;
+
+                fs.writeFile("../output/" + outfile + ".log", outStr, function (err) {
+                    if (err) {
+                        return console.log(err);
+                    }                  
+                    console.log("\nProcess finished!\nOutput written to file: " + outfile + ".log");
+                });
             }
         })
     }
