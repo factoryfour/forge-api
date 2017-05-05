@@ -130,6 +130,7 @@ else {
                 });
             }
             else {
+                // Write log file
                 var outStr = "Process completed at " + finishTime.toString() + "\n";
                 outStr += '\n===== Output from Forge =====\n'
                 outStr += JSON.stringify(response, null, 4);

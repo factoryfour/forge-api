@@ -117,55 +117,55 @@ describe('Work Item Methods', function () {
 		})
 	});
 
-	it('workItemTests-04 - poll until complete', function (done) {
-		var workItemConfig = {
-			Arguments: {
-				InputArguments: [{
-					Resource: "https://s3-us-west-2.amazonaws.com/inventor-io-samples/Box.ipt",
-					Name: "HostDwg",
-					StorageProvider: "Generic"
-				}, {
-					Resource: 'data:application/json,{\"d2\":\"0.5 in\", \"d3\":\"0.2 in\"}',
-					Name: 'ChangeParameters',
-					StorageProvider: 'Generic',
-					ResourceKind: 'Embedded'
-				}],
-				OutputArguments: [{
-					Name: "Result",
-					StorageProvider: "Generic",
-					HttpVerb: "POST"
-				}]
-			},
-			ActivityId: "SampleActivity",
-			Id: ""
-		}
+	// it('workItemTests-04 - poll until complete', function (done) {
+	// 	var workItemConfig = {
+	// 		Arguments: {
+	// 			InputArguments: [{
+	// 				Resource: "https://s3-us-west-2.amazonaws.com/inventor-io-samples/Box.ipt",
+	// 				Name: "HostDwg",
+	// 				StorageProvider: "Generic"
+	// 			}, {
+	// 				Resource: 'data:application/json,{\"d2\":\"0.5 in\", \"d3\":\"0.2 in\"}',
+	// 				Name: 'ChangeParameters',
+	// 				StorageProvider: 'Generic',
+	// 				ResourceKind: 'Embedded'
+	// 			}],
+	// 			OutputArguments: [{
+	// 				Name: "Result",
+	// 				StorageProvider: "Generic",
+	// 				HttpVerb: "POST"
+	// 			}]
+	// 		},
+	// 		ActivityId: "SampleActivity",
+	// 		Id: ""
+	// 	}
 
-		da.work_items.create(workItemConfig, function (error, response) {
-			if (error) return callback(error, response)
-			else {
-				var responseId = response.Id;
-				var intervalObject = setInterval(function () {
-					da.work_items.get(responseId, function (error, response) {
-						if (error) {
-							clearInterval(intervalObject)
-							// Test should fail if this is true
-							console.log(error);
-							// should.not.exist(error);
-							done();
-						}
-						else if (response.Status != 'Pending' && response.Status != 'InProgress') {
-							clearInterval(intervalObject);
-							response.Status.should.be.exactly('Succeeded');
-							done();
-						}
-						else {
-							if (process.env.VERBOSE == 'loud') {
-								console.log(response.Status);
-							}
-						}
-					})
-				}, 1000); // Check every 1 second
-			}
-		})
-	});
+	// 	da.work_items.create(workItemConfig, function (error, response) {
+	// 		if (error) return callback(error, response)
+	// 		else {
+	// 			var responseId = response.Id;
+	// 			var intervalObject = setInterval(function () {
+	// 				da.work_items.get(responseId, function (error, response) {
+	// 					if (error) {
+	// 						clearInterval(intervalObject)
+	// 						// Test should fail if this is true
+	// 						console.log(error);
+	// 						// should.not.exist(error);
+	// 						done();
+	// 					}
+	// 					else if (response.Status != 'Pending' && response.Status != 'InProgress') {
+	// 						clearInterval(intervalObject);
+	// 						response.Status.should.be.exactly('Succeeded');
+	// 						done();
+	// 					}
+	// 					else {
+	// 						if (process.env.VERBOSE == 'loud') {
+	// 							console.log(response.Status);
+	// 						}
+	// 					}
+	// 				})
+	// 			}, 1000); // Check every 1 second
+	// 		}
+	// 	})
+	// });
 });
