@@ -1,0 +1,17 @@
+[05/17/2017 18:40:52] Starting work item c133ee19326b476f8b63fe07a71c0300
+[05/17/2017 18:40:52] Start download phase.
+[05/17/2017 18:40:54] Start preparing AppPackage FF_AppPackage_1.
+[05/17/2017 18:40:54] Downloading bits to local cache.
+[05/17/2017 18:40:54] Error: Failed to prepare app package(s).
+[05/17/2017 18:40:54] Start downloading file https://static.factoryfour.com/pq/typeF_v12.ipt.
+[05/17/2017 18:40:57] End downloading file https://static.factoryfour.com/pq/typeF_v12.ipt. 3348992 bytes have been written to Z:\Aces\Jobs\c133ee19326b476f8b63fe07a71c0300\inputPart.ipt.
+[05/17/2017 18:40:57] Embedded resource data:application/json,{"SupLat_w":65,"SupLat_h":20,"SupMed_w":4,"InfLatRoundingWidth":12,"InfLat_h":21,"InfMed_h":17,"SupLatRoundingWidth":12,"InfMedRoundingWidth":12,"PupilDistance":62} is saved as file: Z:\Aces\Jobs\c133ee19326b476f8b63fe07a71c0300\changeParameters.json.
+[05/17/2017 18:40:57] End download phase.
+[05/17/2017 18:40:57] Start preparing script and command line parameters.
+[05/17/2017 18:40:57] Start script content.
+[05/17/2017 18:40:57] Changing parameters in file.
+[05/17/2017 18:40:57] End script content.
+[05/17/2017 18:40:57] Command line: /i "Z:\Aces\Jobs\c133ee19326b476f8b63fe07a71c0300\inputPart.ipt" changeParameters.json Output.stl /s "Z:\Aces\Jobs\c133ee19326b476f8b63fe07a71c0300\script.scr"
+[05/17/2017 18:40:57] End preparing script and command line parameters.
+[05/17/2017 18:40:57] Error: An unexpected error happened during phase Scripting of job.
+[05/17/2017 18:40:57] Job finished with result FailedEnvironmentSetup

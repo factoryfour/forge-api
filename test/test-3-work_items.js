@@ -71,7 +71,6 @@ describe('Work Item Methods', function () {
 			should.exist(results);
 			if (process.env.VERBOSE == 'loud') {
 				console.log(results);
-				console.log(results.error.innererror.stacktrace);
 			}
 			done();
 		});
