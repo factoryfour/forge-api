@@ -1,0 +1,59 @@
+Process started at Wed Jun 21 2017 17:35:47 GMT-0400 (Eastern Daylight Time)
+Process completed at Wed Jun 21 2017 17:38:14 GMT-0400 (Eastern Daylight Time)
+Runtime: 146663 
+
+===== Output from Forge =====
+{
+    "@odata.context": "https://developer.api.autodesk.com/inventor.io/us-east/v2/$metadata#WorkItems/$entity",
+    "ActivityId": "FF_v2-0_Activity",
+    "Arguments": {
+        "InputArguments": [
+            {
+                "Resource": "https://s3.amazonaws.com/factoryfour-dist-static/pq/typeF_v39_12prof.ipt",
+                "Name": "HostDwg",
+                "Headers": [],
+                "ResourceKind": null,
+                "StorageProvider": "Generic",
+                "HttpVerb": "GET"
+            },
+            {
+                "Resource": "data:application/json,{\"RNPAngle\":75.2,\"LNPAngle\":72.6,\"RNPPlacement\":11.1,\"LNPPlacement\":10.1,\"PupilDist\":59.2,\"SupMed_h\":13.9,\"SupLat_h\":16.1,\"InfLat_h\":19.1,\"InfMed_h_ref\":20,\"SupMed_w\":4.9,\"SupLat_w\":64.5,\"InfLat_w\":58.3,\"InfMed_w\":18.8,\"SupMedRounding_ref\":3.6,\"SupLatRounding_ref\":1.8,\"InfLatRounding_ref\":1.8,\"InfMedRounding_ref\":5.4,\"SupMedThickness\":7,\"SupLatThickness\":8.5,\"InfLatThickness\":2.5,\"InfMedThickness\":3,\"BridgeHeight\":12.1,\"BridgeThickness\":8,\"TempleHeight\":10.9,\"HingeThickness\":10,\"RTempleInsertionAngleYZ\":4.3,\"LTempleInsertionAngleYZ\":5.7,\"RTempleInsertionAngleXZ\":-3.9,\"LTempleInsertionAngleXZ\":6.5,\"DesiredTempleLength\":77}",
+                "Name": "ChangeParameters",
+                "Headers": [],
+                "ResourceKind": "Embedded",
+                "StorageProvider": "Generic",
+                "HttpVerb": null
+            }
+        ],
+        "OutputArguments": [
+            {
+                "Resource": null,
+                "Name": "Result",
+                "Headers": [],
+                "ResourceKind": null,
+                "StorageProvider": "Generic",
+                "HttpVerb": "POST"
+            }
+        ]
+    },
+    "Status": "FailedUpload",
+    "StatusDetails": {
+        "Report": "https://inventorio-prod.s3-us-west-2.amazonaws.com/aces-workitem-reports/f52346240ea640d8bdd2b72a286a7f2b/report.log?AWSAccessKeyId=ASIAJ4WVMN2QKEJI2ZGA&Expires=1498167494&x-amz-security-token=FQoDYXdzEK7%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaDKos5Lo31wkPLt5jSCK3A840luX9APAoj06IrkA0MhJVVDsZE0r2HJdOX%2FUB0hFWUlJToZsENByV0ceW06otNO%2F9n6533Ss9t546T5RN1AAQrIg25PHAzMbRFYnyCnTy24OpvGFckOZ2tWFCtG6vZzfBNGR%2BeUDLVPQfJR%2Frgbzmpbwx2WZr156LQTi%2FsvwiK1r0bxPst9wfnK0Jb1kvIDZkyZbjYClO7axeyYrYd%2F5lLgTJGRNrpGnb5fZdaZK9BBKfIUYS83UTsNdLSKHkFFkqA4tA5RftEf1ywa4wrrIVfOqeReVf4UtHr8PBdkYKbiqv9UCmXB3DobdPg3yZfc%2B2sCMnwbOYFO7QXPczI803r4nK77J%2B4dcDMXjHJZy5gHWWoHgcrqjGekX%2BJXeDfBm8hg1eYCGkdEHcqjeq2Yd2TERT6cnodMsvR%2FVvZwR4M5LL5KT0vmqOZ%2BbHXdO1RbW5Zxw3Mpt1S2eEYJOLDqsVJlGItcpkOUP4EPfdRmeD0dGfhLBPopLb6yI4ufr3y%2B4aI9NwKPPmB4T65SiCfXW%2Ba253FA0d8BG8Bj7dj28A69vRWklw8L0B%2BRPpyPVbWPgVrBSoBd0o%2FL6rygU%3D&Signature=lbdIOwctEdiQXNnslOc%2F40FhhI4%3D"
+    },
+    "AvailabilityZone": null,
+    "TimeQueued": "2017-06-21T21:35:48.677Z",
+    "TimeInputTransferStarted": "2017-06-21T21:35:48.787Z",
+    "TimeScriptStarted": "2017-06-21T21:35:51.64Z",
+    "TimeScriptEnded": "2017-06-21T21:38:13.943Z",
+    "TimeOutputTransferEnded": "2017-06-21T21:38:14.056Z",
+    "BytesTranferredIn": 5916277,
+    "BytesTranferredOut": null,
+    "Timestamp": "2017-06-21T21:38:14.101Z",
+    "Id": "f52346240ea640d8bdd2b72a286a7f2b"
+}
+
+===== Process Report URL =====
+https://inventorio-prod.s3-us-west-2.amazonaws.com/aces-workitem-reports/f52346240ea640d8bdd2b72a286a7f2b/report.log?AWSAccessKeyId=ASIAJ4WVMN2QKEJI2ZGA&Expires=1498167494&x-amz-security-token=FQoDYXdzEK7%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaDKos5Lo31wkPLt5jSCK3A840luX9APAoj06IrkA0MhJVVDsZE0r2HJdOX%2FUB0hFWUlJToZsENByV0ceW06otNO%2F9n6533Ss9t546T5RN1AAQrIg25PHAzMbRFYnyCnTy24OpvGFckOZ2tWFCtG6vZzfBNGR%2BeUDLVPQfJR%2Frgbzmpbwx2WZr156LQTi%2FsvwiK1r0bxPst9wfnK0Jb1kvIDZkyZbjYClO7axeyYrYd%2F5lLgTJGRNrpGnb5fZdaZK9BBKfIUYS83UTsNdLSKHkFFkqA4tA5RftEf1ywa4wrrIVfOqeReVf4UtHr8PBdkYKbiqv9UCmXB3DobdPg3yZfc%2B2sCMnwbOYFO7QXPczI803r4nK77J%2B4dcDMXjHJZy5gHWWoHgcrqjGekX%2BJXeDfBm8hg1eYCGkdEHcqjeq2Yd2TERT6cnodMsvR%2FVvZwR4M5LL5KT0vmqOZ%2BbHXdO1RbW5Zxw3Mpt1S2eEYJOLDqsVJlGItcpkOUP4EPfdRmeD0dGfhLBPopLb6yI4ufr3y%2B4aI9NwKPPmB4T65SiCfXW%2Ba253FA0d8BG8Bj7dj28A69vRWklw8L0B%2BRPpyPVbWPgVrBSoBd0o%2FL6rygU%3D&Signature=lbdIOwctEdiQXNnslOc%2F40FhhI4%3D
+
+===== Modified STL URL =====
+null

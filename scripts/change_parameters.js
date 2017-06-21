@@ -48,11 +48,14 @@ function run_work_item(inArgs, callback) {
 			]
 		},
 		// ActivityId: 'SampleActivity',
-		ActivityId: 'FF_Glasses_Activity_01',
+		ActivityId: 'FF_Activity_17',
+		// ActivityId: 'FF_v2-0_Activity',
+		// ActivityId: 'FF_Glasses_Activity_01',
 		Id: ''
 	};
 
 	// NOTE: FF_Activity_17 is high resolution change of parameters and STL output
+	// FF_Glasses_Activity_01 is the initial working version
 
 	// Declare scope
 	const scope = ['data:read', 'bucket:read', 'code:all'];
@@ -93,9 +96,10 @@ function run_work_item(inArgs, callback) {
 						return callback(error, response);
 					}
 					// Otherwise, log the status and repeat
-					console.log(`${inArgs.Name} : ${response.Status}`);
+					const mytime = new Date();
+					console.log(`${inArgs.Name} : ${response.Status} : ${mytime}`);
 				});
-			}, 2000); // Check every 2 seconds
+			}, 5000); // Check every 2 seconds
 		});
 	});
 }

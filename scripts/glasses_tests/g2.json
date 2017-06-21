@@ -1,6 +1,6 @@
 {
     "Name": "v37_b",
-    "Part": "https://static.factoryfour.com/pq/typeF_v37.ipt",
+    "Part": "https://s3.amazonaws.com/factoryfour-dist-static/pq/typeF_v37_updated.ipt",
     "Parameters": {
         "RNPAngle_ref": 78.52,
         "LNPAngle_ref": 77,
@@ -31,6 +31,6 @@
         "LTempleInsertionAngleYZ_ref": -0.8,
         "RTempleInsertionAngleXZ_ref": -8.1,
         "LTempleInsertionAngleXZ_ref": 9.4,
-        "DesiredTempleLength": 59.9
+        "DesiredTempleLength": 73
     }
 }
