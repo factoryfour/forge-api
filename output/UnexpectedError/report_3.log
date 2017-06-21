@@ -1,0 +1,72 @@
+[06/15/2017 18:52:24] Starting work item 78e220614ed64bbb89e2cb3b9d5d761e
+[06/15/2017 18:52:24] Start download phase.
+[06/15/2017 18:52:25] Start preparing AppPackage FF_AppPackage_17.
+[06/15/2017 18:52:25] Downloading bits to local cache.
+[06/15/2017 18:52:25] Done preparing AppPackage FF_AppPackage_17.
+[06/15/2017 18:52:25] Start downloading file https://static.factoryfour.com/pq/typeF_v31_shape8.ipt.
+[06/15/2017 18:52:26] End downloading file https://static.factoryfour.com/pq/typeF_v31_shape8.ipt. 4927488 bytes have been written to C:\Aces\Jobs\78e220614ed64bbb89e2cb3b9d5d761e\inputPart.ipt.
+[06/15/2017 18:52:26] Embedded resource data:application/json,{"PupilDist":66.4,"SupMed_h":7.7,"SupLat_h":18.5,"InfLat_h":27.8,"InfMed_h":21.6,"SupMed_w":2.8,"SupLat_w":65,"InfLat_w":56.4,"InfMed_w":12.3,"SupMedRounding":6,"SupLatRounding":6,"InfLatRounding":8,"InfMedRounding":12,"SupMedThickness":3.6,"SupLatThickness":6.9,"InfLatThickness":2.2,"InfMedThickness":2,"BridgeHeight":6.7,"BridgeThickness":6,"TempleHeight":8.9,"HingeThickness":6} is saved as file: C:\Aces\Jobs\78e220614ed64bbb89e2cb3b9d5d761e\changeParameters.json.
+[06/15/2017 18:52:26] End download phase.
+[06/15/2017 18:52:26] Start preparing script and command line parameters.
+[06/15/2017 18:52:26] Start script content.
+[06/15/2017 18:52:26] Changing parameters in file.
+[06/15/2017 18:52:26] End script content.
+[06/15/2017 18:52:26] Command line: /i "C:\Aces\Jobs\78e220614ed64bbb89e2cb3b9d5d761e\inputPart.ipt" changeParameters.json Output.stl /s "C:\Aces\Jobs\78e220614ed64bbb89e2cb3b9d5d761e\script.scr"
+[06/15/2017 18:52:26] End preparing script and command line parameters.
+[06/15/2017 18:52:26] Start script phase.
+[06/15/2017 18:52:26] ### Command line arguments:  /i "C:\Aces\Jobs\78e220614ed64bbb89e2cb3b9d5d761e\inputPart.ipt" changeParameters.json Output.stl /s "C:\Aces\Jobs\78e220614ed64bbb89e2cb3b9d5d761e\script.scr" /al "C:\Aces\Applications\21.17\FF_AppPackage_17[fb6e527c-f173-4f94-9238-92cbc554add4].package".
+[06/15/2017 18:52:26] Start AutoCAD Core application output.
+[06/15/2017 18:52:26] accoreconsole.exe Information: 0 : Starting Inventor Server.
+[06/15/2017 18:52:26] accoreconsole.exe Information: 0 : Started Inventor Server 2017.1 (Build 211199000, 199)
+[06/15/2017 18:52:26] accoreconsole.exe Information: 0 : Loading plug-in: iLogic Plugin
+[06/15/2017 18:52:26]     accoreconsole.exe Information: 0 : Activating plug-in: iLogic Plugin
+[06/15/2017 18:52:26]     iLogic Plugin: initializing...
+[06/15/2017 18:52:26] accoreconsole.exe Information: 0 : Opening document: C:\Aces\Jobs\78e220614ed64bbb89e2cb3b9d5d761e\inputPart.ipt
+[06/15/2017 18:52:26] accoreconsole.exe Information: 0 : Getting Inventor plug-in.
+[06/15/2017 18:52:26] accoreconsole.exe Information: 0 : Plug-in: sample plugin
+[06/15/2017 18:52:26]     accoreconsole.exe Information: 0 : Activating plug-in: sample plugin
+[06/15/2017 18:52:26]     accoreconsole.exe Information: 0 : : samplePlugin: initializing... 
+[06/15/2017 18:52:27]     accoreconsole.exe Information: 0 : Starting sample plugin.
+[06/15/2017 18:52:27]     accoreconsole.exe Information: 0 : Executing 'RunWithArguments' method on Automation object.
+[06/15/2017 18:52:27]     accoreconsole.exe Information: 0 : 2
+[06/15/2017 18:52:27]     accoreconsole.exe Information: 0 : RunWithArguments called with inputPart and changeParameters.json and Output.stl
+[06/15/2017 18:52:27]     accoreconsole.exe Information: 0 : No 'data' folder
+[06/15/2017 18:52:27]     accoreconsole.exe Information: 0 : Getting argument: _1
+[06/15/2017 18:52:27]     accoreconsole.exe Information: 0 : paramFile: changeParameters.json
+[06/15/2017 18:52:27]     accoreconsole.exe Information: 0 : changeParameters file: "{"PupilDist":66.4,"SupMed_h":7.7,"SupLat_h":18.5,"InfLat_h":27.8,"InfMed_h":21.6,"SupMed_w":2.8,"SupLat_w":65,"InfLat_w":56.4,"InfMed_w":12.3,"SupMedRounding":6,"SupLatRounding":6,"InfLatRounding":8,"InfMedRounding":12,"SupMedThickness":3.6,"SupLatThickness":6.9,"InfLatThickness":2.2,"InfMedThickness":2,"BridgeHeight":6.7,"BridgeThickness":6,"TempleHeight":8.9,"HingeThickness":6}"
+[06/15/2017 18:52:27]     accoreconsole.exe Information: 0 : param to change: PupilDist:66.4
+[06/15/2017 18:52:28]     accoreconsole.exe Information: 0 : param to change: SupMed_h:7.7
+[06/15/2017 18:52:28]     accoreconsole.exe Information: 0 : param to change: SupLat_h:18.5
+[06/15/2017 18:52:28]     accoreconsole.exe Information: 0 : param to change: InfLat_h:27.8
+[06/15/2017 18:52:28]     accoreconsole.exe Information: 0 : param to change: InfMed_h:21.6
+[06/15/2017 18:52:29]     accoreconsole.exe Information: 0 : param to change: SupMed_w:2.8
+[06/15/2017 18:52:29]     accoreconsole.exe Information: 0 : param to change: SupLat_w:65
+[06/15/2017 18:52:29]     accoreconsole.exe Information: 0 : param to change: InfLat_w:56.4
+[06/15/2017 18:52:29]     accoreconsole.exe Information: 0 : param to change: InfMed_w:12.3
+[06/15/2017 18:52:29]     accoreconsole.exe Information: 0 : param to change: SupMedRounding:6
+[06/15/2017 18:52:30]     accoreconsole.exe Information: 0 : param to change: SupLatRounding:6
+[06/15/2017 18:52:30]     accoreconsole.exe Information: 0 : param to change: InfLatRounding:8
+[06/15/2017 18:52:30]     accoreconsole.exe Information: 0 : param to change: InfMedRounding:12
+[06/15/2017 18:52:30]     accoreconsole.exe Information: 0 : param to change: SupMedThickness:3.6
+[06/15/2017 18:52:30]     accoreconsole.exe Information: 0 : param to change: SupLatThickness:6.9
+[06/15/2017 18:52:31]     accoreconsole.exe Information: 0 : param to change: InfLatThickness:2.2
+[06/15/2017 18:52:31]     accoreconsole.exe Information: 0 : param to change: InfMedThickness:2
+[06/15/2017 18:52:31]     accoreconsole.exe Information: 0 : param to change: BridgeHeight:6.7
+[06/15/2017 18:52:31]     accoreconsole.exe Information: 0 : param to change: BridgeThickness:6
+[06/15/2017 18:52:31]     accoreconsole.exe Information: 0 : param to change: TempleHeight:8.9
+[06/15/2017 18:52:31]     accoreconsole.exe Information: 0 : param to change: HingeThickness:6
+[06/15/2017 18:53:20]     accoreconsole.exe Information: 0 : doc updated.
+[06/15/2017 18:53:20]     accoreconsole.exe Information: 0 : Getting argument: _2
+[06/15/2017 18:53:20]     accoreconsole.exe Information: 0 : Output file: Output.stl
+[06/15/2017 18:53:20]     accoreconsole.exe Information: 0 : Full path of file to write: C:\Aces\Jobs\78e220614ed64bbb89e2cb3b9d5d761e\Output.stl
+[06/15/2017 18:53:20]     accoreconsole.exe Information: 0 : STL translator is available
+[06/15/2017 18:53:20]     accoreconsole.exe Information: 0 : Setting STL translator options
+[06/15/2017 18:53:20]     accoreconsole.exe Information: 0 : Setting other STL translator things
+[06/15/2017 18:53:20]     accoreconsole.exe Information: 0 : Generating STL output
+[06/15/2017 18:53:22]     accoreconsole.exe Information: 0 : STL output complete
+[06/15/2017 18:53:22] End AutoCAD Core Console output
+[06/15/2017 18:53:22] End script phase.
+[06/15/2017 18:53:22] Start upload phase.
+[06/15/2017 18:53:22] Uploading C:\Aces\Jobs\78e220614ed64bbb89e2cb3b9d5d761e\Output.stl to https://inventorio-prod.s3-us-west-2.amazonaws.com/aces-workitem-outputs/78e220614ed64bbb89e2cb3b9d5d761e/Output.stl?AWSAccessKeyId=ASIAIQ7MH64WXQQ7CAOA&Expires=1497556403&x-amz-security-token=FQoDYXdzEBsaDNSqpUI1jQXIyMmtbyK3A3kmb%2F5bZZXincBIGWIXnCfT54wvCPQNCDWAfOp03%2BxoYGTx7I86bKjCRbFW9r8tYta29aFxw1%2BPoFib0ADEgpfw%2FG2%2FKgoVEsVHiSM4sUIYmIzd3yuruz3wrdCIQ6QkYMTglYhXWYBf5IILWQKkzyI%2Fb9oepxBRnpUYzn2ZEJ5AeOneJn5DcWgaS8jkVyFqJKKP6SAN2qUpVtuKdh3GI0rF8PZ0lZIxW4%2BDaM08SqgQNFua0muwOS7%2BHGTAPB4HQ6xIavjHJvnksPH0XNGovJsfz76S9pVVAFLGkWe0E3s%2B9Bs2mldd3t3m86stM9330EQ%2BSYx%2Fk7uutEsv3k%2BXitE6r%2FtZz5QcCA7DodgUrQ0JYxZ%2FNEJLHRgJm8ZWtF3%2FPoG4%2F0ulbuxTCvcaBztcSwDI0Oyy0oJu3aX1TbMvC8ExCSBQCGpHV9UgQOOIvGoMuTxsDHs0TUyvSwakkmIjCivWAwYIy45Pbs86n2VdYwcbi9N07oBSSns%2FeVw9R9KujzFw51JocKfL9MqVqJFuThCIqWyLZg4jNAl0RJbwmppx%2BsqpXxQz4GpZHY8MbvLPSMVuGl%2B6BAUo%2F4iLygU%3D&Signature=cwdE0178%2FsaqTiJS51YV64brvdg%3D.
+[06/15/2017 18:53:23] End upload phase.
+[06/15/2017 18:53:23] Job finished with result Succeeded

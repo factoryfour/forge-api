@@ -1,0 +1,60 @@
+[06/15/2017 18:47:14] Starting work item 47af16501bda415bbafa35b9070ccc40
+[06/15/2017 18:47:14] Start download phase.
+[06/15/2017 18:47:15] Start preparing AppPackage FF_AppPackage_17.
+[06/15/2017 18:47:15] Reuse previously downloaded app from local cache.
+[06/15/2017 18:47:15] Done preparing AppPackage FF_AppPackage_17.
+[06/15/2017 18:47:15] Start downloading file https://static.factoryfour.com/pq/typeF_v12.ipt.
+[06/15/2017 18:47:15] End downloading file https://static.factoryfour.com/pq/typeF_v12.ipt. 3348992 bytes have been written to Z:\Aces\Jobs\47af16501bda415bbafa35b9070ccc40\inputPart.ipt.
+[06/15/2017 18:47:15] Embedded resource data:application/json,{"SupLat_w":65,"SupLat_h":20,"SupMed_w":4,"InfLatRoundingWidth":12,"InfLat_h":21,"InfMed_h":17,"SupLatRoundingWidth":12,"InfMedRoundingWidth":12,"PupilDistance":62} is saved as file: Z:\Aces\Jobs\47af16501bda415bbafa35b9070ccc40\changeParameters.json.
+[06/15/2017 18:47:15] End download phase.
+[06/15/2017 18:47:15] Start preparing script and command line parameters.
+[06/15/2017 18:47:15] Start script content.
+[06/15/2017 18:47:15] Changing parameters in file.
+[06/15/2017 18:47:15] End script content.
+[06/15/2017 18:47:15] Command line: /i "Z:\Aces\Jobs\47af16501bda415bbafa35b9070ccc40\inputPart.ipt" changeParameters.json Output.stl /s "Z:\Aces\Jobs\47af16501bda415bbafa35b9070ccc40\script.scr"
+[06/15/2017 18:47:15] End preparing script and command line parameters.
+[06/15/2017 18:47:15] Start script phase.
+[06/15/2017 18:47:15] ### Command line arguments:  /i "Z:\Aces\Jobs\47af16501bda415bbafa35b9070ccc40\inputPart.ipt" changeParameters.json Output.stl /s "Z:\Aces\Jobs\47af16501bda415bbafa35b9070ccc40\script.scr" /al "Z:\Aces\Applications\21.17\FF_AppPackage_17[fb6e527c-f173-4f94-9238-92cbc554add4].package".
+[06/15/2017 18:47:15] Start AutoCAD Core application output.
+[06/15/2017 18:47:16] accoreconsole.exe Information: 0 : Starting Inventor Server.
+[06/15/2017 18:47:16] accoreconsole.exe Information: 0 : Started Inventor Server 2017.1 (Build 211199000, 199)
+[06/15/2017 18:47:16] accoreconsole.exe Information: 0 : Loading plug-in: iLogic Plugin
+[06/15/2017 18:47:16]     accoreconsole.exe Information: 0 : Activating plug-in: iLogic Plugin
+[06/15/2017 18:47:16]     iLogic Plugin: initializing...
+[06/15/2017 18:47:16] accoreconsole.exe Information: 0 : Opening document: Z:\Aces\Jobs\47af16501bda415bbafa35b9070ccc40\inputPart.ipt
+[06/15/2017 18:47:16] accoreconsole.exe Information: 0 : Getting Inventor plug-in.
+[06/15/2017 18:47:16] accoreconsole.exe Information: 0 : Plug-in: sample plugin
+[06/15/2017 18:47:16]     accoreconsole.exe Information: 0 : Activating plug-in: sample plugin
+[06/15/2017 18:47:16]     accoreconsole.exe Information: 0 : : samplePlugin: initializing... 
+[06/15/2017 18:47:16]     accoreconsole.exe Information: 0 : Starting sample plugin.
+[06/15/2017 18:47:16]     accoreconsole.exe Information: 0 : Executing 'RunWithArguments' method on Automation object.
+[06/15/2017 18:47:16]     accoreconsole.exe Information: 0 : 2
+[06/15/2017 18:47:16]     accoreconsole.exe Information: 0 : RunWithArguments called with inputPart and changeParameters.json and Output.stl
+[06/15/2017 18:47:16]     accoreconsole.exe Information: 0 : No 'data' folder
+[06/15/2017 18:47:16]     accoreconsole.exe Information: 0 : Getting argument: _1
+[06/15/2017 18:47:16]     accoreconsole.exe Information: 0 : paramFile: changeParameters.json
+[06/15/2017 18:47:16]     accoreconsole.exe Information: 0 : changeParameters file: "{"SupLat_w":65,"SupLat_h":20,"SupMed_w":4,"InfLatRoundingWidth":12,"InfLat_h":21,"InfMed_h":17,"SupLatRoundingWidth":12,"InfMedRoundingWidth":12,"PupilDistance":62}"
+[06/15/2017 18:47:17]     accoreconsole.exe Information: 0 : param to change: SupLat_w:65
+[06/15/2017 18:47:18]     accoreconsole.exe Information: 0 : param to change: SupLat_h:20
+[06/15/2017 18:47:18]     accoreconsole.exe Information: 0 : param to change: SupMed_w:4
+[06/15/2017 18:47:19]     accoreconsole.exe Information: 0 : param to change: InfLatRoundingWidth:12
+[06/15/2017 18:47:19]     accoreconsole.exe Information: 0 : param to change: InfLat_h:21
+[06/15/2017 18:47:19]     accoreconsole.exe Information: 0 : param to change: InfMed_h:17
+[06/15/2017 18:47:19]     accoreconsole.exe Information: 0 : param to change: SupLatRoundingWidth:12
+[06/15/2017 18:47:19]     accoreconsole.exe Information: 0 : param to change: InfMedRoundingWidth:12
+[06/15/2017 18:47:19]     accoreconsole.exe Information: 0 : param to change: PupilDistance:62
+[06/15/2017 18:47:51]     accoreconsole.exe Information: 0 : doc updated.
+[06/15/2017 18:47:51]     accoreconsole.exe Information: 0 : Getting argument: _2
+[06/15/2017 18:47:51]     accoreconsole.exe Information: 0 : Output file: Output.stl
+[06/15/2017 18:47:51]     accoreconsole.exe Information: 0 : Full path of file to write: Z:\Aces\Jobs\47af16501bda415bbafa35b9070ccc40\Output.stl
+[06/15/2017 18:47:51]     accoreconsole.exe Information: 0 : STL translator is available
+[06/15/2017 18:47:51]     accoreconsole.exe Information: 0 : Setting STL translator options
+[06/15/2017 18:47:51]     accoreconsole.exe Information: 0 : Setting other STL translator things
+[06/15/2017 18:47:51]     accoreconsole.exe Information: 0 : Generating STL output
+[06/15/2017 18:47:53]     accoreconsole.exe Information: 0 : STL output complete
+[06/15/2017 18:47:54] End AutoCAD Core Console output
+[06/15/2017 18:47:55] End script phase.
+[06/15/2017 18:47:55] Start upload phase.
+[06/15/2017 18:47:55] Uploading Z:\Aces\Jobs\47af16501bda415bbafa35b9070ccc40\Output.stl to https://inventorio-prod.s3-us-west-2.amazonaws.com/aces-workitem-outputs/47af16501bda415bbafa35b9070ccc40/Output.stl?AWSAccessKeyId=ASIAI7SZJGZ236ABDQXA&Expires=1497556075&x-amz-security-token=FQoDYXdzEBsaDGafcyQFyL0NmrVo0yK3A0SHNGNiaEtQdHmJv4%2BmPCyUxrlII3l4p5IME1oM4FtR5MrR8vGdUuKFCCrNy0MiP2tAY93CMnGZNfG%2B2JxjCZemmya4k4KKHnGgCQ2gK%2BX1uUlop24zSuBMWXlEfrECtLSe4SuueiJu5IIfTgmu7VLj4KFoJb1dFJhNjZ%2BH967CN4lqoZL%2FD7Als4BtdeO%2BK7NerA%2F5NJxCI4gKLEW5VgWMTqWjA%2BUXGaxeao86xVR87VDf9nuHQQiVwSQGJ%2Fjkootm7MKTviuqchjpon%2F8tHe4iA2GMwi172gabfHqfViIZ86xMhDetTNT6K0zqQQPMgXsBe7%2B2JW7ygcLh%2FT51Xs35ns1Bi46%2BT5RujE52HklHarqX5jBzbNya9CXJi03IftQBngXCnjp%2FNQi26qHbzh9%2BW2ICpheo0CT9GoLnghdDGeyAq6Qi9BgcBwDMQDQTCPHfi685h5aO%2FIuSuRarMBR93NjLV%2F0kkcU%2FnpCofQJXOClDvjlY7P3KCXyr65l9PbMYHxUK82hopx3zepYCGhIsXQubFEHbzszPMybczd%2BlTyDVgrWbnPZyPcNDBpp6kvrpc7A4%2Fwo%2BYqLygU%3D&Signature=%2Bku%2Fh2e9xVVP0kxCW6E0Sejcj2c%3D.
+[06/15/2017 18:47:55] End upload phase.
+[06/15/2017 18:47:55] Job finished with result Succeeded

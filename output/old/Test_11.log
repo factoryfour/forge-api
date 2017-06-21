@@ -1,0 +1,57 @@
+Process completed at Tue Jun 06 2017 14:29:49 GMT-0400 (Eastern Daylight Time)
+
+===== Output from Forge =====
+{
+    "@odata.context": "https://developer.api.autodesk.com/inventor.io/us-east/v2/$metadata#WorkItems/$entity",
+    "ActivityId": "SampleActivity",
+    "Arguments": {
+        "InputArguments": [
+            {
+                "Resource": "https://static.factoryfour.com/pq/typeF_v12.ipt",
+                "Name": "HostDwg",
+                "Headers": [],
+                "ResourceKind": null,
+                "StorageProvider": "Generic",
+                "HttpVerb": "GET"
+            },
+            {
+                "Resource": "data:application/json,{\"SupLat_w\":65,\"SupLat_h\":20,\"SupMed_w\":4,\"InfLatRoundingWidth\":12,\"InfLat_h\":21,\"InfMed_h\":17,\"SupLatRoundingWidth\":12,\"InfMedRoundingWidth\":12,\"PupilDistance\":62}",
+                "Name": "ChangeParameters",
+                "Headers": [],
+                "ResourceKind": "Embedded",
+                "StorageProvider": "Generic",
+                "HttpVerb": null
+            }
+        ],
+        "OutputArguments": [
+            {
+                "Resource": "https://inventorio-prod.s3-us-west-2.amazonaws.com/aces-workitem-outputs/f7102da0b5d74b629842706aefbfeefe/Output.stl?AWSAccessKeyId=ASIAIU44KZZKANAHDRDQ&Expires=1496860185&x-amz-security-token=FQoDYXdzEDMaDDpf1QQUIx6oZPov5yK3A4J69HQ6WGy5ujaaix7QvIeFzTmShFu0xHIDWF0zyRvDj9u4NYrSOjczQLmcdQwF8jGbb1ClmDvXWB%2BrLdG4P4wdRQkao1kFmzKG2SiAzkWomYnrT6eunJSSr67STIlXjDKyH4KW3BnzHuFjv%2FVkItsnZ1gi8rsvcXDJUGssELxXiAl5QiX2BNFYqiYh%2FWy2gutX6ZdXboIzMYEN3QgcJ2GOceAIEJwUu72l2f1mkEM9o6HEB81DEQ%2F0QgGxoIcg8WocanhAh8voUmcgDNf17GWetV%2Ft0tMNx%2Bl8h0wl%2B2o4LQhp8NbAf14RcqAIB73wrCmJlNmzP0I%2Fnxqv6r4VeqwotaE1uKfYPcy67cC%2BDBUbGnqaleZa4ThRfQd%2F5ag6xtrFoF7Vz1sIm06qgay3wSKgU5SD2ZMNT6Yimx9Mk29QcvpcqZyimJaiadari%2FEqP4rdjWQe0miKx2dWUe2GBPmKglCN8A%2BFndJpqDYiwQPd3DfKdWf4vxYLOt%2BrKWAE9yJpGvz4HPJwwhTvLd5g%2BDMT3fz%2FhhrTzE2PU5hFSe433pToV%2FIKZyWee%2BDdGcYs82vyjefrxz4olc%2FbyQU%3D&Signature=K2xwQRCaAz%2FuQRe4%2FCowXkOYbvo%3D",
+                "Name": "Result",
+                "Headers": [],
+                "ResourceKind": null,
+                "StorageProvider": "Generic",
+                "HttpVerb": "POST"
+            }
+        ]
+    },
+    "Status": "Succeeded",
+    "StatusDetails": {
+        "Report": "https://inventorio-prod.s3-us-west-2.amazonaws.com/aces-workitem-reports/f7102da0b5d74b629842706aefbfeefe/report.log?AWSAccessKeyId=ASIAIU44KZZKANAHDRDQ&Expires=1496860187&x-amz-security-token=FQoDYXdzEDMaDDpf1QQUIx6oZPov5yK3A4J69HQ6WGy5ujaaix7QvIeFzTmShFu0xHIDWF0zyRvDj9u4NYrSOjczQLmcdQwF8jGbb1ClmDvXWB%2BrLdG4P4wdRQkao1kFmzKG2SiAzkWomYnrT6eunJSSr67STIlXjDKyH4KW3BnzHuFjv%2FVkItsnZ1gi8rsvcXDJUGssELxXiAl5QiX2BNFYqiYh%2FWy2gutX6ZdXboIzMYEN3QgcJ2GOceAIEJwUu72l2f1mkEM9o6HEB81DEQ%2F0QgGxoIcg8WocanhAh8voUmcgDNf17GWetV%2Ft0tMNx%2Bl8h0wl%2B2o4LQhp8NbAf14RcqAIB73wrCmJlNmzP0I%2Fnxqv6r4VeqwotaE1uKfYPcy67cC%2BDBUbGnqaleZa4ThRfQd%2F5ag6xtrFoF7Vz1sIm06qgay3wSKgU5SD2ZMNT6Yimx9Mk29QcvpcqZyimJaiadari%2FEqP4rdjWQe0miKx2dWUe2GBPmKglCN8A%2BFndJpqDYiwQPd3DfKdWf4vxYLOt%2BrKWAE9yJpGvz4HPJwwhTvLd5g%2BDMT3fz%2FhhrTzE2PU5hFSe433pToV%2FIKZyWee%2BDdGcYs82vyjefrxz4olc%2FbyQU%3D&Signature=uHOltPASV8HbMuGOilp8%2FxNYF8k%3D"
+    },
+    "AvailabilityZone": null,
+    "TimeQueued": "2017-06-06T18:29:07.535Z",
+    "TimeInputTransferStarted": "2017-06-06T18:29:07.598Z",
+    "TimeScriptStarted": "2017-06-06T18:29:08.582Z",
+    "TimeScriptEnded": "2017-06-06T18:29:45.148Z",
+    "TimeOutputTransferEnded": "2017-06-06T18:29:45.35Z",
+    "BytesTranferredIn": 3349156,
+    "BytesTranferredOut": 1292384,
+    "Timestamp": "2017-06-06T18:29:45.35Z",
+    "Id": "f7102da0b5d74b629842706aefbfeefe"
+}
+
+===== Process Report URL =====
+https://inventorio-prod.s3-us-west-2.amazonaws.com/aces-workitem-reports/f7102da0b5d74b629842706aefbfeefe/report.log?AWSAccessKeyId=ASIAIU44KZZKANAHDRDQ&Expires=1496860187&x-amz-security-token=FQoDYXdzEDMaDDpf1QQUIx6oZPov5yK3A4J69HQ6WGy5ujaaix7QvIeFzTmShFu0xHIDWF0zyRvDj9u4NYrSOjczQLmcdQwF8jGbb1ClmDvXWB%2BrLdG4P4wdRQkao1kFmzKG2SiAzkWomYnrT6eunJSSr67STIlXjDKyH4KW3BnzHuFjv%2FVkItsnZ1gi8rsvcXDJUGssELxXiAl5QiX2BNFYqiYh%2FWy2gutX6ZdXboIzMYEN3QgcJ2GOceAIEJwUu72l2f1mkEM9o6HEB81DEQ%2F0QgGxoIcg8WocanhAh8voUmcgDNf17GWetV%2Ft0tMNx%2Bl8h0wl%2B2o4LQhp8NbAf14RcqAIB73wrCmJlNmzP0I%2Fnxqv6r4VeqwotaE1uKfYPcy67cC%2BDBUbGnqaleZa4ThRfQd%2F5ag6xtrFoF7Vz1sIm06qgay3wSKgU5SD2ZMNT6Yimx9Mk29QcvpcqZyimJaiadari%2FEqP4rdjWQe0miKx2dWUe2GBPmKglCN8A%2BFndJpqDYiwQPd3DfKdWf4vxYLOt%2BrKWAE9yJpGvz4HPJwwhTvLd5g%2BDMT3fz%2FhhrTzE2PU5hFSe433pToV%2FIKZyWee%2BDdGcYs82vyjefrxz4olc%2FbyQU%3D&Signature=uHOltPASV8HbMuGOilp8%2FxNYF8k%3D
+
+===== Modified STL URL =====
+https://inventorio-prod.s3-us-west-2.amazonaws.com/aces-workitem-outputs/f7102da0b5d74b629842706aefbfeefe/Output.stl?AWSAccessKeyId=ASIAIU44KZZKANAHDRDQ&Expires=1496860185&x-amz-security-token=FQoDYXdzEDMaDDpf1QQUIx6oZPov5yK3A4J69HQ6WGy5ujaaix7QvIeFzTmShFu0xHIDWF0zyRvDj9u4NYrSOjczQLmcdQwF8jGbb1ClmDvXWB%2BrLdG4P4wdRQkao1kFmzKG2SiAzkWomYnrT6eunJSSr67STIlXjDKyH4KW3BnzHuFjv%2FVkItsnZ1gi8rsvcXDJUGssELxXiAl5QiX2BNFYqiYh%2FWy2gutX6ZdXboIzMYEN3QgcJ2GOceAIEJwUu72l2f1mkEM9o6HEB81DEQ%2F0QgGxoIcg8WocanhAh8voUmcgDNf17GWetV%2Ft0tMNx%2Bl8h0wl%2B2o4LQhp8NbAf14RcqAIB73wrCmJlNmzP0I%2Fnxqv6r4VeqwotaE1uKfYPcy67cC%2BDBUbGnqaleZa4ThRfQd%2F5ag6xtrFoF7Vz1sIm06qgay3wSKgU5SD2ZMNT6Yimx9Mk29QcvpcqZyimJaiadari%2FEqP4rdjWQe0miKx2dWUe2GBPmKglCN8A%2BFndJpqDYiwQPd3DfKdWf4vxYLOt%2BrKWAE9yJpGvz4HPJwwhTvLd5g%2BDMT3fz%2FhhrTzE2PU5hFSe433pToV%2FIKZyWee%2BDdGcYs82vyjefrxz4olc%2FbyQU%3D&Signature=K2xwQRCaAz%2FuQRe4%2FCowXkOYbvo%3D

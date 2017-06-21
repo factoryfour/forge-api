@@ -1,3 +1,7 @@
+/**
+ * Script to run parameter modification for multiple parts.
+ */
+
 const os = require('os');
 const fs = require('fs');
 
@@ -43,9 +47,12 @@ function run_work_item(inArgs, callback) {
 				}
 			]
 		},
-		ActivityId: 'SampleActivity',
+		// ActivityId: 'SampleActivity',
+		ActivityId: 'FF_Glasses_Activity_01',
 		Id: ''
 	};
+
+	// NOTE: FF_Activity_17 is high resolution change of parameters and STL output
 
 	// Declare scope
 	const scope = ['data:read', 'bucket:read', 'code:all'];
@@ -76,6 +83,8 @@ function run_work_item(inArgs, callback) {
 					if (error) {
 						// Stop if there's an error
 						console.log('ERROR: CHECKING STATUS');
+						console.log(error);
+
 						clearInterval(intervalObject);
 						return callback(error, response);
 					} else if (!(response.Status == 'Pending' || response.Status == 'InProgress')) {
@@ -119,7 +128,7 @@ function check_params(params) {
 
 const args = process.argv.slice(2);
 if (args.length < 1) {
-	console.log('ERROR: Not enough arguments. Must specify parameters file and job name.');
+	console.log('ERROR: Not enough arguments. Must specify parameters file.');
 } else {
 	// Read parameters file
 	const inparams = require(args[0]);
@@ -128,6 +137,7 @@ if (args.length < 1) {
 	validParams.forEach((params) => {
 		const outfile = params.Name;
 		// Run the work item to modify the parameters
+		let startTime = new Date();
 		run_work_item(params, function (error, response) {
 			const finishTime = new Date();
 			if (error) {
@@ -142,7 +152,9 @@ if (args.length < 1) {
 				});
 			} else {
 				// Write log file
-				let outStr = 'Process completed at ' + finishTime.toString() + '\n';
+				let outStr = 'Process started at ' + startTime.toString() + '\n';
+				outStr += 'Process completed at ' + finishTime.toString() + '\n';
+				outStr += `Runtime: ${finishTime - startTime} \n`;
 				outStr += '\n===== Output from Forge =====\n';
 				outStr += JSON.stringify(response, null, 4);
 

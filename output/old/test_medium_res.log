@@ -1,0 +1,57 @@
+Process completed at Wed May 17 2017 14:41:02 GMT-0400 (Eastern Daylight Time)
+
+===== Output from Forge =====
+{
+    "@odata.context": "https://developer.api.autodesk.com/inventor.io/us-east/v2/$metadata#WorkItems/$entity",
+    "ActivityId": "FF_Activity_1",
+    "Arguments": {
+        "InputArguments": [
+            {
+                "Resource": "https://static.factoryfour.com/pq/typeF_v12.ipt",
+                "Name": "HostDwg",
+                "Headers": [],
+                "ResourceKind": null,
+                "StorageProvider": "Generic",
+                "HttpVerb": "GET"
+            },
+            {
+                "Resource": "data:application/json,{\"SupLat_w\":65,\"SupLat_h\":20,\"SupMed_w\":4,\"InfLatRoundingWidth\":12,\"InfLat_h\":21,\"InfMed_h\":17,\"SupLatRoundingWidth\":12,\"InfMedRoundingWidth\":12,\"PupilDistance\":62}",
+                "Name": "ChangeParameters",
+                "Headers": [],
+                "ResourceKind": "Embedded",
+                "StorageProvider": "Generic",
+                "HttpVerb": null
+            }
+        ],
+        "OutputArguments": [
+            {
+                "Resource": null,
+                "Name": "Result",
+                "Headers": [],
+                "ResourceKind": null,
+                "StorageProvider": "Generic",
+                "HttpVerb": "POST"
+            }
+        ]
+    },
+    "Status": "FailedEnvironmentSetup",
+    "StatusDetails": {
+        "Report": "https://inventorio-prod.s3-us-west-2.amazonaws.com/aces-workitem-reports/c133ee19326b476f8b63fe07a71c0300/report.log?AWSAccessKeyId=ASIAIUXY6JVPS34LBM6Q&Expires=1495132859&x-amz-security-token=FQoDYXdzEDMaDCwVYvDBu7FZSOQ4wCK3A7Ja0GOOSUsf48Z6%2BER%2B5BW467yGcfIgQVkaB1Jqk3SMs4G9P0Q2d9Al21Ye9cu8ic6GamBDy%2FLoGod0Ga5clM%2Bg6LTyxrfhHSKUQ22VeR3m2MekiERxUzdOIlZQ3qVuO6ertA%2Fed9t4v%2B%2F4FqvOs86MTCpz6R1U%2BZj84dVX52vijZkztxPLF3rD%2FpQtyJz8vQJ56pv%2FDVRYQt0OvMH99c%2B6RHoGMCh2OhOpGP3yBIpnbSzdscn03uJeuHWKu4%2BT3cO1NeGYLtGtm23jtfmC4TwhWSEY4sgypH%2FkXUxX6h5ZMhWiSSBm%2BNuU%2B7HMRF8M3IH1Us%2BF%2F7c5nNKFYDQdEIDSmWyUtzN5JGXOaM08yBvX%2FBmRt4CzeQjFqV4GRBZFZGlWnGnvSv3bvWtZBtPI5wdzojHkbjo7yyeO0cqOC%2FgtSisE9q3DdSpPnonoSPkRrLC3A2ACjNbzUfa5MZATWgTwRL57JII3bdzs9zrg7%2FUmB40YHYid5ZwVO0h6I542rpravjfV8dzrglD4bjxn5zEYiKIh8pygXPE9W%2FOW9Qi7FSKzy03VYXDfxYjlmOu2hulqKwfmJlIo1p3yyAU%3D&Signature=r0rYJ4DgrMrhi2WQhj%2FBGeLjRVQ%3D"
+    },
+    "AvailabilityZone": null,
+    "TimeQueued": "2017-05-17T18:40:52.07Z",
+    "TimeInputTransferStarted": "2017-05-17T18:40:52.361Z",
+    "TimeScriptStarted": null,
+    "TimeScriptEnded": null,
+    "TimeOutputTransferEnded": "2017-05-17T18:40:57.876Z",
+    "BytesTranferredIn": 3349156,
+    "BytesTranferredOut": null,
+    "Timestamp": "2017-05-17T18:40:57.892Z",
+    "Id": "c133ee19326b476f8b63fe07a71c0300"
+}
+
+===== Process Report URL =====
+https://inventorio-prod.s3-us-west-2.amazonaws.com/aces-workitem-reports/c133ee19326b476f8b63fe07a71c0300/report.log?AWSAccessKeyId=ASIAIUXY6JVPS34LBM6Q&Expires=1495132859&x-amz-security-token=FQoDYXdzEDMaDCwVYvDBu7FZSOQ4wCK3A7Ja0GOOSUsf48Z6%2BER%2B5BW467yGcfIgQVkaB1Jqk3SMs4G9P0Q2d9Al21Ye9cu8ic6GamBDy%2FLoGod0Ga5clM%2Bg6LTyxrfhHSKUQ22VeR3m2MekiERxUzdOIlZQ3qVuO6ertA%2Fed9t4v%2B%2F4FqvOs86MTCpz6R1U%2BZj84dVX52vijZkztxPLF3rD%2FpQtyJz8vQJ56pv%2FDVRYQt0OvMH99c%2B6RHoGMCh2OhOpGP3yBIpnbSzdscn03uJeuHWKu4%2BT3cO1NeGYLtGtm23jtfmC4TwhWSEY4sgypH%2FkXUxX6h5ZMhWiSSBm%2BNuU%2B7HMRF8M3IH1Us%2BF%2F7c5nNKFYDQdEIDSmWyUtzN5JGXOaM08yBvX%2FBmRt4CzeQjFqV4GRBZFZGlWnGnvSv3bvWtZBtPI5wdzojHkbjo7yyeO0cqOC%2FgtSisE9q3DdSpPnonoSPkRrLC3A2ACjNbzUfa5MZATWgTwRL57JII3bdzs9zrg7%2FUmB40YHYid5ZwVO0h6I542rpravjfV8dzrglD4bjxn5zEYiKIh8pygXPE9W%2FOW9Qi7FSKzy03VYXDfxYjlmOu2hulqKwfmJlIo1p3yyAU%3D&Signature=r0rYJ4DgrMrhi2WQhj%2FBGeLjRVQ%3D
+
+===== Modified STL URL =====
+null

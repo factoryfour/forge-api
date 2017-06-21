@@ -8,5 +8,5 @@ module.exports = function(id) {
 		Timestamp: '2016-11-16T23:54:19.846Z',
 		Description: '',
 		Id: id
-	}
+	};
 };

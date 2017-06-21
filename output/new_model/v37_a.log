@@ -1,0 +1,59 @@
+Process started at Tue Jun 20 2017 16:09:05 GMT-0400 (Eastern Daylight Time)
+Process completed at Tue Jun 20 2017 16:09:35 GMT-0400 (Eastern Daylight Time)
+Runtime: 30077 
+
+===== Output from Forge =====
+{
+    "@odata.context": "https://developer.api.autodesk.com/inventor.io/us-east/v2/$metadata#WorkItems/$entity",
+    "ActivityId": "FF_Activity_17",
+    "Arguments": {
+        "InputArguments": [
+            {
+                "Resource": "https://static.factoryfour.com/pq/typeF_v37.ipt",
+                "Name": "HostDwg",
+                "Headers": [],
+                "ResourceKind": null,
+                "StorageProvider": "Generic",
+                "HttpVerb": "GET"
+            },
+            {
+                "Resource": "data:application/json,{\"RNPAngle_ref\":78.52,\"LNPAngle_ref\":77,\"RNPPlacement_ref\":10.9,\"LNPPlacement_ref\":10.5,\"PupilDist_ref\":63.4,\"SupMed_h_ref\":13.25,\"SupLat_h_ref\":16,\"InfLat_h_ref\":25.1,\"InfMed_h_ref\":25.35,\"SupMed_w_ref\":2.2,\"SupLat_w_ref\":64.4,\"InfLat_w_ref\":52.7,\"InfMed_w_ref\":17.45,\"SupMedRounding_ref\":9.9,\"SupLatRounding_ref\":7.92,\"InfLatRounding_ref\":12.25,\"InfMedRounding_ref\":11.9,\"SupMedThickness_ref\":4,\"SupLatThickness_ref\":5.4,\"InfLatThickness_ref\":2.6,\"InfMedThickness_ref\":2,\"BridgeHeight_ref\":13.3,\"BridgeThickness_ref\":8,\"TempleHeight_ref\":11.55,\"HingeThickness_ref\":7,\"RTempleInsertionAngleYZ_ref\":-2.9,\"LTempleInsertionAngleYZ_ref\":-0.8,\"RTempleInsertionAngleXZ_ref\":-8.1,\"LTempleInsertionAngleXZ_ref\":9.4,\"DesiredTempleLength\":56.9}",
+                "Name": "ChangeParameters",
+                "Headers": [],
+                "ResourceKind": "Embedded",
+                "StorageProvider": "Generic",
+                "HttpVerb": null
+            }
+        ],
+        "OutputArguments": [
+            {
+                "Resource": "https://inventorio-prod.s3-us-west-2.amazonaws.com/aces-workitem-outputs/ffe63febc25d45ab8f81d81d12fb1a85/Output.stl?AWSAccessKeyId=ASIAJDDIHZ5ALUFXVJ5Q&Expires=1498075775&x-amz-security-token=FQoDYXdzEJT%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaDMZ6W18A8LuBsQoG4CK3A0QStxluHDSrxXH0s36W3CzNFbTe2D5j8BPf9OPtTp5StwC%2F50VmBZe8BQpXlV1rrXhzrjkFqcvMUFde2Fy6mCK1XKPq0jeUKQDpnKom5%2FRymLo8ZIyrpVuy7Gc0dlgsjiSWYr0QqlcDmcX3jpUZiFwoZVSx2XBfnPABigOvw0a9GH4OlUB2eYGlf%2BbgGTEIGwUvsiogaVWfPLExyWOrbeMFyIND8TJrgF9WFufaggLCSJ1Avq1yGyseo5LPVuf6esf5FTZbJqq1SCVDnyeQBHt4SNhVCsFmZg01tN%2FL2bS%2BmyJcIprJe8945pARSmBiuuboTjOYBCQ0FNnJ98gMsT79LZ6pkBZrjR3jQseJFMw5NSf6gt7SyKhPYSEtWZyNN3Bjv6XaM1tQ%2Froyomw63HR9Pg9vE8RXtt5RkeLlHeI4QT%2BmZZgSsELzpnkUjL%2F0ESU%2F1IdLT1PYH6zNR1dwplNrez1FbXFBTuM6DYGKln6mqwf8R99X0a9n05l%2FoKuqJnUUWCEsdmuYsASOIDJJNDIB4ubMmfH8PyT3TfDGUrXwdhV08fXT3vyPKr2ugKCrQM9wnrzClJkowNalygU%3D&Signature=6XwSrfzsLVloQ2Spr9tUF1wWqzU%3D",
+                "Name": "Result",
+                "Headers": [],
+                "ResourceKind": null,
+                "StorageProvider": "Generic",
+                "HttpVerb": "POST"
+            }
+        ]
+    },
+    "Status": "Succeeded",
+    "StatusDetails": {
+        "Report": "https://inventorio-prod.s3-us-west-2.amazonaws.com/aces-workitem-reports/ffe63febc25d45ab8f81d81d12fb1a85/report.log?AWSAccessKeyId=ASIAIFG7GQUWK5TFEJFQ&Expires=1498075776&x-amz-security-token=FQoDYXdzEJX%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaDHxqoLWqFCgevqCZKCK3A4jTewfW9gLDbH0LhJUZwJfK3%2Fk5wsu0zj0iP43WWTLjTPpDLqlIC5jZY%2Bw2cwuXhFJRSTcZyOc%2FNRgO8UXGTNY9O%2BZ3VAyrPaCQ9rSdL8OEZ33jI7oaaro4EnqQ90L%2FU1Qv3rI4xrokfJ6TgiF0J%2Fxt7c20PwkzPeifLWfT9eHfMrDKi7ZDb%2B1BBxI2s1EsqvarsBdXdSkK6l%2BSVUFl6NxNccElY9XPvmY7yNUVZ1EB6LjIlGOIY4TExs9ANc0nzuqt3Po68q8Lpkr1M1l8bT5Ma4PrZUuQ2tcmP3E9EeEDESFt16y%2BtNSd9xX1DWKNyrlbM%2Ba9VmM8KJpKrU5jv4%2Bf7ZiJEfbwZaS23Nxy1VmGXRLlakycoWW%2Flx00M%2BGezBnJAsuKKbK9WygR2nDVVLmjQlyoCN2vj%2Fn1kKjRXB3Cn0aOVY8nlC%2FLM5mkEA6V9YvdXXJqGoKQbiUwZHLor75K9FdiqehAEMjEt8XR0TKLU2W1V4%2BvHy1HV0BngQxegFHxYJRYxXwEkzEcHzs0tVrV2acgTxYgQPEzLzEcEtooxqCxYQOoqbS8zF5wz4pLFQjshkK5Upwo0fKlygU%3D&Signature=sZceHEF6vYP3KyJjjaZD7fxqqm8%3D"
+    },
+    "AvailabilityZone": null,
+    "TimeQueued": "2017-06-20T20:09:09.288Z",
+    "TimeInputTransferStarted": "2017-06-20T20:09:09.381Z",
+    "TimeScriptStarted": "2017-06-20T20:09:14.444Z",
+    "TimeScriptEnded": "2017-06-20T20:09:33.647Z",
+    "TimeOutputTransferEnded": "2017-06-20T20:09:34.846Z",
+    "BytesTranferredIn": 6393055,
+    "BytesTranferredOut": 6671184,
+    "Timestamp": "2017-06-20T20:09:34.87Z",
+    "Id": "ffe63febc25d45ab8f81d81d12fb1a85"
+}
+
+===== Process Report URL =====
+https://inventorio-prod.s3-us-west-2.amazonaws.com/aces-workitem-reports/ffe63febc25d45ab8f81d81d12fb1a85/report.log?AWSAccessKeyId=ASIAIFG7GQUWK5TFEJFQ&Expires=1498075776&x-amz-security-token=FQoDYXdzEJX%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaDHxqoLWqFCgevqCZKCK3A4jTewfW9gLDbH0LhJUZwJfK3%2Fk5wsu0zj0iP43WWTLjTPpDLqlIC5jZY%2Bw2cwuXhFJRSTcZyOc%2FNRgO8UXGTNY9O%2BZ3VAyrPaCQ9rSdL8OEZ33jI7oaaro4EnqQ90L%2FU1Qv3rI4xrokfJ6TgiF0J%2Fxt7c20PwkzPeifLWfT9eHfMrDKi7ZDb%2B1BBxI2s1EsqvarsBdXdSkK6l%2BSVUFl6NxNccElY9XPvmY7yNUVZ1EB6LjIlGOIY4TExs9ANc0nzuqt3Po68q8Lpkr1M1l8bT5Ma4PrZUuQ2tcmP3E9EeEDESFt16y%2BtNSd9xX1DWKNyrlbM%2Ba9VmM8KJpKrU5jv4%2Bf7ZiJEfbwZaS23Nxy1VmGXRLlakycoWW%2Flx00M%2BGezBnJAsuKKbK9WygR2nDVVLmjQlyoCN2vj%2Fn1kKjRXB3Cn0aOVY8nlC%2FLM5mkEA6V9YvdXXJqGoKQbiUwZHLor75K9FdiqehAEMjEt8XR0TKLU2W1V4%2BvHy1HV0BngQxegFHxYJRYxXwEkzEcHzs0tVrV2acgTxYgQPEzLzEcEtooxqCxYQOoqbS8zF5wz4pLFQjshkK5Upwo0fKlygU%3D&Signature=sZceHEF6vYP3KyJjjaZD7fxqqm8%3D
+
+===== Modified STL URL =====
+https://inventorio-prod.s3-us-west-2.amazonaws.com/aces-workitem-outputs/ffe63febc25d45ab8f81d81d12fb1a85/Output.stl?AWSAccessKeyId=ASIAJDDIHZ5ALUFXVJ5Q&Expires=1498075775&x-amz-security-token=FQoDYXdzEJT%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaDMZ6W18A8LuBsQoG4CK3A0QStxluHDSrxXH0s36W3CzNFbTe2D5j8BPf9OPtTp5StwC%2F50VmBZe8BQpXlV1rrXhzrjkFqcvMUFde2Fy6mCK1XKPq0jeUKQDpnKom5%2FRymLo8ZIyrpVuy7Gc0dlgsjiSWYr0QqlcDmcX3jpUZiFwoZVSx2XBfnPABigOvw0a9GH4OlUB2eYGlf%2BbgGTEIGwUvsiogaVWfPLExyWOrbeMFyIND8TJrgF9WFufaggLCSJ1Avq1yGyseo5LPVuf6esf5FTZbJqq1SCVDnyeQBHt4SNhVCsFmZg01tN%2FL2bS%2BmyJcIprJe8945pARSmBiuuboTjOYBCQ0FNnJ98gMsT79LZ6pkBZrjR3jQseJFMw5NSf6gt7SyKhPYSEtWZyNN3Bjv6XaM1tQ%2Froyomw63HR9Pg9vE8RXtt5RkeLlHeI4QT%2BmZZgSsELzpnkUjL%2F0ESU%2F1IdLT1PYH6zNR1dwplNrez1FbXFBTuM6DYGKln6mqwf8R99X0a9n05l%2FoKuqJnUUWCEsdmuYsASOIDJJNDIB4ubMmfH8PyT3TfDGUrXwdhV08fXT3vyPKr2ugKCrQM9wnrzClJkowNalygU%3D&Signature=6XwSrfzsLVloQ2Spr9tUF1wWqzU%3D

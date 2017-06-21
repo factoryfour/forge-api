@@ -1,0 +1,60 @@
+[06/15/2017 19:08:44] Starting work item ddd7d7fd1c004da69cb1e837ffe6fd56
+[06/15/2017 19:08:44] Start download phase.
+[06/15/2017 19:08:45] Start preparing AppPackage FF_AppPackage_17.
+[06/15/2017 19:08:45] Reuse previously downloaded app from local cache.
+[06/15/2017 19:08:45] Done preparing AppPackage FF_AppPackage_17.
+[06/15/2017 19:08:45] Start downloading file https://static.factoryfour.com/pq/typeF_v31_shape8.ipt.
+[06/15/2017 19:08:46] End downloading file https://static.factoryfour.com/pq/typeF_v31_shape8.ipt. 4927488 bytes have been written to Z:\Aces\Jobs\ddd7d7fd1c004da69cb1e837ffe6fd56\inputPart.ipt.
+[06/15/2017 19:08:46] Embedded resource data:application/json,{"PupilDist":66.4,"SupMed_h":7.7,"SupLat_h":18.5,"InfLat_h":27.8,"InfMed_h":21.6,"SupMed_w":2.8,"SupLat_w":65,"InfLat_w":56.4,"InfMed_w":12.3,"SupMedRounding":6,"SupLatRounding":6,"InfLatRounding":8,"InfMedRounding":12,"SupMedThickness":3.6,"SupLatThickness":6.9,"InfLatThickness":2.2,"InfMedThickness":2,"BridgeHeight":6.7,"BridgeThickness":6,"TempleHeight":8.9,"HingeThickness":6} is saved as file: Z:\Aces\Jobs\ddd7d7fd1c004da69cb1e837ffe6fd56\changeParameters.json.
+[06/15/2017 19:08:46] End download phase.
+[06/15/2017 19:08:46] Start preparing script and command line parameters.
+[06/15/2017 19:08:46] Start script content.
+[06/15/2017 19:08:46] Changing parameters in file.
+[06/15/2017 19:08:46] End script content.
+[06/15/2017 19:08:46] Command line: /i "Z:\Aces\Jobs\ddd7d7fd1c004da69cb1e837ffe6fd56\inputPart.ipt" changeParameters.json Output.stl /s "Z:\Aces\Jobs\ddd7d7fd1c004da69cb1e837ffe6fd56\script.scr"
+[06/15/2017 19:08:46] End preparing script and command line parameters.
+[06/15/2017 19:08:46] Start script phase.
+[06/15/2017 19:08:46] ### Command line arguments:  /i "Z:\Aces\Jobs\ddd7d7fd1c004da69cb1e837ffe6fd56\inputPart.ipt" changeParameters.json Output.stl /s "Z:\Aces\Jobs\ddd7d7fd1c004da69cb1e837ffe6fd56\script.scr" /al "Z:\Aces\Applications\21.17\FF_AppPackage_17[fb6e527c-f173-4f94-9238-92cbc554add4].package".
+[06/15/2017 19:08:46] Start AutoCAD Core application output.
+[06/15/2017 19:08:46] accoreconsole.exe Information: 0 : Starting Inventor Server.
+[06/15/2017 19:08:46] accoreconsole.exe Information: 0 : Started Inventor Server 2017.1 (Build 211199000, 199)
+[06/15/2017 19:08:46] accoreconsole.exe Information: 0 : Loading plug-in: iLogic Plugin
+[06/15/2017 19:08:46]     accoreconsole.exe Information: 0 : Activating plug-in: iLogic Plugin
+[06/15/2017 19:08:46]     iLogic Plugin: initializing...
+[06/15/2017 19:08:46] accoreconsole.exe Information: 0 : Opening document: Z:\Aces\Jobs\ddd7d7fd1c004da69cb1e837ffe6fd56\inputPart.ipt
+[06/15/2017 19:08:47] accoreconsole.exe Information: 0 : Getting Inventor plug-in.
+[06/15/2017 19:08:47] accoreconsole.exe Information: 0 : Plug-in: sample plugin
+[06/15/2017 19:08:47]     accoreconsole.exe Information: 0 : Activating plug-in: sample plugin
+[06/15/2017 19:08:47]     accoreconsole.exe Information: 0 : : samplePlugin: initializing... 
+[06/15/2017 19:08:47]     accoreconsole.exe Information: 0 : Starting sample plugin.
+[06/15/2017 19:08:47]     accoreconsole.exe Information: 0 : Executing 'RunWithArguments' method on Automation object.
+[06/15/2017 19:08:47]     accoreconsole.exe Information: 0 : 2
+[06/15/2017 19:08:47]     accoreconsole.exe Information: 0 : RunWithArguments called with inputPart and changeParameters.json and Output.stl
+[06/15/2017 19:08:47]     accoreconsole.exe Information: 0 : No 'data' folder
+[06/15/2017 19:08:47]     accoreconsole.exe Information: 0 : Getting argument: _1
+[06/15/2017 19:08:47]     accoreconsole.exe Information: 0 : paramFile: changeParameters.json
+[06/15/2017 19:08:47]     accoreconsole.exe Information: 0 : changeParameters file: "{"PupilDist":66.4,"SupMed_h":7.7,"SupLat_h":18.5,"InfLat_h":27.8,"InfMed_h":21.6,"SupMed_w":2.8,"SupLat_w":65,"InfLat_w":56.4,"InfMed_w":12.3,"SupMedRounding":6,"SupLatRounding":6,"InfLatRounding":8,"InfMedRounding":12,"SupMedThickness":3.6,"SupLatThickness":6.9,"InfLatThickness":2.2,"InfMedThickness":2,"BridgeHeight":6.7,"BridgeThickness":6,"TempleHeight":8.9,"HingeThickness":6}"
+[06/15/2017 19:08:47]     accoreconsole.exe Information: 0 : param to change: PupilDist:66.4
+[06/15/2017 19:08:49]     accoreconsole.exe Information: 0 : param to change: SupMed_h:7.7
+[06/15/2017 19:08:50]     accoreconsole.exe Information: 0 : param to change: SupLat_h:18.5
+[06/15/2017 19:08:50]     accoreconsole.exe Information: 0 : param to change: InfLat_h:27.8
+[06/15/2017 19:08:51]     accoreconsole.exe Information: 0 : param to change: InfMed_h:21.6
+[06/15/2017 19:08:51]     accoreconsole.exe Information: 0 : param to change: SupMed_w:2.8
+[06/15/2017 19:08:52]     accoreconsole.exe Information: 0 : param to change: SupLat_w:65
+[06/15/2017 19:08:53]     accoreconsole.exe Information: 0 : param to change: InfLat_w:56.4
+[06/15/2017 19:08:53]     accoreconsole.exe Information: 0 : param to change: InfMed_w:12.3
+[06/15/2017 19:08:54]     accoreconsole.exe Information: 0 : param to change: SupMedRounding:6
+[06/15/2017 19:08:54]     accoreconsole.exe Information: 0 : param to change: SupLatRounding:6
+[06/15/2017 19:08:55]     accoreconsole.exe Information: 0 : param to change: InfLatRounding:8
+[06/15/2017 19:08:55]     accoreconsole.exe Information: 0 : param to change: InfMedRounding:12
+[06/15/2017 19:08:55]     accoreconsole.exe Information: 0 : param to change: SupMedThickness:3.6
+[06/15/2017 19:08:56]     accoreconsole.exe Information: 0 : param to change: SupLatThickness:6.9
+[06/15/2017 19:08:56]     accoreconsole.exe Information: 0 : param to change: InfLatThickness:2.2
+[06/15/2017 19:08:57]     accoreconsole.exe Information: 0 : param to change: InfMedThickness:2
+[06/15/2017 19:08:57]     accoreconsole.exe Information: 0 : param to change: BridgeHeight:6.7
+[06/15/2017 19:08:58]     accoreconsole.exe Information: 0 : param to change: BridgeThickness:6
+[06/15/2017 19:08:58]     accoreconsole.exe Information: 0 : param to change: TempleHeight:8.9
+[06/15/2017 19:08:59]     accoreconsole.exe Information: 0 : param to change: HingeThickness:6
+[06/15/2017 19:10:00] End script phase.
+[06/15/2017 19:10:00] Error: An unexpected error happened during phase CoreEngineExecution of job.
+[06/15/2017 19:10:00] Job finished with result FailedExecution

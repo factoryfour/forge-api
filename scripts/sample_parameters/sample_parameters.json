@@ -1,0 +1,49 @@
+// The parameters that are passed in as inArgs are as follows.
+// inArgs.Parameters is the set of parameters to change.
+const inArgs = {
+	"Name": "Test_06_12",
+	"Part": "https://static.factoryfour.com/pq/typeF_v12.ipt",
+	"Parameters": {
+		"SupLat_w": 65,
+		"SupLat_h": 20,
+		"SupMed_w": 4,
+		"InfLatRoundingWidth": 12,
+		"InfLat_h": 21,
+		"InfMed_h": 17,
+		"SupLatRoundingWidth": 12,
+		"InfMedRoundingWidth": 12,
+		"PupilDistance": 62
+	}
+}
+
+// Work item configuration JSON
+const workItemConfig = {
+	Arguments: {
+		InputArguments: [
+			// Specify the input part
+			{
+				Resource: inArgs.Part,
+				Name: 'HostDwg',
+				StorageProvider: 'Generic',
+				HttpVerb: 'GET'
+			},
+			// Change the parameters
+			{
+				Resource: 'data:application/json,' + JSON.stringify(inArgs.Parameters),
+				Name: 'ChangeParameters',
+				StorageProvider: 'Generic',
+				ResourceKind: 'Embedded'
+			}
+		],
+		// Output arguments
+		OutputArguments: [
+			{
+				Name: 'Result',
+				StorageProvider: 'Generic',
+				HttpVerb: 'POST'
+			}
+		]
+	},
+	ActivityId: 'FF_Activity_8',
+	Id: ''
+};

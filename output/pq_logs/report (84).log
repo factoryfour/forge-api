@@ -1,0 +1,69 @@
+[06/06/2017 19:08:47] Starting work item a236cde993834fba91844b80010312db
+[06/06/2017 19:08:47] Start download phase.
+[06/06/2017 19:08:48] Start preparing AppPackage samplePlugin.
+[06/06/2017 19:08:48] Reuse previously downloaded app from local cache.
+[06/06/2017 19:08:48] Done preparing AppPackage samplePlugin.
+[06/06/2017 19:08:48] Start downloading file https://static.factoryfour.com/pq/typeF_v31_shape8.ipt.
+[06/06/2017 19:08:49] End downloading file https://static.factoryfour.com/pq/typeF_v31_shape8.ipt. 4927488 bytes have been written to C:\Aces\Jobs\a236cde993834fba91844b80010312db\swing_c_washer.ipt.
+[06/06/2017 19:08:49] Embedded resource data:application/json,{"PupilDist":66.2,"SupMed_h":16.1,"SupLat_h":18,"InfLat_h":27.7,"InfMed_h":27.5,"SupMed_w":2.6,"SupLat_w":66.5,"InfLat_w":61.1,"InfMed_w":18.8,"SupMedRounding":6,"SupLatRounding":8,"InfLatRounding":4,"InfMedRounding":14,"SupMedThickness":7.3,"SupLatThickness":8,"InfLatThickness":3,"InfMedThickness":2.2,"BridgeHeight":16,"BridgeThickness":9,"TempleHeight":11.6,"HingeThickness":10} is saved as file: C:\Aces\Jobs\a236cde993834fba91844b80010312db\changeParameters.json.
+[06/06/2017 19:08:49] End download phase.
+[06/06/2017 19:08:49] Start preparing script and command line parameters.
+[06/06/2017 19:08:49] Start script content.
+[06/06/2017 19:08:49] 
+[06/06/2017 19:08:49] End script content.
+[06/06/2017 19:08:49] Command line: /i "C:\Aces\Jobs\a236cde993834fba91844b80010312db\swing_c_washer.ipt" changeParameters.json Output.stl /s "C:\Aces\Jobs\a236cde993834fba91844b80010312db\script.scr"
+[06/06/2017 19:08:49] End preparing script and command line parameters.
+[06/06/2017 19:08:49] Start script phase.
+[06/06/2017 19:08:49] ### Command line arguments:  /i "C:\Aces\Jobs\a236cde993834fba91844b80010312db\swing_c_washer.ipt" changeParameters.json Output.stl /s "C:\Aces\Jobs\a236cde993834fba91844b80010312db\script.scr" /al "C:\Aces\Applications\21.17\samplePlugin[9905bdf0-ff76-47cf-9e88-a193fff1b3b7].package".
+[06/06/2017 19:08:49] Start AutoCAD Core application output.
+[06/06/2017 19:08:49] accoreconsole.exe Information: 0 : Starting Inventor Server.
+[06/06/2017 19:08:49] accoreconsole.exe Information: 0 : Started Inventor Server 2017.1 (Build 211199000, 199)
+[06/06/2017 19:08:49] accoreconsole.exe Information: 0 : Loading plug-in: iLogic Plugin
+[06/06/2017 19:08:49]     accoreconsole.exe Information: 0 : Activating plug-in: iLogic Plugin
+[06/06/2017 19:08:49]     iLogic Plugin: initializing...
+[06/06/2017 19:08:49] accoreconsole.exe Information: 0 : Opening document: C:\Aces\Jobs\a236cde993834fba91844b80010312db\swing_c_washer.ipt
+[06/06/2017 19:08:49] accoreconsole.exe Information: 0 : Getting Inventor plug-in.
+[06/06/2017 19:08:49] accoreconsole.exe Information: 0 : Plug-in: sample plugin
+[06/06/2017 19:08:49]     accoreconsole.exe Information: 0 : Activating plug-in: sample plugin
+[06/06/2017 19:08:49]     accoreconsole.exe Information: 0 : : samplePlugin: initializing... 
+[06/06/2017 19:08:49]     accoreconsole.exe Information: 0 : Executing 'RunWithArguments' method on Automation object.
+[06/06/2017 19:08:49]     accoreconsole.exe Information: 0 : 2
+[06/06/2017 19:08:49]     accoreconsole.exe Information: 0 : RunWithArguments called with swing_c_washer and changeParameters.json and Output.stl
+[06/06/2017 19:08:49]     accoreconsole.exe Information: 0 : Modifying param _1
+[06/06/2017 19:08:49]     accoreconsole.exe Information: 0 : paramFile: changeParameters.json
+[06/06/2017 19:08:49]     accoreconsole.exe Information: 0 : changeParameters file: "{"PupilDist":66.2,"SupMed_h":16.1,"SupLat_h":18,"InfLat_h":27.7,"InfMed_h":27.5,"SupMed_w":2.6,"SupLat_w":66.5,"InfLat_w":61.1,"InfMed_w":18.8,"SupMedRounding":6,"SupLatRounding":8,"InfLatRounding":4,"InfMedRounding":14,"SupMedThickness":7.3,"SupLatThickness":8,"InfLatThickness":3,"InfMedThickness":2.2,"BridgeHeight":16,"BridgeThickness":9,"TempleHeight":11.6,"HingeThickness":10}"
+[06/06/2017 19:08:49]     accoreconsole.exe Information: 0 : param to change: PupilDist:66.2
+[06/06/2017 19:08:50]     accoreconsole.exe Information: 0 : param to change: SupMed_h:16.1
+[06/06/2017 19:08:51]     accoreconsole.exe Information: 0 : param to change: SupLat_h:18
+[06/06/2017 19:08:51]     accoreconsole.exe Information: 0 : param to change: InfLat_h:27.7
+[06/06/2017 19:08:51]     accoreconsole.exe Information: 0 : param to change: InfMed_h:27.5
+[06/06/2017 19:08:51]     accoreconsole.exe Information: 0 : param to change: SupMed_w:2.6
+[06/06/2017 19:08:51]     accoreconsole.exe Information: 0 : param to change: SupLat_w:66.5
+[06/06/2017 19:08:52]     accoreconsole.exe Information: 0 : param to change: InfLat_w:61.1
+[06/06/2017 19:08:52]     accoreconsole.exe Information: 0 : param to change: InfMed_w:18.8
+[06/06/2017 19:08:52]     accoreconsole.exe Information: 0 : param to change: SupMedRounding:6
+[06/06/2017 19:08:52]     accoreconsole.exe Information: 0 : param to change: SupLatRounding:8
+[06/06/2017 19:08:52]     accoreconsole.exe Information: 0 : param to change: InfLatRounding:4
+[06/06/2017 19:08:53]     accoreconsole.exe Information: 0 : param to change: InfMedRounding:14
+[06/06/2017 19:08:53]     accoreconsole.exe Information: 0 : param to change: SupMedThickness:7.3
+[06/06/2017 19:08:53]     accoreconsole.exe Information: 0 : param to change: SupLatThickness:8
+[06/06/2017 19:08:53]     accoreconsole.exe Information: 0 : param to change: InfLatThickness:3
+[06/06/2017 19:08:53]     accoreconsole.exe Information: 0 : param to change: InfMedThickness:2.2
+[06/06/2017 19:08:54]     accoreconsole.exe Information: 0 : param to change: BridgeHeight:16
+[06/06/2017 19:08:54]     accoreconsole.exe Information: 0 : param to change: BridgeThickness:9
+[06/06/2017 19:08:54]     accoreconsole.exe Information: 0 : param to change: TempleHeight:11.6
+[06/06/2017 19:08:54]     accoreconsole.exe Information: 0 : param to change: HingeThickness:10
+[06/06/2017 19:09:44]     accoreconsole.exe Information: 0 : doc updated.
+[06/06/2017 19:09:44]     accoreconsole.exe Information: 0 : writing file: C:\Aces\Jobs\a236cde993834fba91844b80010312db\Output.stl
+[06/06/2017 19:09:44]     accoreconsole.exe Information: 0 : STL translator is available
+[06/06/2017 19:09:44]     accoreconsole.exe Information: 0 : Setting STL translator options
+[06/06/2017 19:09:44]     accoreconsole.exe Information: 0 : Setting other STL translator things
+[06/06/2017 19:09:44]     accoreconsole.exe Information: 0 : Generating STL output
+[06/06/2017 19:09:44]     accoreconsole.exe Information: 0 : STL output complete
+[06/06/2017 19:09:44]     accoreconsole.exe Information: 0 : output saved
+[06/06/2017 19:09:44] End AutoCAD Core Console output
+[06/06/2017 19:09:44] End script phase.
+[06/06/2017 19:09:44] Start upload phase.
+[06/06/2017 19:09:44] Uploading C:\Aces\Jobs\a236cde993834fba91844b80010312db\Output.stl to https://inventorio-prod.s3-us-west-2.amazonaws.com/aces-workitem-outputs/a236cde993834fba91844b80010312db/Output.stl?AWSAccessKeyId=ASIAIUAYQIEZ46QEPQSA&Expires=1496779785&x-amz-security-token=FQoDYXdzEDQaDCmTIRosoj7CN5tdbCK3A6Y79xBivJSqB7XW%2FJl5lAOvauMx%2FgTNOAdF%2Fp6cTz2shgpHSXwhZHkwd276fG683dGz7l1yVIs2LUSZiVwpSY660%2F26VkL4JMOo%2Fo7drzGaf%2FhTVes1ZltCrzuuFATkaWCr%2BwtdU8zh3g9Ix5QJUWkl6cTygdC%2FJaIj9PjyJFqoiF0gn%2F680uI4JUorLa%2Fx0Pbi9WU20Ah%2FAW5B87lrdkhkQMf9Vmv3uVanccDPbW8JP3GKrxUoSxOWsw9a%2BUZrGLmsvU2aSdecQja69%2B%2FAX2L0VOaokf5SezHwKXDLCap%2BiliCUNM2cnS0nVyS6d0UBnXfynk10gWkHnkXT1EN%2ByIf6SVn3lVtiQC%2FEo%2Fl7NhZaSZEP8VT4%2F40igToO5ZJD8uRMrrhQphuzlVEtug209qT2Olk%2B93947KAXcEY%2F8I%2FXhwKRGTq8sU2MWSi6hT1t3Ii1MOna9wcw7FEgeW%2FNqPhZsJvlP6Z7IfvDYx4XTq%2FmroEw9gou7A9ukLi6Ito6RF60vMqIlt0sm8qle3aglJhy%2Fbi8376GsmCbyUr8G1%2BCRlps0VygR19K7qJ8Neg96G2TRKcF%2Fwo4u%2FbyQU%3D&Signature=rLYYQOjjokJmSR8ssMpkXq%2FxeuM%3D.
+[06/06/2017 19:09:44] End upload phase.
+[06/06/2017 19:09:44] Job finished with result Succeeded

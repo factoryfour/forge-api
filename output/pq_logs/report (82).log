@@ -1,0 +1,58 @@
+[06/06/2017 19:02:20] Starting work item c63df336b7654951b3d1c07bab99e7d6
+[06/06/2017 19:02:20] Start download phase.
+[06/06/2017 19:02:21] Start preparing AppPackage samplePlugin.
+[06/06/2017 19:02:21] Reuse previously downloaded app from local cache.
+[06/06/2017 19:02:21] Done preparing AppPackage samplePlugin.
+[06/06/2017 19:02:21] Start downloading file https://static.factoryfour.com/pq/typeF_v31_shape8.ipt.
+[06/06/2017 19:02:24] End downloading file https://static.factoryfour.com/pq/typeF_v31_shape8.ipt. 4927488 bytes have been written to Z:\Aces\Jobs\c63df336b7654951b3d1c07bab99e7d6\swing_c_washer.ipt.
+[06/06/2017 19:02:24] Embedded resource data:application/json,{"PupilDist":66.2,"SupMed_h":16.1,"SupLat_h":18,"InfLat_h":27.7,"InfMed_h":27.5,"SupMed_w":2.6,"SupLat_w":66.5,"InfLat_w":61.1,"InfMed_w":18.8,"SupMedRounding":6,"SupLatRounding":8,"InfLatRounding":4,"InfMedRounding":14,"SupMedThickness":7.3,"SupLatThickness":8,"InfLatThickness":3,"InfMedThickness":2.2,"BridgeHeight":16,"BridgeThickness":9,"TempleHeight":11.6,"HingeThickness":10} is saved as file: Z:\Aces\Jobs\c63df336b7654951b3d1c07bab99e7d6\changeParameters.json.
+[06/06/2017 19:02:24] End download phase.
+[06/06/2017 19:02:24] Start preparing script and command line parameters.
+[06/06/2017 19:02:24] Start script content.
+[06/06/2017 19:02:24] 
+[06/06/2017 19:02:24] End script content.
+[06/06/2017 19:02:24] Command line: /i "Z:\Aces\Jobs\c63df336b7654951b3d1c07bab99e7d6\swing_c_washer.ipt" changeParameters.json Output.stl /s "Z:\Aces\Jobs\c63df336b7654951b3d1c07bab99e7d6\script.scr"
+[06/06/2017 19:02:24] End preparing script and command line parameters.
+[06/06/2017 19:02:24] Start script phase.
+[06/06/2017 19:02:24] ### Command line arguments:  /i "Z:\Aces\Jobs\c63df336b7654951b3d1c07bab99e7d6\swing_c_washer.ipt" changeParameters.json Output.stl /s "Z:\Aces\Jobs\c63df336b7654951b3d1c07bab99e7d6\script.scr" /al "Z:\Aces\Applications\21.17\samplePlugin[9905bdf0-ff76-47cf-9e88-a193fff1b3b7].package".
+[06/06/2017 19:02:24] Start AutoCAD Core application output.
+[06/06/2017 19:02:24] accoreconsole.exe Information: 0 : Starting Inventor Server.
+[06/06/2017 19:02:24] accoreconsole.exe Information: 0 : Started Inventor Server 2017.1 (Build 211199000, 199)
+[06/06/2017 19:02:24] accoreconsole.exe Information: 0 : Loading plug-in: iLogic Plugin
+[06/06/2017 19:02:24]     accoreconsole.exe Information: 0 : Activating plug-in: iLogic Plugin
+[06/06/2017 19:02:24]     iLogic Plugin: initializing...
+[06/06/2017 19:02:24] accoreconsole.exe Information: 0 : Opening document: Z:\Aces\Jobs\c63df336b7654951b3d1c07bab99e7d6\swing_c_washer.ipt
+[06/06/2017 19:02:24] accoreconsole.exe Information: 0 : Getting Inventor plug-in.
+[06/06/2017 19:02:24] accoreconsole.exe Information: 0 : Plug-in: sample plugin
+[06/06/2017 19:02:24]     accoreconsole.exe Information: 0 : Activating plug-in: sample plugin
+[06/06/2017 19:02:25]     accoreconsole.exe Information: 0 : : samplePlugin: initializing... 
+[06/06/2017 19:02:25]     accoreconsole.exe Information: 0 : Executing 'RunWithArguments' method on Automation object.
+[06/06/2017 19:02:25]     accoreconsole.exe Information: 0 : 2
+[06/06/2017 19:02:25]     accoreconsole.exe Information: 0 : RunWithArguments called with swing_c_washer and changeParameters.json and Output.stl
+[06/06/2017 19:02:25]     accoreconsole.exe Information: 0 : Modifying param _1
+[06/06/2017 19:02:25]     accoreconsole.exe Information: 0 : paramFile: changeParameters.json
+[06/06/2017 19:02:25]     accoreconsole.exe Information: 0 : changeParameters file: "{"PupilDist":66.2,"SupMed_h":16.1,"SupLat_h":18,"InfLat_h":27.7,"InfMed_h":27.5,"SupMed_w":2.6,"SupLat_w":66.5,"InfLat_w":61.1,"InfMed_w":18.8,"SupMedRounding":6,"SupLatRounding":8,"InfLatRounding":4,"InfMedRounding":14,"SupMedThickness":7.3,"SupLatThickness":8,"InfLatThickness":3,"InfMedThickness":2.2,"BridgeHeight":16,"BridgeThickness":9,"TempleHeight":11.6,"HingeThickness":10}"
+[06/06/2017 19:02:25]     accoreconsole.exe Information: 0 : param to change: PupilDist:66.2
+[06/06/2017 19:02:27]     accoreconsole.exe Information: 0 : param to change: SupMed_h:16.1
+[06/06/2017 19:02:28]     accoreconsole.exe Information: 0 : param to change: SupLat_h:18
+[06/06/2017 19:02:28]     accoreconsole.exe Information: 0 : param to change: InfLat_h:27.7
+[06/06/2017 19:02:29]     accoreconsole.exe Information: 0 : param to change: InfMed_h:27.5
+[06/06/2017 19:02:30]     accoreconsole.exe Information: 0 : param to change: SupMed_w:2.6
+[06/06/2017 19:02:30]     accoreconsole.exe Information: 0 : param to change: SupLat_w:66.5
+[06/06/2017 19:02:31]     accoreconsole.exe Information: 0 : param to change: InfLat_w:61.1
+[06/06/2017 19:02:31]     accoreconsole.exe Information: 0 : param to change: InfMed_w:18.8
+[06/06/2017 19:02:32]     accoreconsole.exe Information: 0 : param to change: SupMedRounding:6
+[06/06/2017 19:02:32]     accoreconsole.exe Information: 0 : param to change: SupLatRounding:8
+[06/06/2017 19:02:32]     accoreconsole.exe Information: 0 : param to change: InfLatRounding:4
+[06/06/2017 19:02:33]     accoreconsole.exe Information: 0 : param to change: InfMedRounding:14
+[06/06/2017 19:02:33]     accoreconsole.exe Information: 0 : param to change: SupMedThickness:7.3
+[06/06/2017 19:02:34]     accoreconsole.exe Information: 0 : param to change: SupLatThickness:8
+[06/06/2017 19:02:34]     accoreconsole.exe Information: 0 : param to change: InfLatThickness:3
+[06/06/2017 19:02:35]     accoreconsole.exe Information: 0 : param to change: InfMedThickness:2.2
+[06/06/2017 19:02:35]     accoreconsole.exe Information: 0 : param to change: BridgeHeight:16
+[06/06/2017 19:02:36]     accoreconsole.exe Information: 0 : param to change: BridgeThickness:9
+[06/06/2017 19:02:36]     accoreconsole.exe Information: 0 : param to change: TempleHeight:11.6
+[06/06/2017 19:02:37]     accoreconsole.exe Information: 0 : param to change: HingeThickness:10
+[06/06/2017 19:03:37] End script phase.
+[06/06/2017 19:03:37] Error: An unexpected error happened during phase CoreEngineExecution of job.
+[06/06/2017 19:03:37] Job finished with result FailedExecution
