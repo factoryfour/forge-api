@@ -1,7 +1,8 @@
 {
     "Name": "v40_onerule_1",
-    "Part": "https://s3.amazonaws.com/factoryfour-dist-static/pq/typeF_v40_ChangeShape_not.ipt",
+    "Part": "https://s3.amazonaws.com/factoryfour-dist-static/pq/typeF_v41_1.ipt",
     "Parameters": {
+        "FrameID": "PL01",
         "RightNoseAngle": 75,
         "LeftNoseAngle": 78.52,
         "RightNoseWidth": 10.47034116943611,

@@ -1,7 +1,8 @@
 {
     "Name": "v40_onerule_0",
-    "Part": "https://s3.amazonaws.com/factoryfour-dist-static/pq/typeF_v41.ipt",
+    "Part": "https://s3.amazonaws.com/factoryfour-dist-static/pq/typeF_v41_1.ipt",
     "Parameters": {
+        "FrameID": "SCOTT",
         "RightNoseAngle": 76.12,
         "LeftNoseAngle": 78.24,
         "RightNoseWidth": 10.749955808350425,
