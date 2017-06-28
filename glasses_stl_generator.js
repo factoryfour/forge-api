@@ -5,6 +5,38 @@
 const fs = require('fs');
 
 /**
+ * Validate parameters
+ * @param {*} params - Parameters JSON
+ * Must have fields:
+ * - name: job name
+ * - part: link to IPT
+ * - parameters: model parameters to change
+ */
+function check_params(params) {
+	const validParams = [];
+	const invalidParams = [];
+	// Make sure it's an array. If only one, put it in an array.
+	if (!Array.isArray(params)) {
+		params = [params];
+	}
+	// Check that parameters have all required fields.
+	params.forEach((param) => {
+		if (!param.Name || !param.Part || !param.Parameters) {
+			invalidParams.push(param);
+		} else {
+			validParams.push(param);
+		}
+	});
+	// Print the invalid parameter sets
+	if (invalidParams.length > 0) {
+		console.log('WARNING: The following parameter sets were invalid because they were missing one or more required fields.');
+		console.log('Must supply Name, Part, and Parameter fields.');
+		console.log(invalidParams);
+	}
+	return validParams;
+}
+
+/**
  * Return a work item config JSON, selecting app package based on resolution.
  * @param {*} inArgs - arguments JSON
  * @param {*} resolution - 0 for high resolution, 1 for medium resolution
@@ -79,7 +111,7 @@ function runWorkItem(inArgs, resolution, callback) {
 	// Declare scope
 	const scope = ['data:read', 'bucket:read', 'code:all'];
 	// Get the auth token
-	auth.two_leg(scope, function (authError, cAuthObj) {
+	auth.two_leg(scope, (authError, cAuthObj) => {
 		if (authError) {
 			throw authError;
 		}
@@ -123,36 +155,38 @@ function runWorkItem(inArgs, resolution, callback) {
 	});
 }
 
-/**
- * Validate parameters
- * @param {*} params - Parameters JSON
- * Must have fields:
- * - name: job name
- * - part: link to IPT
- * - parameters: model parameters to change
- */
-function check_params(params) {
-	const validParams = [];
-	const invalidParams = [];
-	// Make sure it's an array. If only one, put it in an array.
-	if (!Array.isArray(params)) {
-		params = [params];
+function writeLogFile(outfile, startTime, finishTime, error, response) {
+	if (error) {
+		let outStr = 'ERROR: Process failed at ' + finishTime.toString() + '\n';
+		outStr += '\nERROR:\n' + error;
+		outStr += '\nRESPONSE:\n' + response;
+		fs.writeFile('./output/' + outfile + '.log', outStr, (err) => {
+			if (err) {
+				return console.log(err);
+			}
+			console.log(`\n${outfile} : Process finished.\nOutput written to file: ${outfile}.log`);
+		});
+	} else {
+		// Write log file
+		let outStr = 'Process started at ' + startTime.toString() + '\n';
+		outStr += 'Process completed at ' + finishTime.toString() + '\n';
+		outStr += `Runtime: ${finishTime - startTime} \n`;
+		outStr += '\n===== Output from Forge =====\n';
+		outStr += JSON.stringify(response, null, 4);
+
+		outStr += '\n\n===== Process Report URL =====\n';
+		outStr += response.StatusDetails.Report;
+
+		outStr += '\n\n===== Modified STL URL =====\n';
+		outStr += response.Arguments.OutputArguments[0].Resource;
+
+		fs.writeFile('output/' + outfile + '.log', outStr, (err) => {
+			if (err) {
+				return console.log(err);
+			}
+			console.log(`\n${outfile} : Process finished.\nOutput written to file: ${outfile}.log`);
+		});
 	}
-	// Check that parameters have all required fields.
-	params.forEach((param) => {
-		if (!param.Name || !param.Part || !param.Parameters) {
-			invalidParams.push(param);
-		} else {
-			validParams.push(param);
-		}
-	});
-	// Print the invalid parameter sets
-	if (invalidParams.length > 0) {
-		console.log('WARNING: The following parameter sets were invalid because they were missing one or more required fields.');
-		console.log('Must supply Name, Part, and Parameter fields.');
-		console.log(invalidParams);
-	}
-	return validParams;
 }
 
 // MAIN LOGIC =====================================================================================
@@ -165,42 +199,26 @@ if (args.length < 1) {
 	const inparams = require(args[0]);
 	// Validate parameters
 	const validParams = check_params(inparams);
+
+	// For all sets of parameters, run a work item
 	validParams.forEach((params) => {
 		const outfile = params.Name;
 		const startTime = new Date();
-		// Run the work item to modify the parameters
-		runWorkItem(params, 0, function (error, response) {
-			const finishTime = new Date();
-			if (error) {
-				let outStr = 'ERROR: Process failed at ' + finishTime.toString() + '\n';
-				outStr += '\nERROR:\n' + error;
-				outStr += '\nRESPONSE:\n' + response;
-				fs.writeFile('./output/' + outfile + '.log', outStr, (err) => {
-					if (err) {
-						return console.log(err);
-					}
-					console.log(`\n${outfile} : Process finished.\nOutput written to file: ${outfile}.log`);
+		let finishTime;
+		// Run the work item to modify the parameters at high resolution
+		runWorkItem(params, 0, (hiError, hiResponse) => {
+			finishTime = new Date();
+			if (hiError || !hiResponse.Arguments.OutputArguments[0].Resource) {
+				// If error, try again at a lower resolution
+				console.log(`${params.Name} : Job failed. Trying again at lower resolution.\n`);
+				runWorkItem(params, 1, (loError, loResponse) => {
+					finishTime = new Date();
+					// Write the log file
+					return writeLogFile(outfile, startTime, finishTime, loError, loResponse);
 				});
 			} else {
-				// Write log file
-				let outStr = 'Process started at ' + startTime.toString() + '\n';
-				outStr += 'Process completed at ' + finishTime.toString() + '\n';
-				outStr += `Runtime: ${finishTime - startTime} \n`;
-				outStr += '\n===== Output from Forge =====\n';
-				outStr += JSON.stringify(response, null, 4);
-
-				outStr += '\n\n===== Process Report URL =====\n';
-				outStr += response.StatusDetails.Report;
-
-				outStr += '\n\n===== Modified STL URL =====\n';
-				outStr += response.Arguments.OutputArguments[0].Resource;
-
-				fs.writeFile('output/' + outfile + '.log', outStr, (err) => {
-					if (err) {
-						return console.log(err);
-					}
-					console.log(`\n${outfile} : Process finished.\nOutput written to file: ${outfile}.log`);
-				});
+				// Write the log file
+				return writeLogFile(outfile, startTime, finishTime, hiError, hiResponse);
 			}
 		});
 	});
