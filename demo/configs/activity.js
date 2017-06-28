@@ -1,4 +1,4 @@
-module.exports = function(id, app_package) {
+module.exports = function (id, app_package) {
 	return {
 		AppPackages: [app_package],
 		HostApplication: '',
@@ -20,7 +20,7 @@ module.exports = function(id, app_package) {
 			}]
 		},
 		Instruction: {
-			Script: "Changing parameters in file.",
+			Script: 'Changing parameters in file.',
 			CommandLineParameters: 'changeParameters.json Output.stl'
 		},
 		AllowedChildProcesses: [],
@@ -29,5 +29,5 @@ module.exports = function(id, app_package) {
 		Timestamp: (new Date()).toISOString(),
 		Description: 'FactoryFour High Resolution Parameterization',
 		Id: id
-	}
+	};
 };

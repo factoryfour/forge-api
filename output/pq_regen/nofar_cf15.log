@@ -1,0 +1,59 @@
+Process started at Mon Jun 26 2017 21:35:24 GMT-0400 (Eastern Daylight Time)
+Process completed at Mon Jun 26 2017 21:36:41 GMT-0400 (Eastern Daylight Time)
+Runtime: 76573 
+
+===== Output from Forge =====
+{
+    "@odata.context": "https://developer.api.autodesk.com/inventor.io/us-east/v2/$metadata#WorkItems/$entity",
+    "ActivityId": "FF_v2-2_Activity",
+    "Arguments": {
+        "InputArguments": [
+            {
+                "Resource": "https://s3.amazonaws.com/factoryfour-dist-static/pq/typeF_v41_bruteforce.ipt",
+                "Name": "HostDwg",
+                "Headers": [],
+                "ResourceKind": null,
+                "StorageProvider": "Generic",
+                "HttpVerb": "GET"
+            },
+            {
+                "Resource": "data:application/json,{\"FrameID\":\"CF15\",\"RightNoseAngle\":76.12,\"LeftNoseAngle\":78.24,\"RightNoseWidth\":10.749955808350425,\"LeftNoseWidth\":10.631809499390918,\"PupilDist\":58.6792890700304,\"SupMed_h\":12.747407039684472,\"SupLat_h\":20.647208585404428,\"InfLat_h\":23.878945581380773,\"InfMed_h\":21.903995194950785,\"SupMed_w\":3.300000000000001,\"SupLat_w\":60.66333167858013,\"InfLat_w\":56.35434901727833,\"InfMed_w\":16.675800344457652,\"SupMedRounding\":17.954094422090808,\"SupLatRounding\":7.181637768836323,\"InfLatRounding\":8.977047211045404,\"InfMedRounding\":14.363275537672646,\"SupMedThickness\":2.5,\"SupLatThickness\":6,\"InfLatThickness\":3.6,\"InfMedThickness\":2,\"BridgeHeight\":6.822555880394506,\"BridgeThickness\":6,\"TempleHeight\":5.233309614437905,\"HingeThickness\":6.5,\"RightTemple_yz\":4.03112853048674,\"LeftTemple_yz\":6.816349238286136,\"RightTemple_xz\":-3.91446585218722,\"LeftTemple_xz\":2.551330397672416,\"Temple_length\":53.68807756985656}",
+                "Name": "ChangeParameters",
+                "Headers": [],
+                "ResourceKind": "Embedded",
+                "StorageProvider": "Generic",
+                "HttpVerb": null
+            }
+        ],
+        "OutputArguments": [
+            {
+                "Resource": "https://inventorio-prod.s3-us-west-2.amazonaws.com/aces-workitem-outputs/2e875f2c816049feabad01755179735e/Output.stl?AWSAccessKeyId=ASIAILR2KVGX7BW7M7XA&Expires=1498613794&x-amz-security-token=FQoDYXdzEDkaDAgdeBiQBylfdI0AiCK3A6ROSQTOyCUie6o9lk9HSmvSt5ys8Fe1WSH30gAGnfqzZn6sv6E8g5hbTiuGRypNpi9ee4bpe1kfb1pmRr4M3ug%2BXQOAg87plcWhAu6BzQe1GtzDnOfWF5wpe4QAFz1FVzdhbnRs5AjrEM52Ni1D%2Bbq9doMSxGDw3kkwLtqhNSwvtVx4GfWyEoyla6IW22EFFPDvBhBGwDTOQWOTlN1fHXrJQqs1B5WUQkIK6adnza8zWJ40mN91lc9vCRcEGU7XTQ%2F210mQRBr%2Bq67eMdii1hO0t1o2UUMNE%2FpFC45sCUDMEOo69Tr1A9x%2Bnq53QrbcNJ9liMG6Aqdkks2p5MXFZZQLDkezU3CwDZIOtBA8lS1lejYjkhHdaosqLdSjVM0TNSXfKucbx7l8qVEIiiUTMNaWg1Af6Mr31IPubSlB11wE6t24%2Fvgs80X7JRi3y325hII7wNCRKU%2FrYmx5rHdna2qWYnXA4D%2FZd7wv748JAANftk1VwNuZXBaP1OeyFDiHrnH%2BlooTKRQgsy%2FZvx1CyuOKjoE5mOQrfT7Q2hsTbnV7G3KPLehjt3jhMmX9pVA%2F0FBq0BBHZh4ojMLGygU%3D&Signature=11ElmpoaSaBQZpS5%2BHGd1Fh0Abs%3D",
+                "Name": "Result",
+                "Headers": [],
+                "ResourceKind": null,
+                "StorageProvider": "Generic",
+                "HttpVerb": "POST"
+            }
+        ]
+    },
+    "Status": "Succeeded",
+    "StatusDetails": {
+        "Report": "https://inventorio-prod.s3-us-west-2.amazonaws.com/aces-workitem-reports/2e875f2c816049feabad01755179735e/report.log?AWSAccessKeyId=ASIAILR2KVGX7BW7M7XA&Expires=1498613798&x-amz-security-token=FQoDYXdzEDkaDAgdeBiQBylfdI0AiCK3A6ROSQTOyCUie6o9lk9HSmvSt5ys8Fe1WSH30gAGnfqzZn6sv6E8g5hbTiuGRypNpi9ee4bpe1kfb1pmRr4M3ug%2BXQOAg87plcWhAu6BzQe1GtzDnOfWF5wpe4QAFz1FVzdhbnRs5AjrEM52Ni1D%2Bbq9doMSxGDw3kkwLtqhNSwvtVx4GfWyEoyla6IW22EFFPDvBhBGwDTOQWOTlN1fHXrJQqs1B5WUQkIK6adnza8zWJ40mN91lc9vCRcEGU7XTQ%2F210mQRBr%2Bq67eMdii1hO0t1o2UUMNE%2FpFC45sCUDMEOo69Tr1A9x%2Bnq53QrbcNJ9liMG6Aqdkks2p5MXFZZQLDkezU3CwDZIOtBA8lS1lejYjkhHdaosqLdSjVM0TNSXfKucbx7l8qVEIiiUTMNaWg1Af6Mr31IPubSlB11wE6t24%2Fvgs80X7JRi3y325hII7wNCRKU%2FrYmx5rHdna2qWYnXA4D%2FZd7wv748JAANftk1VwNuZXBaP1OeyFDiHrnH%2BlooTKRQgsy%2FZvx1CyuOKjoE5mOQrfT7Q2hsTbnV7G3KPLehjt3jhMmX9pVA%2F0FBq0BBHZh4ojMLGygU%3D&Signature=MFD2owzTk95nP2FLd%2Fo7jxEb13k%3D"
+    },
+    "AvailabilityZone": null,
+    "TimeQueued": "2017-06-27T01:35:22.845Z",
+    "TimeInputTransferStarted": "2017-06-27T01:35:22.939Z",
+    "TimeScriptStarted": "2017-06-27T01:35:27.189Z",
+    "TimeScriptEnded": "2017-06-27T01:36:33.204Z",
+    "TimeOutputTransferEnded": "2017-06-27T01:36:33.641Z",
+    "BytesTranferredIn": 5783944,
+    "BytesTranferredOut": 5743784,
+    "Timestamp": "2017-06-27T01:36:33.688Z",
+    "Id": "2e875f2c816049feabad01755179735e"
+}
+
+===== Process Report URL =====
+https://inventorio-prod.s3-us-west-2.amazonaws.com/aces-workitem-reports/2e875f2c816049feabad01755179735e/report.log?AWSAccessKeyId=ASIAILR2KVGX7BW7M7XA&Expires=1498613798&x-amz-security-token=FQoDYXdzEDkaDAgdeBiQBylfdI0AiCK3A6ROSQTOyCUie6o9lk9HSmvSt5ys8Fe1WSH30gAGnfqzZn6sv6E8g5hbTiuGRypNpi9ee4bpe1kfb1pmRr4M3ug%2BXQOAg87plcWhAu6BzQe1GtzDnOfWF5wpe4QAFz1FVzdhbnRs5AjrEM52Ni1D%2Bbq9doMSxGDw3kkwLtqhNSwvtVx4GfWyEoyla6IW22EFFPDvBhBGwDTOQWOTlN1fHXrJQqs1B5WUQkIK6adnza8zWJ40mN91lc9vCRcEGU7XTQ%2F210mQRBr%2Bq67eMdii1hO0t1o2UUMNE%2FpFC45sCUDMEOo69Tr1A9x%2Bnq53QrbcNJ9liMG6Aqdkks2p5MXFZZQLDkezU3CwDZIOtBA8lS1lejYjkhHdaosqLdSjVM0TNSXfKucbx7l8qVEIiiUTMNaWg1Af6Mr31IPubSlB11wE6t24%2Fvgs80X7JRi3y325hII7wNCRKU%2FrYmx5rHdna2qWYnXA4D%2FZd7wv748JAANftk1VwNuZXBaP1OeyFDiHrnH%2BlooTKRQgsy%2FZvx1CyuOKjoE5mOQrfT7Q2hsTbnV7G3KPLehjt3jhMmX9pVA%2F0FBq0BBHZh4ojMLGygU%3D&Signature=MFD2owzTk95nP2FLd%2Fo7jxEb13k%3D
+
+===== Modified STL URL =====
+https://inventorio-prod.s3-us-west-2.amazonaws.com/aces-workitem-outputs/2e875f2c816049feabad01755179735e/Output.stl?AWSAccessKeyId=ASIAILR2KVGX7BW7M7XA&Expires=1498613794&x-amz-security-token=FQoDYXdzEDkaDAgdeBiQBylfdI0AiCK3A6ROSQTOyCUie6o9lk9HSmvSt5ys8Fe1WSH30gAGnfqzZn6sv6E8g5hbTiuGRypNpi9ee4bpe1kfb1pmRr4M3ug%2BXQOAg87plcWhAu6BzQe1GtzDnOfWF5wpe4QAFz1FVzdhbnRs5AjrEM52Ni1D%2Bbq9doMSxGDw3kkwLtqhNSwvtVx4GfWyEoyla6IW22EFFPDvBhBGwDTOQWOTlN1fHXrJQqs1B5WUQkIK6adnza8zWJ40mN91lc9vCRcEGU7XTQ%2F210mQRBr%2Bq67eMdii1hO0t1o2UUMNE%2FpFC45sCUDMEOo69Tr1A9x%2Bnq53QrbcNJ9liMG6Aqdkks2p5MXFZZQLDkezU3CwDZIOtBA8lS1lejYjkhHdaosqLdSjVM0TNSXfKucbx7l8qVEIiiUTMNaWg1Af6Mr31IPubSlB11wE6t24%2Fvgs80X7JRi3y325hII7wNCRKU%2FrYmx5rHdna2qWYnXA4D%2FZd7wv748JAANftk1VwNuZXBaP1OeyFDiHrnH%2BlooTKRQgsy%2FZvx1CyuOKjoE5mOQrfT7Q2hsTbnV7G3KPLehjt3jhMmX9pVA%2F0FBq0BBHZh4ojMLGygU%3D&Signature=11ElmpoaSaBQZpS5%2BHGd1Fh0Abs%3D

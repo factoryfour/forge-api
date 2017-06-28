@@ -16,8 +16,8 @@ function run_new_activity(callback) {
 	const forge = require(root + '/index.js');
 	const auth = forge.auth(config);
 
-	const ACTIVITY_ID = 'FF_v2-2_Activity';
-	const APP_PACKAGE_ID = 'FF_v2-2_AppPackage';
+	const ACTIVITY_ID = 'FF_v2-5_Activity';
+	const APP_PACKAGE_ID = 'FF_v2-5_AppPackage';
 
 	const scope = ['data:read', 'bucket:read', 'code:all'];
 
@@ -66,3 +66,8 @@ run_new_activity(function (error, response) {
 		console.log(response);
 	}
 });
+
+// scott : 8 5 13
+// matt l : 1
+// collin m : 1
+// nofar l : 15 17

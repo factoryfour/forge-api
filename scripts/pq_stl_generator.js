@@ -5,22 +5,18 @@
 const os = require('os');
 const fs = require('fs');
 
-function run_work_item(inArgs, callback) {
-	// Check platform to handle file path issues
-	const isWin = os.platform().indexOf('win32') > -1;
-	let root;
-	if (isWin) {
-		root = __dirname.substring(0, __dirname.lastIndexOf('\\'));
-	} else {
-		root = __dirname.substring(0, __dirname.lastIndexOf('/'));
-	}
-	// Initialize Forge interface
-	const config = require(__dirname + '/get_config.js')(root + '/config.js');
-	const forge = require(root + '/index.js');
-	const auth = forge.auth(config);
-
+/**
+ * Return a work item config JSON, selecting app package based on resolution.
+ * @param {*} inArgs - arguments JSON
+ * @param {*} resolution - 0 for high, 1 for medium
+ * inArgs must have fields:
+ * - name: job name
+ * - part: link to IPT
+ * - parameters: model parameters to change
+ */
+function formatWorkItemConfig(inArgs, resolution) {
 	// Work item configuration JSON
-	const workItemConfig = {
+	const config = {
 		Arguments: {
 			InputArguments: [
 				// Specify the input part
@@ -47,65 +43,104 @@ function run_work_item(inArgs, callback) {
 				}
 			]
 		},
-		// ActivityId: 'SampleActivity',			// med res with direct set
-		// ActivityId: 'FF_Activity_17',			// hi res with directset
-		// ActivityId: 'FF_v2-2_Activity',			// hi res with ilogic
-		// ActivityId: 'FF_v2-3_Activity',			// med res with ilogic
-		// ActivityId: 'FF_v2-4_Activity',			// hi res with combo directset/ilogic
-		ActivityId: 'FF_v2-5_Activity',			// med res with combo directset/ilogic
 		Id: ''
 	};
+	switch (resolution) {
+	case 0:
+		config.ActivityId = 'FF_v2-4_Activity';		// hi res with combo directset/ilogic
+		break;
+	case 1:
+		config.ActivityId = 'FF_v2-5_Activity';		// med res with combo directset/ilogic
+		break;
+	default:
+		config.ActivityId = 'FF_v2-5_Activity';		// med res with combo directset/ilogic
+		break;
+	}
 
-	// NOTE: FF_Activity_17 is high resolution change of parameters and STL output
-	// FF_Glasses_Activity_01 is the initial working version
+	return config;
+}
+
+/**
+ * Run a work item for glasses design automation.
+ * @param {*} inArgs - design parameters
+ * @param {*} resolution - 0 for high resolution, 1 for medium resolution
+ * @param {*} callback (error, response)
+ * inArgs must have fields:
+ * - name: job name
+ * - part: link to IPT
+ * - parameters: model parameters to change
+ */
+function runWorkItem(inArgs, resolution, callback) {
+	// Check platform to handle file path issues
+	const isWin = os.platform().indexOf('win32') > -1;
+	let root;
+	if (isWin) {
+		root = __dirname.substring(0, __dirname.lastIndexOf('\\'));
+	} else {
+		root = __dirname.substring(0, __dirname.lastIndexOf('/'));
+	}
+	// Initialize Forge interface
+	const config = require(__dirname + '/get_config.js')(root + '/config.js');
+	const forge = require(root + '/index.js');
+	const auth = forge.auth(config);
+
+	const workItemConfig = formatWorkItemConfig(inArgs, resolution);
 
 	// Declare scope
 	const scope = ['data:read', 'bucket:read', 'code:all'];
 	// Get the auth token
-	auth.two_leg(scope, function (error, cAuthObj) {
-		if (error) {
-			throw error;
+	auth.two_leg(scope, function (authError, cAuthObj) {
+		if (authError) {
+			throw authError;
 		}
 		// Set up design automation with auth object
 		const da = forge.da(config, cAuthObj);
 
 		// Create a work item
-		da.work_items.create(workItemConfig, (error, response) => {
+		da.work_items.create(workItemConfig, (createError, createResponse) => {
 			// Log results of creating a work item
 			console.log(`${inArgs.Name} : Work item created\n`);
-			if (error) {
+			if (createError) {
 				console.log('ERROR: CREATING WORK ITEM');
-				return callback(error, response);
+				return callback(createError, createResponse);
 			}
 			console.log(`${inArgs.Name} : Checking status...\n`);
 
 			// Save the work item id
-			const responseId = response.Id;
+			const responseId = createResponse.Id;
 			// Check the status of the work item at a fixed interval
 			const intervalObject = setInterval(() => {
 				// Poll the work item's status
-				da.work_items.get(responseId, (error, response) => {
-					if (error) {
+				da.work_items.get(responseId, (getError, getResponse) => {
+					if (getError) {
 						// Stop if there's an error
 						console.log('ERROR: CHECKING STATUS');
-						console.log(error);
+						console.log(getError);
 
 						clearInterval(intervalObject);
-						return callback(error, response);
-					} else if (!(response.Status == 'Pending' || response.Status == 'InProgress')) {
+						return callback(getError, getResponse);
+					} else if (!(getResponse.Status == 'Pending' || getResponse.Status == 'InProgress')) {
 						// If it is finished
 						clearInterval(intervalObject);
-						return callback(error, response);
+						return callback(getError, getResponse);
 					}
 					// Otherwise, log the status and repeat
 					const mytime = new Date();
-					console.log(`${inArgs.Name} : ${response.Status} : ${mytime}`);
+					console.log(`${inArgs.Name} : ${getResponse.Status} : ${mytime}`);
 				});
 			}, 5000); // Check every 5 seconds
 		});
 	});
 }
 
+/**
+ * Validate parameters
+ * @param {*} params - Parameters JSON
+ * Must have fields:
+ * - name: job name
+ * - part: link to IPT
+ * - parameters: model parameters to change
+ */
 function check_params(params) {
 	const validParams = [];
 	const invalidParams = [];
@@ -126,11 +161,10 @@ function check_params(params) {
 		console.log('Must supply Name, Part, and Parameter fields.');
 		console.log(invalidParams);
 	}
-
 	return validParams;
 }
 
-// MAIN LOGIC ===================================================================
+// MAIN LOGIC =====================================================================================
 
 const args = process.argv.slice(2);
 if (args.length < 1) {
@@ -142,9 +176,9 @@ if (args.length < 1) {
 	const validParams = check_params(inparams);
 	validParams.forEach((params) => {
 		const outfile = params.Name;
+		const startTime = new Date();
 		// Run the work item to modify the parameters
-		let startTime = new Date();
-		run_work_item(params, function (error, response) {
+		runWorkItem(params, 0, function (error, response) {
 			const finishTime = new Date();
 			if (error) {
 				let outStr = 'ERROR: Process failed at ' + finishTime.toString() + '\n';

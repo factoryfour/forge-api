@@ -4,3 +4,4 @@ ptest-*.js
 config.js
 /config/*
 ./vscode
+*.stl

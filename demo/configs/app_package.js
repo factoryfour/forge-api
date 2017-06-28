@@ -1,4 +1,4 @@
-module.exports = function(id) {
+module.exports = function (id) {
 	return {
 		References: [],
 		RequiredEngineVersion: '21.17',
