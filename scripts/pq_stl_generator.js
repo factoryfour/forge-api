@@ -8,7 +8,7 @@ const fs = require('fs');
 /**
  * Return a work item config JSON, selecting app package based on resolution.
  * @param {*} inArgs - arguments JSON
- * @param {*} resolution - 0 for high, 1 for medium
+ * @param {*} resolution - 0 for high resolution, 1 for medium resolution
  * inArgs must have fields:
  * - name: job name
  * - part: link to IPT
@@ -148,6 +148,7 @@ function check_params(params) {
 	if (!Array.isArray(params)) {
 		params = [params];
 	}
+	// Check that parameters have all required fields.
 	params.forEach((param) => {
 		if (!param.Name || !param.Part || !param.Parameters) {
 			invalidParams.push(param);
