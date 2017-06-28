@@ -2,7 +2,7 @@
 
 ## Execution
 ``` 
-node change_parameters.js ./sample_parameters.json
+node change_parameters.js ./sample_parameters.json job_name
 ```
 
 ## Formatting the parameters JSON

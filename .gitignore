@@ -4,3 +4,5 @@ ptest-*.js
 config.js
 /config/*
 ./vscode
+*.stl
+*.ipynb_checkpoints

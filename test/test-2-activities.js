@@ -61,6 +61,8 @@ describe('Activity Methods', function() {
         da.activities.getAll(function(error, results) {
             should.not.exist(error);
             should.exist(results);
+			console.log(results);
+			
 			if (process.env.VERBOSE == 'loud') {
 	            console.log(results);
 			}
