@@ -1,7 +1,7 @@
 [
     {
         "Name": "scott_01",
-        "Part": "https://s3.amazonaws.com/factoryfour-dist-static/pq/typeF_v42d.ipt",
+        "Part": "https://s3.amazonaws.com/factoryfour-dist-static/pq/typeF_v42e.ipt",
         "Parameters": {
             "FrameID": "SS01",
             "RightNoseAngle": 75.19,
@@ -38,7 +38,7 @@
     },
     {
         "Name": "scott_05",
-        "Part": "https://s3.amazonaws.com/factoryfour-dist-static/pq/typeF_v42d.ipt",
+        "Part": "https://s3.amazonaws.com/factoryfour-dist-static/pq/typeF_v42e.ipt",
         "Parameters": {
             "FrameID": "SS05",
             "RightNoseAngle": 75.19,
@@ -75,7 +75,7 @@
     },
     {
         "Name": "scott_08",
-        "Part": "https://s3.amazonaws.com/factoryfour-dist-static/pq/typeF_v42d.ipt",
+        "Part": "https://s3.amazonaws.com/factoryfour-dist-static/pq/typeF_v42e.ipt",
         "Parameters": {
             "FrameID": "SS08",
             "RightNoseAngle": 75.19,
@@ -112,7 +112,7 @@
     },
     {
         "Name": "scott_13",
-        "Part": "https://s3.amazonaws.com/factoryfour-dist-static/pq/typeF_v42d.ipt",
+        "Part": "https://s3.amazonaws.com/factoryfour-dist-static/pq/typeF_v42e.ipt",
         "Parameters": {
             "FrameID": "SS13",
             "RightNoseAngle": 75.19,

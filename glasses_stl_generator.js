@@ -2,7 +2,21 @@
  * Script to run parameter modification for multiple parts.
  */
 
+// USER VARIABLES =================================================================================
+
+// DEV URL
+// const S3_BASE = 'https://s3.amazonaws.com/f4-media-dev-pq/';
+
+// PROD URL
+const S3_BASE = 'https://s3.amazonaws.com/f4-pq-frames/';
+
+// Download STL? If true, overrides each work item's specification.
+const GET_STL = false;
+
+// ================================================================================================
+
 const fs = require('fs');
+const https = require('https');
 
 /**
  * Validate parameters
@@ -40,12 +54,16 @@ function check_params(params) {
  * Return a work item config JSON, selecting app package based on resolution.
  * @param {*} inArgs - arguments JSON
  * @param {*} resolution - 0 for high resolution, 1 for medium resolution
+ * @param {*} jobFolder - directory corresponding to job
  * inArgs must have fields:
  * - name: job name
  * - part: link to IPT
  * - parameters: model parameters to change
  */
-function formatWorkItemConfig(inArgs, resolution) {
+function formatWorkItemConfig(inArgs, resolution, jobFolder) {
+	// Create upload URL
+	// const uploadURL = `${S3_BASE}${inArgs.Name.substring(0, inArgs.Name.indexOf('_'))}/${jobFolder}/${inArgs.Name}.stl`;
+	const uploadURL = `${S3_BASE}${jobFolder}/${inArgs.Name}.stl`;
 	// Work item configuration JSON
 	const config = {
 		Arguments: {
@@ -70,7 +88,8 @@ function formatWorkItemConfig(inArgs, resolution) {
 				{
 					Name: 'Result',
 					StorageProvider: 'Generic',
-					HttpVerb: 'POST'
+					HttpVerb: 'PUT',
+					Resource: uploadURL
 				}
 			]
 		},
@@ -94,19 +113,20 @@ function formatWorkItemConfig(inArgs, resolution) {
  * Run a work item for glasses design automation.
  * @param {*} inArgs - design parameters
  * @param {*} resolution - 0 for high resolution, 1 for medium resolution
+ * @param {*} folder - directory corresponding to job
  * @param {*} callback (error, response)
  * inArgs must have fields:
  * - name: job name
  * - part: link to IPT
  * - parameters: model parameters to change
  */
-function runWorkItem(inArgs, resolution, callback) {
+function runWorkItem(inArgs, resolution, folder, callback) {
 	// Initialize Forge interface
 	const config = require(__dirname + '/get_config.js')(__dirname + '/config.js');
 	const forge = require(__dirname + '/index.js');
 	const auth = forge.auth(config);
 
-	const workItemConfig = formatWorkItemConfig(inArgs, resolution);
+	const workItemConfig = formatWorkItemConfig(inArgs, resolution, folder);
 
 	// Declare scope
 	const scope = ['data:read', 'bucket:read', 'code:all'];
@@ -137,7 +157,6 @@ function runWorkItem(inArgs, resolution, callback) {
 					if (getError) {
 						// Stop if there's an error
 						console.log('ERROR: CHECKING STATUS');
-						console.log(getError);
 
 						clearInterval(intervalObject);
 						return callback(getError, getResponse);
@@ -155,7 +174,7 @@ function runWorkItem(inArgs, resolution, callback) {
 	});
 }
 
-function writeLogFile(outfile, startTime, finishTime, error, response) {
+function writeToFile(outfile, startTime, finishTime, error, response, getSTL) {
 	if (error) {
 		let outStr = 'ERROR: Process failed at ' + finishTime.toString() + '\n';
 		outStr += '\nERROR:\n' + error;
@@ -182,43 +201,62 @@ function writeLogFile(outfile, startTime, finishTime, error, response) {
 
 		fs.writeFile('output/' + outfile + '.log', outStr, (err) => {
 			if (err) {
-				return console.log(err);
+				console.log(err);
 			}
 			console.log(`\n${outfile} : Process finished.\nOutput written to file: ${outfile}.log`);
 		});
+
+		// Download the STL? Have a valid URL?
+		if (getSTL && response.Arguments.OutputArguments[0].Resource) {
+			console.log(`\n${outfile} : Downloading STL`);
+			const stlFile = fs.createWriteStream(`stl/${outfile}.stl`);
+			https.get(response.Arguments.OutputArguments[0].Resource, function (data) {
+				data.pipe(stlFile);
+				stlFile.on('finish', function () {
+					stlFile.close();
+					console.log(`\n${outfile} : STL written to file: ${outfile}.stl`);
+				});
+			});
+		}
 	}
 }
+
 
 // MAIN LOGIC =====================================================================================
 
 const args = process.argv.slice(2);
 if (args.length < 1) {
-	console.log('ERROR: Not enough arguments. Must specify parameters file.');
+	console.log('ERROR: Not enough arguments. Must specify parameters file [and optional job name].');
 } else {
 	// Read parameters file
 	const inparams = require(args[0]);
 	// Validate parameters
 	const validParams = check_params(inparams);
 
+	const startTime = new Date();
+
+	const jobID = (args.length == 2) ? args[1] : startTime.getTime();
 	// For all sets of parameters, run a work item
 	validParams.forEach((params) => {
+		// Download STL?
+		const stlFlag = params.DownloadSTL || GET_STL;
+		// Output file name
 		const outfile = params.Name;
-		const startTime = new Date();
 		let finishTime;
 		// Run the work item to modify the parameters at high resolution
-		runWorkItem(params, 0, (hiError, hiResponse) => {
-			finishTime = new Date();
-			if (hiError || !hiResponse.Arguments.OutputArguments[0].Resource) {
+		runWorkItem(params, 0, jobID, (hiError, hiResponse) => {
+			if (hiError || hiResponse.Status != 'Succeeded') {
 				// If error, try again at a lower resolution
 				console.log(`${params.Name} : Job failed. Trying again at lower resolution.\n`);
-				runWorkItem(params, 1, (loError, loResponse) => {
+				runWorkItem(params, 1, jobID, (loError, loResponse) => {
 					finishTime = new Date();
 					// Write the log file
-					return writeLogFile(outfile, startTime, finishTime, loError, loResponse);
+					return writeToFile(outfile, startTime, finishTime, loError, loResponse, stlFlag);
 				});
 			} else {
+				finishTime = new Date();
 				// Write the log file
-				return writeLogFile(outfile, startTime, finishTime, hiError, hiResponse);
+				return writeToFile(outfile, startTime, finishTime, hiError, hiResponse, stlFlag);
 			}
 		});
 	});

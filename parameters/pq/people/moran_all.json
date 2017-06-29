@@ -1,6 +1,6 @@
 {
     "Name": "moran_05",
-    "Part": "https://s3.amazonaws.com/factoryfour-dist-static/pq/typeF_v42c.ipt",
+    "Part": "https://s3.amazonaws.com/factoryfour-dist-static/pq/typeF_v42e.ipt",
     "Parameters": {
         "RightNoseAngle": 76.05,
         "LeftNoseAngle": 71.93,
