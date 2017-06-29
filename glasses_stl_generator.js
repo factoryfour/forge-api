@@ -4,10 +4,10 @@
 
 // USER VARIABLES =================================================================================
 
-// DEV URL
+// Development bucket
 // const S3_BASE = 'https://s3.amazonaws.com/f4-media-dev-pq/';
 
-// PROD URL
+// Production bucket
 const S3_BASE = 'https://s3.amazonaws.com/f4-pq-frames/';
 
 // Download STL? If true, overrides each work item's specification.
@@ -210,9 +210,9 @@ function writeToFile(outfile, startTime, finishTime, error, response, getSTL) {
 		if (getSTL && response.Arguments.OutputArguments[0].Resource) {
 			console.log(`\n${outfile} : Downloading STL`);
 			const stlFile = fs.createWriteStream(`stl/${outfile}.stl`);
-			https.get(response.Arguments.OutputArguments[0].Resource, function (data) {
+			https.get(response.Arguments.OutputArguments[0].Resource, (data) => {
 				data.pipe(stlFile);
-				stlFile.on('finish', function () {
+				stlFile.on('finish', () => {
 					stlFile.close();
 					console.log(`\n${outfile} : STL written to file: ${outfile}.stl`);
 				});
