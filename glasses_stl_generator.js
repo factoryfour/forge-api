@@ -2,21 +2,20 @@
  * Script to run parameter modification for multiple parts.
  */
 
-// USER VARIABLES =================================================================================
-
-// Development bucket
-// const S3_BASE = 'https://s3.amazonaws.com/f4-media-dev-pq/';
-
-// Production bucket
-const S3_BASE = 'https://s3.amazonaws.com/f4-pq-frames/';
-
-// Download STL? If true, overrides each work item's specification.
-const GET_STL = false;
-
-// ================================================================================================
-
 const fs = require('fs');
 const https = require('https');
+
+// Initialize Forge interface
+const FORGE_CONFIG = require(__dirname + '/get_config.js')(__dirname + '/config/forge_config.js');
+const forge = require(__dirname + '/index.js');
+const auth = forge.auth(FORGE_CONFIG);
+
+// Get PQ configuration variables
+const PQ_CONFIG = require(__dirname + '/config/pq_config.js');
+
+// const secrets = require('@fusiform/secrets');
+// const f4Kinvey = require('@fusiform/kinvey');
+
 
 /**
  * Validate parameters
@@ -62,15 +61,14 @@ function check_params(params) {
  */
 function formatWorkItemConfig(inArgs, resolution, jobFolder) {
 	// Create upload URL
-	// const uploadURL = `${S3_BASE}${inArgs.Name.substring(0, inArgs.Name.indexOf('_'))}/${jobFolder}/${inArgs.Name}.stl`;
-	const uploadURL = `${S3_BASE}${jobFolder}/${inArgs.Name}.stl`;
+	const uploadURL = `${process.env.F4PQ_S3_BASE}${jobFolder}/${inArgs.Name}.stl`;
 	// Work item configuration JSON
 	const config = {
 		Arguments: {
 			InputArguments: [
 				// Specify the input part
 				{
-					Resource: inArgs.Part,
+					Resource: PQ_CONFIG.IPT_BASE,
 					Name: 'HostDwg',
 					StorageProvider: 'Generic',
 					HttpVerb: 'GET'
@@ -121,11 +119,6 @@ function formatWorkItemConfig(inArgs, resolution, jobFolder) {
  * - parameters: model parameters to change
  */
 function runWorkItem(inArgs, resolution, folder, callback) {
-	// Initialize Forge interface
-	const config = require(__dirname + '/get_config.js')(__dirname + '/config.js');
-	const forge = require(__dirname + '/index.js');
-	const auth = forge.auth(config);
-
 	const workItemConfig = formatWorkItemConfig(inArgs, resolution, folder);
 
 	// Declare scope
@@ -136,7 +129,7 @@ function runWorkItem(inArgs, resolution, folder, callback) {
 			throw authError;
 		}
 		// Set up design automation with auth object
-		const da = forge.da(config, cAuthObj);
+		const da = forge.da(FORGE_CONFIG, cAuthObj);
 
 		// Create a work item
 		da.work_items.create(workItemConfig, (createError, createResponse) => {
@@ -221,43 +214,66 @@ function writeToFile(outfile, startTime, finishTime, error, response, getSTL) {
 	}
 }
 
+function removeFlags(arr) {
+	const flagIdx = [];
+	for (var i = 0; i < arr.length; i++) {
+		if (arr[i].substring(0, 1) == '-') {
+			flagIdx.push(i);
+		}
+	}
+	for (var i = 0; i < flagIdx.length; i++) {
+		arr.splice(flagIdx[i], 1);
+	}
+}
 
 // MAIN LOGIC =====================================================================================
 
-const args = process.argv.slice(2);
-if (args.length < 1) {
-	console.log('ERROR: Not enough arguments. Must specify parameters file [and optional job name].');
-} else {
-	// Read parameters file
-	const inparams = require(args[0]);
-	// Validate parameters
-	const validParams = check_params(inparams);
+try {
+	const args = process.argv.slice(2);
+	if (args.length < 1) {
+		console.log('ERROR: Not enough arguments. Must specify parameters file [and optional job name].');
+		console.log('USE: node glasses_stl_generator.js [--dev, --prod] ./path/to/parameters [job_name]');
+	} else {
+		// Parse command line arguments
+		const lowerArgs = args.join('|').toLowerCase().split('|');
+		process.env.F4PQ_S3_BASE = lowerArgs.indexOf('--prod') > -1 ? PQ_CONFIG.PROD_S3_BASE : PQ_CONFIG.DEV_S3_BASE;
+		// Remove flags from the arguments array
+		removeFlags(args);
 
-	const startTime = new Date();
+		// Read parameters file
+		const inparams = require(args[0]);
+		// Validate parameters
+		const validParams = check_params(inparams);
 
-	const jobID = (args.length == 2) ? args[1] : startTime.getTime();
-	// For all sets of parameters, run a work item
-	validParams.forEach((params) => {
-		// Download STL?
-		const stlFlag = params.DownloadSTL || GET_STL;
-		// Output file name
-		const outfile = params.Name;
-		let finishTime;
-		// Run the work item to modify the parameters at high resolution
-		runWorkItem(params, 0, jobID, (hiError, hiResponse) => {
-			if (hiError || hiResponse.Status != 'Succeeded') {
-				// If error, try again at a lower resolution
-				console.log(`${params.Name} : Job failed. Trying again at lower resolution.\n`);
-				runWorkItem(params, 1, jobID, (loError, loResponse) => {
+		const startTime = new Date();
+
+		const jobID = (args.length == 2) ? args[1] : startTime.getTime();
+		// For all sets of parameters, run a work item
+		validParams.forEach((params) => {
+			// Download STL?
+			const stlFlag = params.DownloadSTL || PQ_CONFIG.GET_STL;
+			// Output file name
+			const outfile = params.Name;
+			let finishTime;
+			// Run the work item to modify the parameters at high resolution
+			runWorkItem(params, 0, jobID, (hiError, hiResponse) => {
+				if (hiError || hiResponse.Status != 'Succeeded') {
+					// If error, try again at a lower resolution
+					console.log(`${params.Name} : Job failed. Trying again at lower resolution.\n`);
+					runWorkItem(params, 1, jobID, (loError, loResponse) => {
+						finishTime = new Date();
+						// Write the log file
+						return writeToFile(outfile, startTime, finishTime, loError, loResponse, stlFlag);
+					});
+				} else {
 					finishTime = new Date();
 					// Write the log file
-					return writeToFile(outfile, startTime, finishTime, loError, loResponse, stlFlag);
-				});
-			} else {
-				finishTime = new Date();
-				// Write the log file
-				return writeToFile(outfile, startTime, finishTime, hiError, hiResponse, stlFlag);
-			}
+					return writeToFile(outfile, startTime, finishTime, hiError, hiResponse, stlFlag);
+				}
+			});
 		});
-	});
+	}
+} catch (e) {
+	console.log('ERROR!');
+	console.log(e);
 }
