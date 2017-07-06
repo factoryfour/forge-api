@@ -12,12 +12,12 @@ function run_new_activity(callback) {
 	}
 
 	// Initialize Forge interface
-	const config = require(__dirname + '/get_config.js')(root + '/config.js');
+	const config = require(__dirname + '/get_config.js')(root + '/config/forge_config.js');
 	const forge = require(root + '/index.js');
 	const auth = forge.auth(config);
 
-	const ACTIVITY_ID = 'FF_v2-5_Activity';
-	const APP_PACKAGE_ID = 'FF_v2-5_AppPackage';
+	const ACTIVITY_ID = 'FF_v2-8_Activity';
+	const APP_PACKAGE_ID = 'FF_v2-8_AppPackage';
 
 	const scope = ['data:read', 'bucket:read', 'code:all'];
 
