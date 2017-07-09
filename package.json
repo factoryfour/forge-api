@@ -23,6 +23,7 @@
     "@fusiform/kinvey": "^1.1.1",
     "@fusiform/secrets": "^4.0.0",
     "async": "^2.1.4",
+    "aws-sdk": "^2.82.0",
     "locks": "^0.2.2",
     "request": "^2.76.0"
   },

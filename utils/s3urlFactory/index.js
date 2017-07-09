@@ -13,11 +13,17 @@ const s3UrlFactory = (req, callback) => {
 		Key,
 		Bucket
 	};
-	Object.assign(params, {
-		ServerSideEncryption: 'aws:kms',
-	});
+	if (req.method == 'PUT') {
+		Object.assign(params, {
+			ServerSideEncryption: 'aws:kms',
+		});
+	} else if (req.method == 'GET') {
+		Object.assign(params, {
+			ResponseContentDisposition: `attachment; filename="${Key}"`
+		});
+	}
 	return s3.getSignedUrl(
-		'putObject',
+		`${req.method.toLowerCase()}Object`,
 		params,
 		(err, url) => callback(err, url)
 	);

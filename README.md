@@ -1,6 +1,46 @@
 # Using the PQ Glasses STL Generator
 
-more to come...
+Before starting:
+```
+npm install
+```
+
+```
+node glasses_stl_generator.js [--dev, --prod] [--save] ./path/to/parameters.json [job_name]
+```
+
+**NOTE:** Optional arguments in brackets. Do not include brackets when running command. 
+
+## Optional command line arguments:
+- --dev/--prod : which bucket should it be saved to? Default: --dev.
+- --save : save a local copy of the STL? Can also be overridden in ./config/pq_config.js. Default: false
+- job_name : Name for the job. Default: timestamp
+
+## S3 Upload Paths:
+- --dev : f4-media-dev-pq/[job_name]
+- --prod : f4-pq-frames/[job_name]
+
+## Parameters file format:
+```
+{
+        "Name": "012",
+        "Parameters": {
+            "RightNoseAngle": 84.94,
+            "LeftNoseAngle": 79.63,
+            [...]
+            "Temple_length": 79.41675089776261,
+            "FrameID": "ABCD"
+        }
+    }
+```
+
+**NOTE:** Make sure parameters match those in the part. Don't need Part field like in previous versions.
+
+
+
+
+
+
 
 # Forge Inventor Wrapper
 

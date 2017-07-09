@@ -16,7 +16,6 @@ no-console: 'off'
 // Import packages
 const fs = require('fs');
 const https = require('https');
-const f4Kinvey = require('@fusiform/kinvey');
 const s3urlFactory = require('./utils/s3urlFactory');
 
 // Initialize Forge interface
@@ -28,15 +27,6 @@ const auth = forge.auth(FORGE_CONFIG);
 const PQ_CONFIG = require(__dirname + '/config/pq_config.js');
 // Get glasses configuration parameters
 const GLASSES_CONFIG = require(__dirname + '/config/glasses_config.js');
-
-// Get Kinvey configuration variables
-const KINVEY_CONFIG = require(__dirname + '/config/kinvey_config.js');
-const kinvey = f4Kinvey({
-	appKey: KINVEY_CONFIG.KINVEY_APP_KEY,
-	masterSecret: KINVEY_CONFIG.KINVEY_MASTER_SECRET,
-	hostUrl: KINVEY_CONFIG.KINVEY_HOST_URL
-});
-
 
 /**
  * Validate parameters
@@ -56,7 +46,7 @@ function checkParams(params) {
 	}
 	// Check that parameters have all required fields.
 	params.forEach((param) => {
-		if (!param.Name || !param.Part || !param.Parameters) {
+		if (!param.Name || !param.Parameters) {
 			invalidParams.push(param);
 		} else {
 			let invalid = false;
@@ -220,7 +210,8 @@ function runWorkItem(inArgs, resolution, folder, callback) {
  * @param {*} response
  * @param {boolean} getSTL - should STL be downloaded?
  */
-function writeToFile(outfile, startTime, finishTime, error, response, getSTL) {
+function writeToFile(inArgs, jobFolder, startTime, finishTime, error, response, getSTL) {
+	const outfile = inArgs.Name;
 	if (error) {
 		let outStr = 'ERROR: Process failed at ' + finishTime.toString() + '\n';
 		outStr += '\nERROR:\n' + error;
@@ -254,13 +245,24 @@ function writeToFile(outfile, startTime, finishTime, error, response, getSTL) {
 
 		// Download the STL? Have a valid URL?
 		if (getSTL && response.Arguments.OutputArguments[0].Resource) {
-			console.log(`\n${outfile} : Downloading STL`);
-			const stlFile = fs.createWriteStream(`stl/${outfile}.stl`);
-			https.get(response.Arguments.OutputArguments[0].Resource, (data) => {
-				data.pipe(stlFile);
-				stlFile.on('finish', () => {
-					stlFile.close();
-					console.log(`\n${outfile} : STL written to file: ${outfile}.stl`);
+			// Name of the file when it is saved locally
+			const downloadFileName = `3DModel_${inArgs.Parameters.FrameID}.stl`;
+			console.log(`\n${outfile} : Downloading STL as ${downloadFileName}`);
+			const stlFile = fs.createWriteStream(`stl/${downloadFileName}`);
+			const s3params = {
+				method: 'GET',
+				s3: {
+					Key: `${jobFolder}/${downloadFileName}`,
+					Bucket: process.env.F4PQ_S3_BASE
+				}
+			};
+			s3urlFactory(s3params, (err, downloadURL) => {
+				https.get(downloadURL, (data) => {
+					data.pipe(stlFile);
+					stlFile.on('finish', () => {
+						stlFile.close();
+						console.log(`\n${outfile} : STL written to file: ${downloadFileName}`);
+					});
 				});
 			});
 		}
@@ -308,8 +310,6 @@ try {
 		validParams.forEach((params) => {
 			// Download STL?
 			const stlFlag = params.DownloadSTL || PQ_CONFIG.GET_STL || process.env.GET_STL;
-			// Output file name
-			const outfile = params.Name;
 			let finishTime;
 			// Run the work item to modify the parameters at high resolution
 			runWorkItem(params, 0, jobID, (hiError, hiResponse) => {
@@ -319,12 +319,12 @@ try {
 					runWorkItem(params, 1, jobID, (loError, loResponse) => {
 						finishTime = new Date();
 						// Write the log file
-						return writeToFile(outfile, startTime, finishTime, loError, loResponse, stlFlag);
+						return writeToFile(params, jobID, startTime, finishTime, loError, loResponse, stlFlag);
 					});
 				} else {
 					finishTime = new Date();
 					// Write the log file
-					return writeToFile(outfile, startTime, finishTime, hiError, hiResponse, stlFlag);
+					return writeToFile(params, jobID, startTime, finishTime, hiError, hiResponse, stlFlag);
 				}
 			});
 		});

@@ -16,7 +16,9 @@ no-console: 'off'
 // Import packages
 const fs = require('fs');
 const https = require('https');
+const f4Kinvey = require('@fusiform/kinvey');
 const s3urlFactory = require('./utils/s3urlFactory');
+const parametersQuery = require('./utils/kinveyQuery');
 
 // Initialize Forge interface
 const FORGE_CONFIG = require(__dirname + '/get_config.js')(__dirname + '/config/forge_config.js');
@@ -27,6 +29,15 @@ const auth = forge.auth(FORGE_CONFIG);
 const PQ_CONFIG = require(__dirname + '/config/pq_config.js');
 // Get glasses configuration parameters
 const GLASSES_CONFIG = require(__dirname + '/config/glasses_config.js');
+
+// Get Kinvey configuration variables
+const KINVEY_CONFIG = require(__dirname + '/config/kinvey_config.js');
+const kinvey = f4Kinvey({
+	appKey: KINVEY_CONFIG.KINVEY_APP_KEY,
+	masterSecret: KINVEY_CONFIG.KINVEY_MASTER_SECRET,
+	hostUrl: KINVEY_CONFIG.KINVEY_HOST_URL
+});
+
 
 /**
  * Validate parameters
@@ -46,20 +57,16 @@ function checkParams(params) {
 	}
 	// Check that parameters have all required fields.
 	params.forEach((param) => {
-		if (!param.Name || !param.Part || !param.Parameters) {
+		let invalid = false;
+		Object.keys(param.Parameters).forEach((paramName) => {
+			if (GLASSES_CONFIG.Parameters.indexOf(paramName) < 0) {
+				invalid = true;
+			}
+		});
+		if (invalid) {
 			invalidParams.push(param);
 		} else {
-			let invalid = false;
-			Object.keys(param.Parameters).forEach((paramName) => {
-				if (GLASSES_CONFIG.Parameters.indexOf(paramName) < 0) {
-					invalid = true;
-				}
-			});
-			if (invalid) {
-				invalidParams.push(param);
-			} else {
-				validParams.push(param);
-			}
+			validParams.push(param);
 		}
 	});
 	// Print the invalid parameter sets
@@ -90,7 +97,7 @@ function formatWorkItemConfig(inArgs, resolution, jobFolder, callback) {
 	const s3params = {
 		method: 'PUT',
 		s3: {
-			Key: `${jobFolder}/3DModel_${inArgs.Parameters.FrameID}.stl`,
+			Key: `${jobFolder}/3DModel_${inArgs.FrameID}.stl`,
 			Bucket: process.env.F4PQ_S3_BASE
 		}
 	};
@@ -143,7 +150,7 @@ function formatWorkItemConfig(inArgs, resolution, jobFolder, callback) {
 
 /**
  * Run a work item for glasses design automation.
- * @param {*} inArgs - design parameters
+ * @param {*} configuration - design parameters
  * @param {*} resolution - 0 for high resolution, 1 for medium resolution
  * @param {*} folder - directory corresponding to job
  * @param {*} callback (error, response)
@@ -152,8 +159,8 @@ function formatWorkItemConfig(inArgs, resolution, jobFolder, callback) {
  * - part: link to IPT
  * - parameters: model parameters to change
  */
-function runWorkItem(inArgs, resolution, folder, callback) {
-	formatWorkItemConfig(inArgs, resolution, folder, (workItemConfig) => {
+function runWorkItem(configuration, resolution, folder, callback) {
+	formatWorkItemConfig(configuration, resolution, folder, (workItemConfig) => {
 		// Declare scope
 		const scope = ['data:read', 'bucket:read', 'code:all'];
 		// Get the auth token
@@ -167,12 +174,12 @@ function runWorkItem(inArgs, resolution, folder, callback) {
 			// Create a work item
 			da.work_items.create(workItemConfig, (createError, createResponse) => {
 				// Log results of creating a work item
-				console.log(`${inArgs.Name} : Work item created\n`);
+				console.log(`${configuration.FrameID} : Work item created\n`);
 				if (createError) {
 					console.log('ERROR: CREATING WORK ITEM');
 					return callback(createError, createResponse);
 				}
-				console.log(`${inArgs.Name} : Checking status...\n`);
+				console.log(`${configuration.FrameID} : Checking status...\n`);
 
 				// Save the work item id
 				const responseId = createResponse.Id;
@@ -193,7 +200,7 @@ function runWorkItem(inArgs, resolution, folder, callback) {
 						}
 						// Otherwise, log the status and repeat
 						const mytime = new Date();
-						console.log(`${inArgs.Name} : ${getResponse.Status} : ${mytime}`);
+						console.log(`${configuration.FrameID} : ${getResponse.Status} : ${mytime}`);
 					});
 				}, 5000); // Check every 5 seconds
 			});
@@ -288,34 +295,37 @@ try {
 
 		// Read parameters file
 		const inparams = require(cleanArgs[0]);
-		// Validate parameters
-		const validParams = checkParams(inparams);
+		// Query Kinvey for configurations
+		parametersQuery(kinvey, inparams, (configurations) => {
+			// Validate parameters
+			const validParams = checkParams(configurations);
 
-		const startTime = new Date();
+			const startTime = new Date();
 
-		const jobID = (cleanArgs.length == 2) ? cleanArgs[1] : startTime.getTime();
-		// For all sets of parameters, run a work item
-		validParams.forEach((params) => {
-			// Download STL?
-			const stlFlag = params.DownloadSTL || PQ_CONFIG.GET_STL || process.env.GET_STL;
-			// Output file name
-			const outfile = params.Name;
-			let finishTime;
-			// Run the work item to modify the parameters at high resolution
-			runWorkItem(params, 0, jobID, (hiError, hiResponse) => {
-				if (hiError || hiResponse.Status != 'Succeeded') {
-					// If error, try again at a lower resolution
-					console.log(`${params.Name} : Job failed. Trying again at lower resolution.\n`);
-					runWorkItem(params, 1, jobID, (loError, loResponse) => {
+			const jobID = (cleanArgs.length == 2) ? cleanArgs[1] : startTime.getTime();
+			// For all sets of parameters, run a work item
+			validParams.forEach((params) => {
+				// Download STL?
+				const stlFlag = params.DownloadSTL || PQ_CONFIG.GET_STL || process.env.GET_STL;
+				// Output file name
+				const outfile = params.Name;
+				let finishTime;
+				// Run the work item to modify the parameters at high resolution
+				runWorkItem(params, 0, jobID, (hiError, hiResponse) => {
+					if (hiError || hiResponse.Status != 'Succeeded') {
+						// If error, try again at a lower resolution
+						console.log(`${params.FrameID} : Job failed. Trying again at lower resolution.\n`);
+						runWorkItem(params, 1, jobID, (loError, loResponse) => {
+							finishTime = new Date();
+							// Write the log file
+							return writeToFile(outfile, startTime, finishTime, loError, loResponse, stlFlag);
+						});
+					} else {
 						finishTime = new Date();
 						// Write the log file
-						return writeToFile(outfile, startTime, finishTime, loError, loResponse, stlFlag);
-					});
-				} else {
-					finishTime = new Date();
-					// Write the log file
-					return writeToFile(outfile, startTime, finishTime, hiError, hiResponse, stlFlag);
-				}
+						return writeToFile(outfile, startTime, finishTime, hiError, hiResponse, stlFlag);
+					}
+				});
 			});
 		});
 	}
