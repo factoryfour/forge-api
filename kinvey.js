@@ -255,12 +255,12 @@ datastore.query('configurations', query)
 						runWorkItem(parameters, 1, jobID, (loError, loResponse) => {
 							finishTime = new Date();
 							// Write the log file
-							return writeToFile(parameters, jobID, startTime, finishTime, loError, loResponse, stlFlag);
+							return writeToFile(parameters, jobID, startTime, finishTime, loError, loResponse, false);
 						});
 					} else {
 						finishTime = new Date();
 						// Write the log file
-						return writeToFile(parameters, jobID, startTime, finishTime, hiError, hiResponse, stlFlag);
+						return writeToFile(parameters, jobID, startTime, finishTime, hiError, hiResponse, false);
 					}
 				});
 			}
