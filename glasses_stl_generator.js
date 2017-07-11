@@ -50,15 +50,24 @@ function checkParams(params) {
 			invalidParams.push(param);
 		} else {
 			let invalid = false;
-			Object.keys(param.Parameters).forEach((paramName) => {
-				if (GLASSES_CONFIG.Parameters.indexOf(paramName) < 0) {
+			const cleanParams = {
+				Name: param.Name,
+				Parameters: {},
+				MissingParameters: []
+			};
+			GLASSES_CONFIG.Parameters.forEach((paramName) => {
+				if (Object.keys(param.Parameters).indexOf(paramName) < 0) {
+					// If missing a parameter
 					invalid = true;
+					cleanParams.MissingParameters.push(paramName);
+				} else {
+					cleanParams.Parameters[paramName] = param.Parameters[paramName];
 				}
 			});
 			if (invalid) {
-				invalidParams.push(param);
+				invalidParams.push(cleanParams);
 			} else {
-				validParams.push(param);
+				validParams.push(cleanParams);
 			}
 		}
 	});
@@ -127,15 +136,15 @@ function formatWorkItemConfig(inArgs, resolution, jobFolder, callback) {
 			Id: ''
 		};
 		switch (resolution) {
-		case 0:
-			config.ActivityId = 'FF_v2-7_Activity';		// hi res with combo directset/ilogic, mm
-			break;
-		case 1:
-			config.ActivityId = 'FF_v2-8_Activity';		// med res with combo directset/ilogic, mm
-			break;
-		default:
-			config.ActivityId = 'FF_v2-8_Activity';		// med res with combo directset/ilogic, mm
-			break;
+			case 0:
+				config.ActivityId = 'FF_v2-7_Activity';		// hi res with combo directset/ilogic, mm
+				break;
+			case 1:
+				config.ActivityId = 'FF_v2-8_Activity';		// med res with combo directset/ilogic, mm
+				break;
+			default:
+				config.ActivityId = 'FF_v2-8_Activity';		// med res with combo directset/ilogic, mm
+				break;
 		}
 		return callback(config);
 	});
