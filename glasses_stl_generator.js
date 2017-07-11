@@ -136,15 +136,15 @@ function formatWorkItemConfig(inArgs, resolution, jobFolder, callback) {
 			Id: ''
 		};
 		switch (resolution) {
-			case 0:
-				config.ActivityId = 'FF_v2-7_Activity';		// hi res with combo directset/ilogic, mm
-				break;
-			case 1:
-				config.ActivityId = 'FF_v2-8_Activity';		// med res with combo directset/ilogic, mm
-				break;
-			default:
-				config.ActivityId = 'FF_v2-8_Activity';		// med res with combo directset/ilogic, mm
-				break;
+		case 0:
+			config.ActivityId = 'FF_v2-7_Activity';		// hi res with combo directset/ilogic, mm
+			break;
+		case 1:
+			config.ActivityId = 'FF_v2-8_Activity';		// med res with combo directset/ilogic, mm
+			break;
+		default:
+			config.ActivityId = 'FF_v2-8_Activity';		// med res with combo directset/ilogic, mm
+			break;
 		}
 		return callback(config);
 	});
