@@ -37,9 +37,14 @@ node glasses_stl_generator.js [--dev, --prod] [--save] ./path/to/parameters.json
 **NOTE:** Make sure parameters match those in the part. Don't need Part field like in previous versions.
 
 
+# Activity Descriptions
 
-
-
+| Name              | Resolution    | Method                |
+|-------------------|---------------|-----------------------|
+| FF_v2-7_Activity  | high          | direct set + iLogic   |
+| FF_v2-8_Activity  | medium        | direct set + iLogic   |
+| FF_v2-90_Activity | high          | direct set            |
+| FF_v2-91_Activity | medium        | direct set            |
 
 
 # Forge Inventor Wrapper
