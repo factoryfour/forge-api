@@ -45,7 +45,7 @@ function formatWorkItemConfig(inArgs, resolution, jobFolder, callback) {
 	const s3params = {
 		method: 'PUT',
 		s3: {
-			Key: `${jobFolder}/3DModel_${inArgs.Parameters.FrameID}.stl`,
+			Key: `${jobFolder}/3DModel_${inArgs.parameters.FrameID}.stl`,
 			Bucket: process.env.F4PQ_S3_BASE
 		}
 	};
@@ -108,6 +108,7 @@ function formatWorkItemConfig(inArgs, resolution, jobFolder, callback) {
  * - parameters: model parameters to change
  */
 function runWorkItem(inArgs, resolution, folder, callback) {
+    console.log(inArgs);
 	formatWorkItemConfig(inArgs, resolution, folder, (workItemConfig) => {
 		// Declare scope
 		const scope = ['data:read', 'bucket:read', 'code:all'];
@@ -224,49 +225,98 @@ function writeToFile(inArgs, jobFolder, startTime, finishTime, error, response, 
 	}
 }
 
+
+function job(parameters) {
+    return new Promise((resolve, reject) => {
+        console.log(parameters);
+        let finishTime;
+        const jobID = parameters.FrameID;
+        const output = {
+            userId: parameters.userId,
+        }
+
+		const startTime = new Date();
+        // Run the work item to modify the parameters at high resolution
+        runWorkItem(parameters, 0, jobID, (hiError, hiResponse) => {
+            if (hiError || hiResponse.Status != 'Succeeded') {
+                // If error, try again at a lower resolution
+                console.log(`${parameters.FrameID} : Job failed. Trying again at lower resolution.\n`);
+                runWorkItem(parameters, 1, jobID, (loError, loResponse) => {
+                    finishTime = new Date();
+                    // Write the log file
+                    writeToFile(parameters, jobID, startTime, finishTime, loError, loResponse, false);
+                    return resolve(Object.assign(output, {
+                        success: true
+                    }));
+                });
+            } else {
+                finishTime = new Date();
+                // Write the log file
+                writeToFile(parameters, jobID, startTime, finishTime, hiError, hiResponse, false);
+                return resolve(Object.assign(output, {
+                    success: false
+                }));
+            }
+        });
+    });
+}
+
+
 // MAIN LOGIC =====================================================================================
 
-const query = new kinvey.Query();
-query.notEqualTo('userId', '');
+function getAll() {
 
-datastore.query('configurations', query)
-	.then((results) => {
-		const startTime = new Date();
+    const query = new kinvey.Query();
+    query.notEqualTo('userId', '');
 
-		results.forEach((result, index) => {
-			if (!/^[A-Z]{4}$/.test(result.frameId)) {
-				console.log(`Incorrectly formatted frame Id for userId: ${result.userId}`);
-				return;
-			}
-			const parameters = Object.assign({}, result.parameters, {
-				FrameID: result.frameId
-			});
-			if (index === 0) {
-				// If the parameters are good...
-				console.log(parameters);
+    return datastore.query('configurations', query)
+        .then((results) => {
+            const startTime = new Date();
 
-				let finishTime;
-				const jobID = parameters.FrameID;
-				// Run the work item to modify the parameters at high resolution
-				runWorkItem(parameters, 0, jobID, (hiError, hiResponse) => {
-					if (hiError || hiResponse.Status != 'Succeeded') {
-						// If error, try again at a lower resolution
-						console.log(`${parameters.FrameID} : Job failed. Trying again at lower resolution.\n`);
-						runWorkItem(parameters, 1, jobID, (loError, loResponse) => {
-							finishTime = new Date();
-							// Write the log file
-							return writeToFile(parameters, jobID, startTime, finishTime, loError, loResponse, false);
-						});
-					} else {
-						finishTime = new Date();
-						// Write the log file
-						return writeToFile(parameters, jobID, startTime, finishTime, hiError, hiResponse, false);
-					}
-				});
-			}
-		});
+            const final = [];
+
+            results.forEach((result, index) => {
+                if (!/^[A-Z]{4}$/.test(result.frameId)) {
+                    console.log(`Incorrectly formatted frame Id for userId: ${result.userId}`);
+                    return;
+                }
+                if (parseInt(result.userId) > 1) {
+                    return;
+                }
+                const parameters = Object.assign({}, result.parameters, {
+                    FrameID: result.frameId
+                });
+                final.push(result);
+            });
+            return final;
 	})
-	.catch((err) => {
-		console.log(err);
-		return false;
-	});
+}
+
+function workMyCollection(arr) {
+
+    const final = [];
+  return arr.reduce((promise, item) => {
+    return promise
+      .then((result) => {
+        return job(item).then(result => final.push(result));
+      })
+      .then((result) => {
+          console.log(final[result-1].userId);
+          console.log(final[result-1].success);
+          return result;
+      })
+      .catch(console.error);
+  }, Promise.resolve());
+}
+
+getAll()
+    .then((res) => {
+        res.forEach((r) => {
+            console.log(r.userId);
+        })
+        return workMyCollection(res);
+    })
+    .catch((err) => {
+        console.log(err);
+        return false;
+    });
