@@ -22,12 +22,32 @@ const auth = forge.auth(FORGE_CONFIG);
 // Get PQ configuration variables
 const PQ_CONFIG = require(__dirname + '/config/pq_config.js');
 // Get glasses configuration parameters
-// const GLASSES_CONFIG = require(__dirname + '/config/glasses_config.js');
+const GLASSES_CONFIG = require(__dirname + '/config/glasses_config.js');
 
 const kinveyConfig = require('./config/kinvey_config.js');
 // console.log(kinveyConfig);
 const datastore = require('@fusiform/kinvey')(kinveyConfig).dataStore;
 const kinvey = require('kinvey-node-sdk');
+
+/**
+ * Validate parameters
+ * @param {*} params - Parameters JSON
+ * Must have fields:
+ * - name: job name
+ * - part: link to IPT
+ * - parameters: model parameters to change
+ */
+function checkParams(params) {
+	const cleanParams = {};
+	GLASSES_CONFIG.Parameters.forEach((paramName) => {
+		if (Object.keys(params).indexOf(paramName) < 0) {
+			// If missing a parameter
+			return false;
+		}
+		cleanParams[paramName] = params[paramName];
+	});
+	return cleanParams;
+}
 
 /**
  * Return a work item config JSON, selecting app package based on resolution.
@@ -45,7 +65,7 @@ function formatWorkItemConfig(inArgs, resolution, jobFolder, callback) {
 	const s3params = {
 		method: 'PUT',
 		s3: {
-			Key: `${jobFolder}/3DModel_${inArgs.Parameters.FrameID}.stl`,
+			Key: `${jobFolder}/3DModel_${inArgs.FrameID}.stl`,
 			Bucket: process.env.F4PQ_S3_BASE
 		}
 	};
@@ -63,7 +83,7 @@ function formatWorkItemConfig(inArgs, resolution, jobFolder, callback) {
 					},
 					// Change the parameters
 					{
-						Resource: 'data:application/json,' + JSON.stringify(inArgs.Parameters),
+						Resource: 'data:application/json,' + JSON.stringify(inArgs),
 						Name: 'ChangeParameters',
 						StorageProvider: 'Generic',
 						ResourceKind: 'Embedded'
@@ -82,15 +102,15 @@ function formatWorkItemConfig(inArgs, resolution, jobFolder, callback) {
 			Id: ''
 		};
 		switch (resolution) {
-		case 0:
-			config.ActivityId = 'FF_v2-7_Activity';		// hi res with combo directset/ilogic, mm
-			break;
-		case 1:
-			config.ActivityId = 'FF_v2-8_Activity';		// med res with combo directset/ilogic, mm
-			break;
-		default:
-			config.ActivityId = 'FF_v2-8_Activity';		// med res with combo directset/ilogic, mm
-			break;
+			case 0:
+				config.ActivityId = 'FF_v2-7_Activity';		// hi res with combo directset/ilogic, mm
+				break;
+			case 1:
+				config.ActivityId = 'FF_v2-8_Activity';		// med res with combo directset/ilogic, mm
+				break;
+			default:
+				config.ActivityId = 'FF_v2-8_Activity';		// med res with combo directset/ilogic, mm
+				break;
 		}
 		return callback(config);
 	});
@@ -122,12 +142,12 @@ function runWorkItem(inArgs, resolution, folder, callback) {
 			// Create a work item
 			da.work_items.create(workItemConfig, (createError, createResponse) => {
 				// Log results of creating a work item
-				console.log(`${inArgs.Name} : Work item created\n`);
+				console.log(`${inArgs.FrameID} : Work item created\n`);
 				if (createError) {
 					console.log('ERROR: CREATING WORK ITEM');
 					return callback(createError, createResponse);
 				}
-				console.log(`${inArgs.Name} : Checking status...\n`);
+				console.log(`${inArgs.FrameID} : Checking status...\n`);
 
 				// Save the work item id
 				const responseId = createResponse.Id;
@@ -148,7 +168,7 @@ function runWorkItem(inArgs, resolution, folder, callback) {
 						}
 						// Otherwise, log the status and repeat
 						const mytime = new Date();
-						console.log(`${inArgs.Name} : ${getResponse.Status} : ${mytime}`);
+						console.log(`${inArgs.FrameID} : ${getResponse.Status} : ${mytime}`);
 					});
 				}, 5000); // Check every 5 seconds
 			});
@@ -166,7 +186,7 @@ function runWorkItem(inArgs, resolution, folder, callback) {
  * @param {boolean} getSTL - should STL be downloaded?
  */
 function writeToFile(inArgs, jobFolder, startTime, finishTime, error, response, getSTL) {
-	const outfile = inArgs.Name;
+	const outfile = inArgs.FrameID;
 	if (error) {
 		let outStr = 'ERROR: Process failed at ' + finishTime.toString() + '\n';
 		outStr += '\nERROR:\n' + error;
@@ -201,7 +221,7 @@ function writeToFile(inArgs, jobFolder, startTime, finishTime, error, response, 
 		// Download the STL? Have a valid URL?
 		if (getSTL && response.Arguments.OutputArguments[0].Resource) {
 			// Name of the file when it is saved locally
-			const downloadFileName = `3DModel_${inArgs.Parameters.FrameID}.stl`;
+			const downloadFileName = `3DModel_${inArgs.FrameID}.stl`;
 			console.log(`\n${outfile} : Downloading STL as ${downloadFileName}`);
 			const stlFile = fs.createWriteStream(`stl/${downloadFileName}`);
 			const s3params = {
@@ -229,6 +249,8 @@ function writeToFile(inArgs, jobFolder, startTime, finishTime, error, response, 
 const query = new kinvey.Query();
 query.notEqualTo('userId', '');
 
+process.env.F4PQ_S3_BASE = PQ_CONFIG.PROD_S3_BASE;
+
 datastore.query('configurations', query)
 	.then((results) => {
 		const startTime = new Date();
@@ -238,15 +260,15 @@ datastore.query('configurations', query)
 				console.log(`Incorrectly formatted frame Id for userId: ${result.userId}`);
 				return;
 			}
-			const parameters = Object.assign({}, result.parameters, {
+			const kinveyParameters = Object.assign({}, result.parameters, {
 				FrameID: result.frameId
 			});
 			if (index === 0) {
+				console.log(kinveyParameters);
 				// If the parameters are good...
-				console.log(parameters);
-
+				const parameters = checkParams(kinveyParameters);
 				let finishTime;
-				const jobID = parameters.FrameID;
+				const jobID = Date.now();
 				// Run the work item to modify the parameters at high resolution
 				runWorkItem(parameters, 0, jobID, (hiError, hiResponse) => {
 					if (hiError || hiResponse.Status != 'Succeeded') {
