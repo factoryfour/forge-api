@@ -46,11 +46,14 @@ function formatWorkItemConfig(inArgs, resolution, jobFolder, callback) {
 		method: 'PUT',
 		s3: {
 			Key: `${jobFolder}/3DModel_${inArgs.Parameters.FrameID}.stl`,
-			Bucket: process.env.F4PQ_S3_BASE
+			Bucket: 'f4-pq-frames'
 		}
 	};
 	s3urlFactory(s3params, (err, uploadURL) => {
 		// Work item configuration JSON
+		if (err) {
+			throw err;
+		}
 		const config = {
 			Arguments: {
 				InputArguments: [
@@ -96,6 +99,49 @@ function formatWorkItemConfig(inArgs, resolution, jobFolder, callback) {
 	});
 }
 
+function cleanParameters(unclean) {
+	const safe = ['RightNoseAngle',
+		'LeftNoseAngle',
+		'RightNoseWidth',
+		'LeftNoseWidth',
+		'PupilDist',
+		'SupMed_h',
+		'SupLat_h',
+		'InfLat_h',
+		'InfMed_h',
+		'SupMed_w',
+		'SupLat_w',
+		'InfLat_w',
+		'InfMed_w',
+		'SupMedRounding',
+		'SupLatRounding',
+		'InfLatRounding',
+		'InfMedRounding',
+		'SupMedThickness',
+		'SupLatThickness',
+		'InfLatThickness',
+		'InfMedThickness',
+		'BridgeHeight',
+		'BridgeThickness',
+		'TempleHeight',
+		'HingeThickness',
+		'RightTemple_yz',
+		'LeftTemple_yz',
+		'RightTemple_xz',
+		'LeftTemple_xz',
+		'Temple_length'];
+	const clean = {};
+	Object.keys(unclean).forEach((key) => {
+		if (safe.indexOf(key) > 0) {
+			clean[key] = unclean[key];
+		}
+	});
+	clean.RightNoseWidth -= 0.7;
+	clean.LeftNoseWidth -= 0.7;
+	clean.Temple_length += 2;
+	return clean;
+}
+
 /**
  * Run a work item for glasses design automation.
  * @param {*} inArgs - design parameters
@@ -128,7 +174,6 @@ function runWorkItem(inArgs, resolution, folder, callback) {
 					return callback(createError, createResponse);
 				}
 				console.log(`${inArgs.Name} : Checking status...\n`);
-
 				// Save the work item id
 				const responseId = createResponse.Id;
 				// Check the status of the work item at a fixed interval
@@ -224,47 +269,109 @@ function writeToFile(inArgs, jobFolder, startTime, finishTime, error, response, 
 	}
 }
 
-// MAIN LOGIC =====================================================================================
+const failures = [];
 
-const query = new kinvey.Query();
-query.notEqualTo('userId', '');
 
-datastore.query('configurations', query)
-	.then((results) => {
-		const startTime = new Date();
+function getAll() {
+	const query = new kinvey.Query();
+	query.notEqualTo('userId', '');
 
-		results.forEach((result, index) => {
-			if (!/^[A-Z]{4}$/.test(result.frameId)) {
-				console.log(`Incorrectly formatted frame Id for userId: ${result.userId}`);
-				return;
-			}
-			const parameters = Object.assign({}, result.parameters, {
-				FrameID: result.frameId
+	return datastore.query('configurations', query)
+		.then((results) => {
+			const final = [];
+
+			results.forEach((result) => {
+				if (!/^[A-Z]{4}$/.test(result.frameId)) {
+					console.log(`Incorrectly formatted frame Id for userId: ${result.userId}`);
+					return;
+				}
+				if (parseInt(result.userId, 10) > 120 || parseInt(result.userId, 10) < 100) {
+					return;
+				}
+				// const toCreate = ['033', '052'];
+				// if (!toCreate.includes(result.userId)) {
+				// 	return;
+				// }
+				if (!/^[A-Z]{4}$/.test(result.frameId)) {
+					// console.log(`Incorrectly formatted frame Id for userId: ${result.userId}`);
+					return;
+				}
+				const parameters = {
+					Parameters: Object.assign(cleanParameters(result.parameters), {
+						FrameID: result.frameId
+					}),
+					FrameID: result.frameId,
+					Name: `${result.userId}|${result.frameId}`,
+					userId: result.userId
+				};
+				final.push(parameters);
 			});
-			if (index === 0) {
-				// If the parameters are good...
-				console.log(parameters);
+			return final;
+		});
+}
 
-				let finishTime;
-				const jobID = parameters.FrameID;
-				// Run the work item to modify the parameters at high resolution
-				runWorkItem(parameters, 0, jobID, (hiError, hiResponse) => {
-					if (hiError || hiResponse.Status != 'Succeeded') {
-						// If error, try again at a lower resolution
-						console.log(`${parameters.FrameID} : Job failed. Trying again at lower resolution.\n`);
-						runWorkItem(parameters, 1, jobID, (loError, loResponse) => {
-							finishTime = new Date();
-							// Write the log file
-							return writeToFile(parameters, jobID, startTime, finishTime, loError, loResponse, false);
-						});
-					} else {
-						finishTime = new Date();
-						// Write the log file
-						return writeToFile(parameters, jobID, startTime, finishTime, hiError, hiResponse, false);
+function job(parameters) {
+	return new Promise((resolve) => {
+		let finishTime;
+		const jobID = parameters.FrameID;
+		const output = {
+			userId: parameters.userId,
+		};
+
+		const startTime = new Date();
+		// Run the work item to modify the parameters at high resolution
+		runWorkItem(parameters, 0, jobID, (hiError, hiResponse) => {
+			if (hiError || hiResponse.Status != 'Succeeded') {
+				// If error, try again at a lower resolution
+				console.log(`${parameters.Name} : Job failed. Trying again at lower resolution.\n`);
+				runWorkItem(parameters, 1, jobID, (loError, loResponse) => {
+					finishTime = new Date();
+					// Write the log file
+					writeToFile(parameters, jobID, startTime, finishTime, loError, loResponse, false);
+
+					if (loError || loResponse.Status != 'Succeeded') {
+						return resolve(Object.assign(output, {
+							success: false
+						}));
 					}
+					return resolve(Object.assign(output, {
+						success: true
+					}));
 				});
+			} else {
+				finishTime = new Date();
+				// Write the log file
+				writeToFile(parameters, jobID, startTime, finishTime, hiError, hiResponse, false);
+				return resolve(Object.assign(output, {
+					success: true
+				}));
 			}
 		});
+	});
+}
+
+function workMyCollection(arr) {
+	const final = [];
+	return arr.reduce((promise, item) => promise
+		.then(() => job(item).then(res => final.push(res)))
+		.then((result) => {
+			console.log(final);
+			console.log(result);
+			if (!final[result - 1].success) {
+				failures.push(final[result - 1].userId);
+			}
+			return result;
+		})
+		.catch(console.error), Promise.resolve());
+}
+// MAIN LOGIC =====================================================================================
+
+getAll()
+	.then(res => workMyCollection(res))
+	.then((res) => {
+		console.log('completed');
+		console.log('failures:', failures);
+		return res;
 	})
 	.catch((err) => {
 		console.log(err);

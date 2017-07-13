@@ -75,7 +75,6 @@ module.exports = function(config, authObj) {
                     authorization: 'Bearer ' + token
                 }
             };
-
             request(options, function(error, response, body) {
                 if (error) return callback(Error(error), null);
                 try {

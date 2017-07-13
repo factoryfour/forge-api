@@ -14,9 +14,6 @@ const s3UrlFactory = (req, callback) => {
 		Bucket
 	};
 	if (req.method == 'PUT') {
-		Object.assign(params, {
-			ServerSideEncryption: 'aws:kms',
-		});
 	} else if (req.method == 'GET') {
 		Object.assign(params, {
 			ResponseContentDisposition: `attachment; filename="${Key}"`

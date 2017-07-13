@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/fusiform/forge-inventor#readme",
   "dependencies": {
+    "@factoryfour/eslint-config-factoryfour": "^1.0.0",
     "@fusiform/kinvey": "^1.1.1",
     "@fusiform/secrets": "^4.0.0",
     "async": "^2.1.4",
@@ -31,5 +32,10 @@
   "devDependencies": {
     "mocha": "^3.2.0",
     "should": "^11.1.1"
+  },
+  "eslint": {
+    "extends": [
+      "@factoryfour/factoryfour"
+    ]
   }
 }
