@@ -13,7 +13,12 @@ no-console: 'off'
 const fs = require('fs');
 const https = require('https');
 const s3urlFactory = require('./utils/s3urlFactory');
+const aws = require('aws-sdk');
 
+const s3 = new aws.S3({
+	signatureVersion: 'v4',
+	region: 'us-east-1'
+});
 // Initialize Forge interface
 const FORGE_CONFIG = require(__dirname + '/get_config.js')(__dirname + '/config/forge_config.js');
 const forge = require(__dirname + '/index.js');
@@ -46,7 +51,7 @@ function formatWorkItemConfig(inArgs, resolution, jobFolder, callback) {
 		method: 'PUT',
 		s3: {
 			Key: `${jobFolder}/3DModel_${inArgs.Parameters.FrameID}.stl`,
-			Bucket: 'f4-pq-frames'
+			Bucket: 'f4-pq-frames-production'
 		}
 	};
 	s3urlFactory(s3params, (err, uploadURL) => {
@@ -285,7 +290,7 @@ function getAll() {
 					console.log(`Incorrectly formatted frame Id for userId: ${result.userId}`);
 					return;
 				}
-				if (parseInt(result.userId, 10) > 120 || parseInt(result.userId, 10) < 100) {
+				if (parseInt(result.userId, 10) > 50 || parseInt(result.userId, 10) < 1) {
 					return;
 				}
 				// const toCreate = ['033', '052'];
@@ -313,10 +318,18 @@ function getAll() {
 function job(parameters) {
 	return new Promise((resolve) => {
 		let finishTime;
-		const jobID = parameters.FrameID;
+		const jobID = parameters.userId + '-' + parameters.FrameID;
 		const output = {
 			userId: parameters.userId,
+			frameId: parameters.FrameID,
+			parameters
 		};
+
+		// setTimeout(() => {
+		// 	return resolve(Object.assign(output, {
+		// 		success: true
+		// 	}));
+		// }, 1000);
 
 		const startTime = new Date();
 		// Run the work item to modify the parameters at high resolution
@@ -350,12 +363,39 @@ function job(parameters) {
 	});
 }
 
+const final = [];
+
+function pushJson(result) {
+	console.log('job for user' + result.userId);
+	return new Promise((resolve) => {
+		setTimeout(() => {
+			const jobID = result.userId + '-' + result.frameId;
+			const params = {
+				Key: `${jobID}/parameters_${result.frameId}.json`,
+				Bucket: 'f4-pq-frames-production',
+				Body: JSON.stringify(result, null, '\t')
+			};
+			s3.putObject(params, (err) => {
+				if (err) {
+					console.error('Unable to uplaod JSON', err);
+					return resolve(result);
+				}
+				return resolve(result);
+			});
+		}, 1000);
+	});
+}
+
 function workMyCollection(arr) {
-	const final = [];
 	return arr.reduce((promise, item) => promise
-		.then(() => job(item).then(res => final.push(res)))
+		.then(() => job(item))
+		.then(res => pushJson(res))
+		.then(res => final.push(res))
 		.then((result) => {
-			console.log(final);
+			console.log(final.map(val => ({
+				userId: val.userId,
+				success: val.success
+			})));
 			console.log(result);
 			if (!final[result - 1].success) {
 				failures.push(final[result - 1].userId);
