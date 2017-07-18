@@ -29,10 +29,18 @@ const PQ_CONFIG = require(__dirname + '/config/pq_config.js');
 // Get glasses configuration parameters
 // const GLASSES_CONFIG = require(__dirname + '/config/glasses_config.js');
 
+
 const kinveyConfig = require('./config/kinvey_config.js');
 // console.log(kinveyConfig);
 const datastore = require('@fusiform/kinvey')(kinveyConfig).dataStore;
 const kinvey = require('kinvey-node-sdk');
+
+const PREFIX = 'v45';
+const FRAME_BUCKET = 'f4-pq-frames-production';
+
+const BEGIN = '1'; // Inclusive
+const END = '20'; // Exclusive
+const ONLY = []; // if empty uses range
 
 /**
  * Return a work item config JSON, selecting app package based on resolution.
@@ -50,8 +58,8 @@ function formatWorkItemConfig(inArgs, resolution, jobFolder, callback) {
 	const s3params = {
 		method: 'PUT',
 		s3: {
-			Key: `${jobFolder}/3DModel_${inArgs.Parameters.FrameID}.stl`,
-			Bucket: 'f4-pq-frames-production'
+			Key: `${PREFIX}/${jobFolder}/3DModel_${inArgs.Parameters.FrameID}.stl`,
+			Bucket: FRAME_BUCKET
 		}
 	};
 	s3urlFactory(s3params, (err, uploadURL) => {
@@ -137,7 +145,7 @@ function cleanParameters(unclean) {
 		'Temple_length'];
 	const clean = {};
 	Object.keys(unclean).forEach((key) => {
-		if (safe.indexOf(key) > 0) {
+		if (safe.indexOf(key) >= 0) {
 			clean[key] = unclean[key];
 		}
 	});
@@ -249,7 +257,7 @@ function writeToFile(inArgs, jobFolder, startTime, finishTime, error, response, 
 		});
 
 		// Download the STL? Have a valid URL?
-		if (getSTL && response.Arguments.OutputArguments[0].Resource) {
+		if (true && response.Arguments.OutputArguments[0].Resource) {
 			// Name of the file when it is saved locally
 			const downloadFileName = `3DModel_${inArgs.Parameters.FrameID}.stl`;
 			console.log(`\n${outfile} : Downloading STL as ${downloadFileName}`);
@@ -257,8 +265,8 @@ function writeToFile(inArgs, jobFolder, startTime, finishTime, error, response, 
 			const s3params = {
 				method: 'GET',
 				s3: {
-					Key: `${jobFolder}/${downloadFileName}`,
-					Bucket: process.env.F4PQ_S3_BASE
+					Key: `${PREFIX}/${jobFolder}/${downloadFileName}`,
+					Bucket: FRAME_BUCKET
 				}
 			};
 			s3urlFactory(s3params, (err, downloadURL) => {
@@ -280,6 +288,7 @@ const failures = [];
 function getAll() {
 	const query = new kinvey.Query();
 	query.notEqualTo('userId', '');
+	query.ascending('userId');
 
 	return datastore.query('configurations', query)
 		.then((results) => {
@@ -287,16 +296,19 @@ function getAll() {
 
 			results.forEach((result) => {
 				if (!/^[A-Z]{4}$/.test(result.frameId)) {
-					console.log(`Incorrectly formatted frame Id for userId: ${result.userId}`);
+					// console.log(`Incorrectly formatted frame Id for userId: ${result.userId}`);
 					return;
 				}
-				if (parseInt(result.userId, 10) > 50 || parseInt(result.userId, 10) < 1) {
+				if (ONLY.length > 0) {
+					if (result.userId == '123') {
+						console.log('found');
+					}
+					if (!ONLY.includes(result.userId)) {
+						return;
+					}
+				} else if (parseInt(result.userId, 10) >= END || parseInt(result.userId, 10) < BEGIN) {
 					return;
 				}
-				// const toCreate = ['033', '052'];
-				// if (!toCreate.includes(result.userId)) {
-				// 	return;
-				// }
 				if (!/^[A-Z]{4}$/.test(result.frameId)) {
 					// console.log(`Incorrectly formatted frame Id for userId: ${result.userId}`);
 					return;
@@ -311,6 +323,9 @@ function getAll() {
 				};
 				final.push(parameters);
 			});
+			console.log(final.map(user => user.userId));
+			console.log(final.length);
+			throw new Error('sto');
 			return final;
 		});
 }
@@ -371,8 +386,8 @@ function pushJson(result) {
 		setTimeout(() => {
 			const jobID = result.userId + '-' + result.frameId;
 			const params = {
-				Key: `${jobID}/parameters_${result.frameId}.json`,
-				Bucket: 'f4-pq-frames-production',
+				Key: `${PREFIX}/${jobID}/parameters_${result.frameId}.json`,
+				Bucket: FRAME_BUCKET,
 				Body: JSON.stringify(result, null, '\t')
 			};
 			s3.putObject(params, (err) => {
