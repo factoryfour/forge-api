@@ -325,7 +325,6 @@ function getAll() {
 			});
 			console.log(final.map(user => user.userId));
 			console.log(final.length);
-			throw new Error('sto');
 			return final;
 		});
 }
