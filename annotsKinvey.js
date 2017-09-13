@@ -35,12 +35,12 @@ const kinveyConfig = require('./config/kinvey_config.js');
 const datastore = require('@fusiform/kinvey')(kinveyConfig).dataStore;
 const kinvey = require('kinvey-node-sdk');
 
-const PREFIX = 'v45';
+const PREFIX = 'v2Nose6m';
 const FRAME_BUCKET = 'f4-pq-frames-production';
 
-const BEGIN = '1'; // Inclusive
-const END = '20'; // Exclusive
-const ONLY = []; // if empty uses range
+const BEGIN = '151'; // Inclusive
+const END = '157'; // Exclusive
+const ONLY = ['405', '023']; // if empty uses range
 
 /**
  * Return a work item config JSON, selecting app package based on resolution.
@@ -149,9 +149,9 @@ function cleanParameters(unclean) {
 			clean[key] = unclean[key];
 		}
 	});
-	clean.RightNoseWidth -= 0.7;
-	clean.LeftNoseWidth -= 0.7;
-	clean.Temple_length += 2;
+	// clean.RightNoseWidth -= 0.7;
+	// clean.LeftNoseWidth -= 0.7;
+	// clean.Temple_length += 2;
 	return clean;
 }
 
@@ -285,50 +285,6 @@ function writeToFile(inArgs, jobFolder, startTime, finishTime, error, response, 
 const failures = [];
 
 
-function getAll() {
-	const query = new kinvey.Query();
-	query.notEqualTo('userId', '');
-	query.ascending('userId');
-
-	return datastore.query('configurations', query)
-		.then((results) => {
-			const final = [];
-
-			results.forEach((result) => {
-				if (!/^[A-Z]{4}$/.test(result.frameId)) {
-					// console.log(`Incorrectly formatted frame Id for userId: ${result.userId}`);
-					return;
-				}
-				if (ONLY.length > 0) {
-					if (result.userId == '123') {
-						console.log('found');
-					}
-					if (!ONLY.includes(result.userId)) {
-						return;
-					}
-				} else if (parseInt(result.userId, 10) >= END || parseInt(result.userId, 10) < BEGIN) {
-					return;
-				}
-				if (!/^[A-Z]{4}$/.test(result.frameId)) {
-					// console.log(`Incorrectly formatted frame Id for userId: ${result.userId}`);
-					return;
-				}
-				const parameters = {
-					Parameters: Object.assign(cleanParameters(result.parameters), {
-						FrameID: result.frameId
-					}),
-					FrameID: result.frameId,
-					Name: `${result.userId}|${result.frameId}`,
-					userId: result.userId
-				};
-				final.push(parameters);
-			});
-			console.log(final.map(user => user.userId));
-			console.log(final.length);
-			return final;
-		});
-}
-
 function job(parameters) {
 	return new Promise((resolve) => {
 		let finishTime;
@@ -347,33 +303,33 @@ function job(parameters) {
 
 		const startTime = new Date();
 		// Run the work item to modify the parameters at high resolution
-		runWorkItem(parameters, 0, jobID, (hiError, hiResponse) => {
-			if (hiError || hiResponse.Status != 'Succeeded') {
-				// If error, try again at a lower resolution
-				console.log(`${parameters.Name} : Job failed. Trying again at lower resolution.\n`);
-				runWorkItem(parameters, 1, jobID, (loError, loResponse) => {
-					finishTime = new Date();
-					// Write the log file
-					writeToFile(parameters, jobID, startTime, finishTime, loError, loResponse, false);
+		// runWorkItem(parameters, 0, jobID, (hiError, hiResponse) => {
+		// 	if (hiError || hiResponse.Status != 'Succeeded') {
+		// 		// If error, try again at a lower resolution
+		// 		console.log(`${parameters.Name} : Job failed. Trying again at lower resolution.\n`);
+		runWorkItem(parameters, 1, jobID, (loError, loResponse) => {
+			finishTime = new Date();
+			// Write the log file
+			writeToFile(parameters, jobID, startTime, finishTime, loError, loResponse, false);
 
-					if (loError || loResponse.Status != 'Succeeded') {
-						return resolve(Object.assign(output, {
-							success: false
-						}));
-					}
-					return resolve(Object.assign(output, {
-						success: true
-					}));
-				});
-			} else {
-				finishTime = new Date();
-				// Write the log file
-				writeToFile(parameters, jobID, startTime, finishTime, hiError, hiResponse, false);
+			if (loError || loResponse.Status != 'Succeeded') {
 				return resolve(Object.assign(output, {
-					success: true
+					success: false
 				}));
 			}
+			return resolve(Object.assign(output, {
+				success: true
+			}));
 		});
+		// 	} else {
+		// 		finishTime = new Date();
+		// 		// Write the log file
+		// 		writeToFile(parameters, jobID, startTime, finishTime, hiError, hiResponse, false);
+		// 		return resolve(Object.assign(output, {
+		// 			success: true
+		// 		}));
+		// 	}
+		// });
 	});
 }
 
@@ -418,9 +374,128 @@ function workMyCollection(arr) {
 		})
 		.catch(console.error), Promise.resolve());
 }
+
+
+function getAll() {
+	const query = new kinvey.Query();
+	// query.notEqualTo('userId', '');
+	query.ascending('userId');
+
+	return datastore.query('configurations', query)
+		.then((results) => {
+			const final = [];
+
+			results.forEach((result) => {
+				if (!/^[A-Z]{4}$/.test(result.frameId)) {
+					// console.log(`Incorrectly formatted frame Id for userId: ${result.userId}`);
+					return;
+				}
+				if (ONLY.length > 0) {
+					if (result.userId == '123') {
+						console.log('found');
+					}
+					if (!ONLY.includes(result.userId)) {
+						return;
+					}
+				} else if (parseInt(result.userId, 10) >= END || parseInt(result.userId, 10) < BEGIN) {
+					return;
+				}
+				if (!/^[A-Z]{4}$/.test(result.frameId)) {
+					// console.log(`Incorrectly formatted frame Id for userId: ${result.userId}`);
+					return;
+				}
+				const parameters = {
+					Parameters: Object.assign(cleanParameters(result.parameters), {
+						FrameID: result.frameId
+					}),
+					FrameID: result.frameId,
+					Name: `${result.userId}|${result.frameId}`,
+					userId: result.userId
+				};
+				final.push(parameters);
+			});
+			console.log(final.map(user => user.userId));
+			console.log(final.length);
+			return final;
+		});
+}
+
+function getConfigs() {
+	const query = new kinvey.Query();
+	// query.notEqualTo('userId', '');
+	query.descending('_kmd.lmt');
+	query.greaterThanOrEqualTo('_kmd.lmt', '2017-09-08T17:20:21.600Z');
+
+	return datastore.query('landmarks', query)
+		.then((results) => {
+			console.log(results.length);
+			return results;
+		});
+}
+
+function searchForConfigs(item) {
+	const query = new kinvey.Query();
+	query.equalTo('userId', item.userId);
+	query.greaterThanOrEqualTo('timestamp', 1504627604199);
+
+	return datastore.query('configurations', query)
+		.then((results) => {
+			const output = results.map((config) => {
+				const out = config;
+				out.frameId = `6${config.frameId.substring(1)}`;
+				out.parameters.LeftNoseWidth = item.configuration.noseLeftPosition * 10;
+				out.parameters.RightNoseWidth = item.configuration.noseRightPosition * 10;
+				return out;
+			});
+			return output;
+		});
+}
+const aggregate = [];
+
+function aggregateConfigs(results) {
+	return results.reduce((promise, item) => promise
+		.then(() => searchForConfigs(item))
+		.then((resp) => aggregate.push(...resp))
+		.catch(console.error), Promise.resolve());
+}
+
 // MAIN LOGIC =====================================================================================
 
-getAll()
+getConfigs()
+	.then(res => aggregateConfigs(res))
+	.then(res => {
+		const cleaned = [];
+		console.log(aggregate);
+		aggregate.forEach((result) => {
+			// if (!/^[A-Z]{4}$/.test(result.frameId)) {
+			// 	// console.log(`Incorrectly formatted frame Id for userId: ${result.userId}`);
+			// 	return;
+			// }
+			if (ONLY.length > 0) {
+				if (!ONLY.includes(result.userId)) {
+					return;
+				}
+			} else if (parseInt(result.userId, 10) >= END || parseInt(result.userId, 10) < BEGIN) {
+				return;
+			}
+			// if (!/^[A-Z]{4}$/.test(result.frameId)) {
+			// 	// console.log(`Incorrectly formatted frame Id for userId: ${result.userId}`);
+			// 	return;
+			// }
+			const parameters = {
+				Parameters: Object.assign(cleanParameters(result.parameters), {
+					FrameID: result.frameId
+				}),
+				FrameID: result.frameId,
+				Name: `${result.userId}|${result.frameId}`,
+				userId: result.userId
+			};
+			cleaned.push(parameters);
+		});
+		console.log(cleaned.map(user => user.userId));
+		console.log(cleaned.length);
+		return cleaned;
+	})
 	.then(res => workMyCollection(res))
 	.then((res) => {
 		console.log('completed');
